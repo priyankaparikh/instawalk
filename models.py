@@ -53,10 +53,10 @@ class Waypoint(db.Model):
 
     waypoint_id = db.Column(db.Integer, autoincrement=True,
                                     primary_key=True)
+    location = db.Column(db.String, nullable=False)
     latitude = db.Column(db.String, nullable=False)
     longitude = db.Column(db.String, nullable=False)
-    address = db.Column(db.String, nullable=False)
-    image_url = db.Column(db.String, nullable=False)
+    image_url = db.Column(db.String, nullable=True)
     description = db.Column(db.String, nullable=True)
 
     def __repr__ (self):
@@ -64,8 +64,8 @@ class Waypoint(db.Model):
 
         d1 = '<waypoint_id={a}, latitude={b},'.format(a=self.waypoint_id,
                                                 b=self.latitude)
-        d2 = '<longitude={c}, address={d},'.format(c=self.longitude,
-                                                d=self.address)
+        d2 = '<longitude={c}, location={d},'.format(c=self.longitude,
+                                                d=self.location)
         d3 = '<image_url={e}, description={f},'.format(e=self.image_url,
                                                 f=self.description)
         return d1 + d2 + d3
