@@ -8,6 +8,10 @@ def landing_page():
 
     return render_template('landing.html')
 
+@app.route('/register')
+def register_user():
+    """Add a user to the database"""
+
 
 if __name__ == "__main__":
 
