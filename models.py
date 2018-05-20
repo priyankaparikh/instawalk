@@ -56,6 +56,9 @@ class Waypoint(db.Model):
     location = db.Column(db.String, nullable=False)
     latitude = db.Column(db.String, nullable=False)
     longitude = db.Column(db.String, nullable=False)
+    latitude = db.Column(db.String, nullable=False)
+    longitude = db.Column(db.String, nullable=False)
+    location = db.Column(db.String, nullable=False)
     image_url = db.Column(db.String, nullable=True)
     description = db.Column(db.String, nullable=True)
 
