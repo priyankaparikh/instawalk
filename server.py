@@ -44,10 +44,31 @@ def register_user():
         return redirect('/')
 
 
-
-@app.route('/login')
+@app.route('/login', methods=['POST'])
 def login_user():
     """Login an already registered user."""
+
+    user_name = request.form.get('usrname')
+    password = request.form.get('psw')
+
+    user = db.session.query(User).filter(User.user_name == user_name).first()
+
+    # check password
+    if user.password == password:
+        session['user_id'] = user.user_id
+        return render_template('index.html')
+
+    else:
+        return redirect('/')
+
+
+@app.route('/logout')
+def logout_user():
+    """Logout a user"""
+
+    session.clear()
+
+    return redirect('/')
 
 
 
