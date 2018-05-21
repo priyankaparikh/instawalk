@@ -29,7 +29,7 @@ class User(db.Model):
         return d1 + d2 + d3
 
 class Route(db.Model):
-""" Curated routes of instawalk."""
+    """ Curated routes of instawalk."""
 
     __tablename__ ='routes'
 
@@ -47,7 +47,7 @@ class Route(db.Model):
         return d1 + d2
 
 class Waypoint(db.Model):
-""" Details and information about required waypoints by Google."""
+    """ Details and information about required waypoints by Google."""
 
     __tablename__ ='waypoints'
 
@@ -71,7 +71,7 @@ class Waypoint(db.Model):
         return d1 + d2 + d3
 
 class Step(db.Model):
-""" Information provided by the user within each step between two waypoints."""
+    """ Information provided by the user within each step between two waypoints."""
 
     __tablename__ ='steps'
 
@@ -91,7 +91,7 @@ class Step(db.Model):
         return d1 + d2
 
 class Direction(db.Model):
-""" Directions provided by users between two waypoints."""
+    """ Directions provided by users between two waypoints."""
 
     __tablename__ ='directions'
 
@@ -113,7 +113,7 @@ class Direction(db.Model):
         return d1 + d2 + d3
 
 class Path(db.Model):
-""" A path is a collection of different waypoints."""
+    """ A path is a collection of different waypoints."""
 
     __tablename__ ='paths'
 
@@ -132,7 +132,16 @@ class Path(db.Model):
                                                 d=self.steps)
         return d1 + d2
 
-db.session.commit()
+def connect_to_db(app, db_uri='postgresql:///instawalk'):
+    """Connect the database to our Flask app."""
+
+    # Configure to use our PstgreSQL database
+    app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['SQLALCHEMY_ECHO'] = True
+    db.app = app
+    db.init_app(app)
+
 
 ##################################################################################
 
