@@ -19,6 +19,7 @@ decorator==4.1.2
 entrypoints==0.2.3
 enum34==1.1.6
 Flask==1.0.2
+Flask-SQLAlchemy==2.3.2
 functools32==3.2.3.post2
 future==0.16.0
 html5lib==1.0b10
@@ -30,6 +31,7 @@ ipykernel==4.6.1
 ipython==5.5.0
 ipython-genutils==0.2.0
 itsdangerous==0.24
+Jinja==1.2
 Jinja2==2.10
 jsonschema==2.6.0
 jupyter-client==5.1.0
@@ -72,6 +74,7 @@ service-identity==17.0.0
 simplegeneric==0.8.1
 singledispatch==3.4.0.3
 six==1.11.0
+SQLAlchemy==1.2.7
 subprocess32==3.2.7
 terminado==0.6
 testpath==0.3.1
