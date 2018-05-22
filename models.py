@@ -17,6 +17,9 @@ class User(db.Model):
     user_name = db.Column(db.String(100), nullable=False)
     password = db.Column(db.String(100), nullable=False)
     tokens = db.Column(db.Integer, nullable=False)
+    user_routes = db.Column(db.Integer, 
+                            db.ForeignKey('user_routes.ur_id'),
+                            nullable=True)
     completed = db.Column(db.Integer, 
                           db.ForeignKey('comp_routes.cr_id'),
                           nullable=True)
@@ -55,6 +58,29 @@ class Comp_Routes(db.Model):
         return d1
 
 
+class User_Routes(db.Model):
+    """ Lists of routes completed by users. """
+
+    __tablename__ = 'user_routes'
+
+    ur_id = db.Column(db.Integer, autoincrement=True,
+                                      primary_key=True)
+    user_routes = db.Column(db.ARRAY(db.Integer), nullable=False)
+
+    # Define Relationship to User:
+    user = db.relationship("User",
+                           backref=db.backref("user_routes",
+                           order_by=ur_id
+                           ))
+
+    def __repr__ (self):
+        """return comp routes information"""
+
+        d1 = '<cr_id={a}, cr_completed={b},'.format(a=self.cr_id,
+                                            b=self.completed)
+        return d1
+
+
 class Route(db.Model):
     """ Curated routes of instawalk."""
 
@@ -65,6 +91,7 @@ class Route(db.Model):
     waypoints = db.Column(db.Integer, 
                           db.ForeignKey('route_waypoints.rw_id'),
                           nullable=False)
+    route_difficulty = db.Column(db.Integer, nullable=False)
     route_type = db.Column(db.String, nullable=False)
 
     def __repr__ (self):
