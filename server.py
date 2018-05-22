@@ -61,13 +61,14 @@ def login_user():
     else:
         return redirect('/')
 
-@app.route('navigation', methods=['POST'])
+
+@app.route('/navigation', methods=['GET'])
 def navigate_user():
     """ display a map with basic pins of each route """
+    return render_template('navigation.html')
 
-    return render_template(navigation.html)
 
-@app.route('route_info.json', methods=['POST'])
+@app.route('/route_info.json')
 def route_info():
     """ forward route information to the google maps on the navigation route """
 
