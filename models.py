@@ -6,17 +6,20 @@ db = SQLAlchemy()
 
 ################################################################################
 
+
 class User(db.Model):
     """ User of Instawalk."""
 
     __tablename__ = 'users'
 
     user_id = db.Column(db.Integer, autoincrement=True,
-                                    primary_key=True)
+                                      primary_key=True)
     user_name = db.Column(db.String(100), nullable=False)
     password = db.Column(db.String(100), nullable=False)
     tokens = db.Column(db.Integer, nullable=False)
-    completed = db.Column(db.ARRAY(db.Integer), nullable=False)
+    completed = db.Column(db.Integer, 
+                          db.ForeignKey('comp_routes.cr_id'),
+                          nullable=True)
 
     def __repr__ (self):
         """return user_information"""
@@ -28,14 +31,40 @@ class User(db.Model):
         d3 = ' completed={e}'.format(e=self.completed)
         return d1 + d2 + d3
 
+
+class Comp_Routes(db.Model):
+    """ Lists of routes completed by users. """
+
+    __tablename__ = 'comp_routes'
+
+    cr_id = db.Column(db.Integer, autoincrement=True,
+                                      primary_key=True)
+    completed = db.Column(db.ARRAY(db.Integer), nullable=False)
+
+    # Define Relationship to User:
+    user = db.relationship("User",
+                           backref=db.backref("comp_routes",
+                           order_by=cr_id
+                           ))
+
+    def __repr__ (self):
+        """return comp routes information"""
+
+        d1 = '<cr_id={a}, cr_completed={b},'.format(a=self.cr_id,
+                                            b=self.completed)
+        return d1
+
+
 class Route(db.Model):
     """ Curated routes of instawalk."""
 
     __tablename__ ='routes'
 
     route_id = db.Column(db.Integer, autoincrement=True,
-                                    primary_key=True)
-    waypoints = db.Column(db.ARRAY(db.String), nullable=False)
+                                       primary_key=True)
+    waypoints = db.Column(db.Integer, 
+                          db.ForeignKey('route_waypoints.rw_id'),
+                          nullable=False)
     route_type = db.Column(db.String, nullable=False)
 
     def __repr__ (self):
@@ -46,16 +75,36 @@ class Route(db.Model):
         d2 = ' route_type={c}'.format(c=self.route_type)
         return d1 + d2
 
+
+class Route_Waypoints(db.Model):
+    """ Lists of waypoints on each route. """
+
+    __tablename__ ='route_waypoints'
+
+    rw_id = db.Column(db.Integer, autoincrement=True,
+                                    primary_key=True)
+    waypoints = db.Column(db.ARRAY(db.Integer), nullable=False)
+
+    # Define Relationship to Route:
+    route = db.relationship("Route",
+                           backref=db.backref("route_waypoints",
+                           order_by=rw_id
+                           ))
+    def __repr__ (self):
+        """return route waypoints information."""
+
+        d1 = '<rw_id={a}, rw_waypoints={b},'.format(a=self.rw_id,
+                                            b=self.waypoints)
+        return d1
+
+
 class Waypoint(db.Model):
-    """ Details and information about required waypoints by Google."""
+    """ Details and information about required waypoints by Google. """
 
     __tablename__ ='waypoints'
 
     waypoint_id = db.Column(db.Integer, autoincrement=True,
-                                    primary_key=True)
-    location = db.Column(db.String, nullable=False)
-    latitude = db.Column(db.String, nullable=False)
-    longitude = db.Column(db.String, nullable=False)
+                                          primary_key=True)
     latitude = db.Column(db.String, nullable=False)
     longitude = db.Column(db.String, nullable=False)
     location = db.Column(db.String, nullable=False)
@@ -73,16 +122,19 @@ class Waypoint(db.Model):
                                                 f=self.description)
         return d1 + d2 + d3
 
+
 class Step(db.Model):
     """ Information provided by the user within each step between two waypoints."""
 
     __tablename__ ='steps'
 
     step_id = db.Column(db.Integer, autoincrement=True,
-                                    primary_key=True)
+                                      primary_key=True)
     start_point = db.Column(db.Integer, nullable=False)
     end_point = db.Column(db.Integer, nullable=False)
-    directions = db.Column(db.ARRAY(db.Integer), nullable=False)
+    directions = db.Column(db.Integer, 
+                          db.ForeignKey('step_directions.sd_id'),
+                          nullable=False)
 
     def __repr__ (self):
         """return route information."""
@@ -93,13 +145,36 @@ class Step(db.Model):
                                                 d=self.directions)
         return d1 + d2
 
+
+class Step_Directions(object):
+    """ Lists of directions for each step. """
+    __tablename__ ='step_directions'
+    
+    sd_id = db.Column(db.Integer, autoincrement=True,
+                                    primary_key=True)
+    directions = db.Column(db.ARRAY(db.Integer), nullable=False)
+
+    # Define Relationship to Route:
+    step = db.relationship("Step",
+                           backref=db.backref("step_directions",
+                           order_by=sd_id
+                           ))
+    
+    def __repr__ (self):
+        """return step directions information."""
+
+        d1 = '<sd_id={a}, sd_directions={b},'.format(a=self.sd_id,
+                                            b=self.directions)
+        return d1
+
+
 class Direction(db.Model):
     """ Directions provided by users between two waypoints."""
 
     __tablename__ ='directions'
 
     direction_id = db.Column(db.Integer, autoincrement=True,
-                                    primary_key=True)
+                                           primary_key=True)
     image_url = db.Column(db.String, nullable=False)
     direction_text = db.Column(db.String, nullable=False)
     latitude = db.Column(db.String, nullable=True)
@@ -115,16 +190,19 @@ class Direction(db.Model):
         d3 = '<longitude={e}'.format(e=self.longitude)
         return d1 + d2 + d3
 
+
 class Path(db.Model):
-    """ A path is a collection of different waypoints."""
+    """ A path is a collection of different waypoints and steps."""
 
     __tablename__ ='paths'
 
     path_id = db.Column(db.Integer, autoincrement=True,
-                                    primary_key=True)
+                                      primary_key=True)
     start_point = db.Column(db.Integer, nullable=False)
     end_point = db.Column(db.Integer, nullable=False)
-    steps = db.Column(db.ARRAY(db.Integer), nullable=False)
+    steps = db.Column(db.Integer, 
+                          db.ForeignKey('path_steps.ps_id'),
+                          nullable=False)
 
     def __repr__ (self):
         """return path information."""
@@ -134,6 +212,30 @@ class Path(db.Model):
         d2 = '<end_point={c}, steps={d},'.format(c=self.end_point,
                                                 d=self.steps)
         return d1 + d2
+
+
+class Path_Steps(db.Model):
+    """ Lists of steps for each path. """
+
+    __tablename__ ='path_steps'
+
+    ps_id = db.Column(db.Integer, autoincrement=True,
+                                    primary_key=True)
+    steps = db.Column(db.ARRAY(db.Integer), nullable=False)
+
+    # Define Relationship to Path:
+    path = db.relationship("Path",
+                           backref=db.backref("path_steps",
+                           order_by=ps_id
+                           ))
+
+    def __repr__ (self):
+        """return path steps information."""
+
+        d1 = '<ps_id={a}, ps_steps={b},'.format(a=self.ps_id,
+                                            b=self.steps)
+        return d1
+
 
 def connect_to_db(app, db_uri='postgresql:///instawalk'):
     """Connect the database to our Flask app."""
