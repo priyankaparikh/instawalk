@@ -61,6 +61,17 @@ def login_user():
     else:
         return redirect('/')
 
+@app.route('navigation', methods=['POST'])
+def navigate_user():
+    """ display a map with basic pins of each route """
+
+    return render_template(navigation.html)
+
+@app.route('route_info.json', methods=['POST'])
+def route_info():
+    """ forward route information to the google maps on the navigation route """
+
+    #return jsonify(route_info)
 
 @app.route('/logout')
 def logout_user():
