@@ -41,7 +41,7 @@ class Comp_Routes(db.Model):
     __tablename__ = 'comp_routes'
 
     cr_id = db.Column(db.Integer, autoincrement=True,
-                                      primary_key=True)
+                                    primary_key=True)
     completed = db.Column(db.ARRAY(db.Integer), nullable=False)
 
     # Define Relationship to User:
@@ -64,7 +64,7 @@ class User_Routes(db.Model):
     __tablename__ = 'user_routes'
 
     ur_id = db.Column(db.Integer, autoincrement=True,
-                                      primary_key=True)
+                                    primary_key=True)
     user_routes = db.Column(db.ARRAY(db.Integer), nullable=False)
 
     # Define Relationship to User:

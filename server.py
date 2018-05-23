@@ -62,6 +62,34 @@ def login_user():
         return redirect('/')
 
 
+@app.route('/profile', methods=['POST'])
+def user_profile():
+    """User profile displaying routes to unlock/walk and credits"""
+    # user_name 
+    if 'user_id' in session:
+        user = User.query.filter(User.user_id == user_id).first()
+        user_name = user.user_name
+        # credits 
+        credits = user.credits 
+    # completed routes
+    cr_id = user.completed
+    completed_r = Comp_Routes.query.filter(Comp_Routes.cr_id == cr_id).first()
+    completed_routes = completed_r.completed
+    # user routes 
+    ur_id = user.user_routes
+    user_r = User_Routes.query.filter(User_Routes.ur_id == ur_id).first()
+    user_routes = user_r.user_routes 
+    # all routes
+    all_routes = Route.query.order_by("route_id").all()
+
+    return render_template("profile.html",
+                            user_name=user_name,
+                            credits=credits,
+                            completed_routes=completed_routes,
+                            user_routes=user_routes,
+                            all_routes=all_routes)
+
+
 @app.route('/navigation', methods=['GET'])
 def navigate_user():
     """ display a map with basic pins of each route """

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Logged in</h1>
+    <form action='/logout'>
+        <button type='submit'>Logout</button>
+    </form>
+
+    <!-- username -->
+    <h2>{{ user_name }}</h2>
+    <!-- points/credits, needs backend logic -->
+    Credits: {{ tokens }}
+    <progress value={{ tokens }} max="100">
+    </progress>
+    <!-- referral QR code? If time allows. -->
+    
+    <!-- route filters -->
+
+    <!-- routes -->
+    {% for user_route in user_routes %}
+        <button>Type: {{ }} Difficulty: {{ }}</button>
+    {% endfor %}
+{% endblock %}
