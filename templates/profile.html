@@ -9,7 +9,7 @@
     <h2>{{ user_name }}</h2>
     <!-- points/credits, needs backend logic -->
     Credits: {{ credits }}
-    <progress value={{ credits }} max="100">
+    <progress value='{{ credits }}' max="100">
     </progress>
     <!-- referral QR code? If time allows. -->
     
@@ -18,8 +18,8 @@
     <!-- routes -->
     <form>
     {% for route in all_routes %}
-        {% if route in user_routes %}
-            {% if route in completed routes %}
+        {% if route.route_id in user_routes %}
+            {% if route.route_id in completed_routes %}
                 <input class="user_route completed" type="image" src=""/>
             {% else %}
                 <input class="user_route" type="image" src=""/>
