@@ -8,15 +8,25 @@
     <!-- username -->
     <h2>{{ user_name }}</h2>
     <!-- points/credits, needs backend logic -->
-    Credits: {{ tokens }}
-    <progress value={{ tokens }} max="100">
+    Credits: {{ credits }}
+    <progress value={{ credits }} max="100">
     </progress>
     <!-- referral QR code? If time allows. -->
     
     <!-- route filters -->
 
     <!-- routes -->
-    {% for user_route in user_routes %}
-        <button>Type: {{ }} Difficulty: {{ }}</button>
+    <form>
+    {% for route in all_routes %}
+        {% if route in user_routes %}
+            {% if route in completed routes %}
+                <input class="user_route completed" type="image" src=""/>
+            {% else %}
+                <input class="user_route" type="image" src=""/>
+            {% endif %}
+        {% else %}
+            <input class="locked_route" type="image" src=""/>
+        {% endif %}
     {% endfor %}
+    </form>
 {% endblock %}
