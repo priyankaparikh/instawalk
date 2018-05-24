@@ -36,7 +36,7 @@ def register_user():
         user = User(user_name=user_name,
                     password=password,
                     tokens=0,
-                    completed=[])
+                )
 
         db.session.add(user)
         db.session.commit()
