@@ -26,6 +26,38 @@
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"
     async defer></script>
+
+    <!-- upload modal -->
+
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+          <!-- Modal content-->
+            <div class="modal-content" id="directions">
+                <div class="modal-header mheader">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class='headertext'>Add directions</h4>
+                </div> 
+                <div class="modal-body mbody">
+                    <form role='form' action='/add_directions' method='POST'>
+                        <div class="form-group">
+                            <label class='labeltext'>Upload Photo</label><br>
+                            <label class='labeltext'>Write Directions</label>
+                            <textarea class="form-control" id="message-text" name='directions' placeholder="Enter directions"></textarea>
+                        </div>
+                        <button type="submit" class="btn loginbtn">Add</button>
+                    </form>
+                </div>
+                <div class="modal-footer mfooter">
+                    <button type="submit" class="btn cancelbtn pull-left" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- directions button -->
+
+    <button type='submit' class="btn" data-toggle="modal" data-target="#myModal">Add directions</button>
+
   </body>
 </html>
 {% endblock %}
