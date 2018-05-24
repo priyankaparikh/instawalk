@@ -1,6 +1,6 @@
 """ Holds all the models for the postgres SQL DB
     DB name : """
-
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
@@ -160,8 +160,7 @@ class Step(db.Model):
     start_point = db.Column(db.Integer, nullable=False)
     end_point = db.Column(db.Integer, nullable=False)
     directions = db.Column(db.Integer, 
-                          db.ForeignKey('step_directions.sd_id'),
-                          nullable=False)
+                           db.ForeignKey('step_directions.direction_id'))
 
     def __repr__ (self):
         """return route information."""
@@ -173,25 +172,26 @@ class Step(db.Model):
         return d1 + d2
 
 
-class Step_Directions(object):
+class Step_Direction(db.Model):
     """ Lists of directions for each step. """
+
     __tablename__ ='step_directions'
     
-    sd_id = db.Column(db.Integer, autoincrement=True,
+    direction_id = db.Column(db.Integer, autoincrement=True,
                                     primary_key=True)
     directions = db.Column(db.ARRAY(db.Integer), nullable=False)
 
     # Define Relationship to Route:
     step = db.relationship("Step",
                            backref=db.backref("step_directions",
-                           order_by=sd_id
+                           order_by=direction_id
                            ))
     
     def __repr__ (self):
         """return step directions information."""
 
-        d1 = '<sd_id={a}, sd_directions={b},'.format(a=self.sd_id,
-                                            b=self.directions)
+        d1 = '<direction_id={a}, directions={b},'.format(a=self.direction_id,
+                                                         b=self.directions)
         return d1
 
 
