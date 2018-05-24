@@ -2,6 +2,7 @@
     DB name : """
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+
 db = SQLAlchemy()
 
 ################################################################################
@@ -16,12 +17,10 @@ class User(db.Model):
                                       primary_key=True)
     user_name = db.Column(db.String(100), nullable=False)
     password = db.Column(db.String(100), nullable=False)
-    tokens = db.Column(db.Integer, nullable=False)
-    user_routes = db.Column(db.Integer, 
-                            db.ForeignKey('user_routes.ur_id'),
+    tokens = db.Column(db.Integer, nullable=True)
+    user_routes = db.Column(db.Integer, db.ForeignKey('u_routes.ur_id'),
                             nullable=True)
-    completed = db.Column(db.Integer, 
-                          db.ForeignKey('comp_routes.cr_id'),
+    completed = db.Column(db.Integer, db.ForeignKey('c_routes.cr_id'),
                           nullable=True)
 
     def __repr__ (self):
@@ -38,7 +37,7 @@ class User(db.Model):
 class Comp_Routes(db.Model):
     """ Lists of routes completed by users. """
 
-    __tablename__ = 'comp_routes'
+    __tablename__ = 'c_routes'
 
     cr_id = db.Column(db.Integer, autoincrement=True,
                                     primary_key=True)
@@ -46,7 +45,7 @@ class Comp_Routes(db.Model):
 
     # Define Relationship to User:
     user = db.relationship("User",
-                           backref=db.backref("comp_routes",
+                           backref=db.backref("c_routes",
                            order_by=cr_id
                            ))
 
@@ -61,15 +60,15 @@ class Comp_Routes(db.Model):
 class User_Routes(db.Model):
     """ Lists of routes completed by users. """
 
-    __tablename__ = 'user_routes'
+    __tablename__ = 'u_routes'
 
     ur_id = db.Column(db.Integer, autoincrement=True,
                                     primary_key=True)
-    user_routes = db.Column(db.ARRAY(db.Integer), nullable=False)
+    u_routes = db.Column(db.ARRAY(db.Integer), nullable=False)
 
     # Define Relationship to User:
     user = db.relationship("User",
-                           backref=db.backref("user_routes",
+                           backref=db.backref("u_routes",
                            order_by=ur_id
                            ))
 

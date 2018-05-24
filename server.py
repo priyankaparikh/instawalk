@@ -1,9 +1,11 @@
+# from jinja2 import StrictUndefined
 from flask import Flask, render_template, session, redirect, request
-from models import connect_to_db, db, User
+from models import connect_to_db, db, User, Comp_Routes, User_Routes, Route
 
 app = Flask(__name__)
 app.secret_key = 'ABCD'
 
+# app.jinja_env.undefined = StrictUndefined
 
 @app.route('/')
 def landing_page():
@@ -113,6 +115,8 @@ def logout_user():
 
 
 if __name__ == "__main__":
+    # app.debug = True
+    # app.jinja_env.auto_reload = app.debug
 
     connect_to_db(app)
     app.run(port=5000, host='0.0.0.0', debug=True)
