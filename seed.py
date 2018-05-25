@@ -19,7 +19,7 @@ def load_waypoints():
 
     # Delete all rows in table to prevent duplicates
     # in case of need to re-seed
-    Waypoints.query.delete()
+    Waypoint.query.delete()
 
     # Read all .tsv files in seed_data and insert data
 
@@ -40,11 +40,10 @@ def load_waypoints():
                 lat_long = row[-1].split(",")
                 point = [row[0], lat_long[0], lat_long[-1]]
                 
-                waypoint = Waypoints(waypoint_id=waypoint_id,
-                                     latitude=point[1],
-                                     longitude=point[2],
-                                     location=point[0],
-                                     )
+                waypoint = Waypoint(latitude=point[1],
+                                    longitude=point[2],
+                                    location=point[0],
+                                    )
 
                 # Add waypoint to db session
                 db.session.add(waypoint)
@@ -52,26 +51,12 @@ def load_waypoints():
     db.session.commit()
 
 
-def set_val_waypoint_id():
-    """Set value for the next waypoint_id after seeding database"""
-
-    # Get the Max waypoint_id in the database
-    result = db.session.query(func.max(Waypoints.waypoint_id)).one()
-    max_id = int(result[0])
-
-    # Set the value for the next waypoint_id to be max_id + 1
-    query = "SELECT setval('waypoints_way_id_seq', :new_id)"
-    db.session.execute(query, {'new_id': max_id + 1})
-    db.session.commit()
-
-
 if __name__ == "__main__":
-    connect_to_db.app()
+    connect_to_db(app)
 
-    # In case tables haven't been created, create them
+    # # In case tables haven't been created, create them
     db.create_all()
 
     # Import data type
     load_waypoints()
-    set_val_waypoint_id()
        

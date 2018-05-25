@@ -18,10 +18,8 @@ class User(db.Model):
     user_name = db.Column(db.String(100), nullable=False)
     password = db.Column(db.String(100), nullable=False)
     tokens = db.Column(db.Integer, nullable=True)
-    user_routes = db.Column(db.Integer, db.ForeignKey('u_routes.ur_id'),
-                            nullable=True)
-    completed = db.Column(db.Integer, db.ForeignKey('c_routes.cr_id'),
-                          nullable=True)
+    user_routes = db.Column(db.Integer, nullable=True)
+    completed = db.Column(db.Integer, nullable=True)
 
     def __repr__ (self):
         """return user_information"""
@@ -43,16 +41,10 @@ class Comp_Routes(db.Model):
                                     primary_key=True)
     completed = db.Column(db.ARRAY(db.Integer), nullable=False)
 
-    # Define Relationship to User:
-    user = db.relationship("User",
-                           backref=db.backref("c_routes",
-                           order_by=cr_id
-                           ))
-
     def __repr__ (self):
         """return comp routes information"""
 
-        d1 = '<cr_id={a}, cr_completed={b},'.format(a=self.cr_id,
+        d1 = '<cr_id={a}, completed={b},'.format(a=self.cr_id,
                                             b=self.completed)
         return d1
 
@@ -66,17 +58,11 @@ class User_Routes(db.Model):
                                     primary_key=True)
     u_routes = db.Column(db.ARRAY(db.Integer), nullable=False)
 
-    # Define Relationship to User:
-    user = db.relationship("User",
-                           backref=db.backref("u_routes",
-                           order_by=ur_id
-                           ))
-
     def __repr__ (self):
         """return comp routes information"""
 
-        d1 = '<cr_id={a}, cr_completed={b},'.format(a=self.cr_id,
-                                            b=self.completed)
+        d1 = '<ur_id={a}, u_routes={b},'.format(a=self.ur_id,
+                                            b=self.u_routes)
         return d1
 
 
@@ -87,9 +73,7 @@ class Route(db.Model):
 
     route_id = db.Column(db.Integer, autoincrement=True,
                                        primary_key=True)
-    waypoints = db.Column(db.Integer, 
-                          db.ForeignKey('route_waypoints.rw_id'),
-                          nullable=False)
+    waypoints = db.Column(db.Integer, nullable=False)
     route_difficulty = db.Column(db.Integer, nullable=False)
     route_type = db.Column(db.String, nullable=False)
 
@@ -111,11 +95,6 @@ class Route_Waypoints(db.Model):
                                     primary_key=True)
     waypoints = db.Column(db.ARRAY(db.Integer), nullable=False)
 
-    # Define Relationship to Route:
-    route = db.relationship("Route",
-                           backref=db.backref("route_waypoints",
-                           order_by=rw_id
-                           ))
     def __repr__ (self):
         """return route waypoints information."""
 

@@ -1,6 +1,7 @@
 # from jinja2 import StrictUndefined
 from flask import Flask, render_template, session, redirect, request
 from models import connect_to_db, db, User, Comp_Routes, User_Routes, Route
+from sqlalchemy import func
 
 app = Flask(__name__)
 app.secret_key = 'ABCD'
@@ -33,9 +34,25 @@ def register_user():
 
     # if not in the database add them and redirect to home page
     else:
+        c_routes = Comp_Routes(completed=[])
+        db.session.add(c_routes)
+        db.session.commit()
+        completed_tup = db.session.query(func.max(Comp_Routes.cr_id)).first()
+        completed = completed_tup[0]
+        print "CR_ID:" + str(completed)
+
+        usr_routes = User_Routes(u_routes=[1,2,3,4,5,6,7]) #placeholder route_ids
+        db.session.add(usr_routes)
+        db.session.commit()
+        user_routes_tup = db.session.query(func.max(User_Routes.ur_id)).first()
+        user_routes = user_routes_tup[0]
+        print "UR_ID:" + str(user_routes)
+
         user = User(user_name=user_name,
                     password=password,
                     tokens=0,
+                    user_routes=user_routes,
+                    completed=completed,
                 )
 
         db.session.add(user)
@@ -64,29 +81,32 @@ def login_user():
         return redirect('/')
 
 
-@app.route('/profile', methods=['POST'])
+@app.route('/profile', methods=['GET'])
 def user_profile():
     """User profile displaying routes to unlock/walk and credits"""
     # user_name 
-    if 'user_id' in session:
+    if session.get('user_id'):
+        user_id = session.get('user_id')
         user = User.query.filter(User.user_id == user_id).first()
         user_name = user.user_name
-        # credits 
-        credits = user.credits 
+        # tokens 
+        tokens = user.tokens
+    else:
+        return redirect('/') 
     # completed routes
     cr_id = user.completed
-    completed_r = Comp_Routes.query.filter(Comp_Routes.cr_id == cr_id).first()
-    completed_routes = completed_r.completed
+    comp_r = Comp_Routes.query.filter(Comp_Routes.cr_id == cr_id).first()
+    completed_routes = comp_r.completed
     # user routes 
     ur_id = user.user_routes
     user_r = User_Routes.query.filter(User_Routes.ur_id == ur_id).first()
-    user_routes = user_r.user_routes 
+    user_routes = user_r.u_routes 
     # all routes
     all_routes = Route.query.order_by("route_id").all()
 
     return render_template("profile.html",
                             user_name=user_name,
-                            credits=credits,
+                            tokens=tokens,
                             completed_routes=completed_routes,
                             user_routes=user_routes,
                             all_routes=all_routes)
