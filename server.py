@@ -112,7 +112,7 @@ def user_profile():
                             all_routes=all_routes)
 
 
-@app.route('/routes_panel', methods='GET')
+@app.route('/routes_panel', methods=['GET'])
 def all_routes():
     """ display all available (unlocked and locked) per user."""
     return render_template("routes_panel.html")
