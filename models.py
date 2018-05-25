@@ -1,7 +1,8 @@
 """ Holds all the models for the postgres SQL DB
     DB name : """
-
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+
 db = SQLAlchemy()
 
 ################################################################################
@@ -16,10 +17,9 @@ class User(db.Model):
                                       primary_key=True)
     user_name = db.Column(db.String(100), nullable=False)
     password = db.Column(db.String(100), nullable=False)
-    tokens = db.Column(db.Integer, nullable=False)
-    completed = db.Column(db.Integer, 
-                          db.ForeignKey('comp_routes.cr_id'),
-                          nullable=True)
+    tokens = db.Column(db.Integer, nullable=True)
+    user_routes = db.Column(db.Integer, nullable=True)
+    completed = db.Column(db.Integer, nullable=True)
 
     def __repr__ (self):
         """return user_information"""
@@ -35,23 +35,34 @@ class User(db.Model):
 class Comp_Routes(db.Model):
     """ Lists of routes completed by users. """
 
-    __tablename__ = 'comp_routes'
+    __tablename__ = 'c_routes'
 
     cr_id = db.Column(db.Integer, autoincrement=True,
-                                      primary_key=True)
+                                    primary_key=True)
     completed = db.Column(db.ARRAY(db.Integer), nullable=False)
-
-    # Define Relationship to User:
-    user = db.relationship("User",
-                           backref=db.backref("comp_routes",
-                           order_by=cr_id
-                           ))
 
     def __repr__ (self):
         """return comp routes information"""
 
-        d1 = '<cr_id={a}, cr_completed={b},'.format(a=self.cr_id,
+        d1 = '<cr_id={a}, completed={b},'.format(a=self.cr_id,
                                             b=self.completed)
+        return d1
+
+
+class User_Routes(db.Model):
+    """ Lists of routes completed by users. """
+
+    __tablename__ = 'u_routes'
+
+    ur_id = db.Column(db.Integer, autoincrement=True,
+                                    primary_key=True)
+    u_routes = db.Column(db.ARRAY(db.Integer), nullable=False)
+
+    def __repr__ (self):
+        """return comp routes information"""
+
+        d1 = '<ur_id={a}, u_routes={b},'.format(a=self.ur_id,
+                                            b=self.u_routes)
         return d1
 
 
@@ -62,9 +73,8 @@ class Route(db.Model):
 
     route_id = db.Column(db.Integer, autoincrement=True,
                                        primary_key=True)
-    waypoints = db.Column(db.Integer, 
-                          db.ForeignKey('route_waypoints.rw_id'),
-                          nullable=False)
+    waypoints = db.Column(db.Integer, nullable=False)
+    route_difficulty = db.Column(db.Integer, nullable=False)
     route_type = db.Column(db.String, nullable=False)
 
     def __repr__ (self):
@@ -85,11 +95,6 @@ class Route_Waypoints(db.Model):
                                     primary_key=True)
     waypoints = db.Column(db.ARRAY(db.Integer), nullable=False)
 
-    # Define Relationship to Route:
-    route = db.relationship("Route",
-                           backref=db.backref("route_waypoints",
-                           order_by=rw_id
-                           ))
     def __repr__ (self):
         """return route waypoints information."""
 
@@ -133,8 +138,8 @@ class Step(db.Model):
     start_point = db.Column(db.Integer, nullable=False)
     end_point = db.Column(db.Integer, nullable=False)
     directions = db.Column(db.Integer, 
-                          db.ForeignKey('step_directions.sd_id'),
-                          nullable=False)
+                           # db.ForeignKey('step_directions.direction_id')
+                           nullable=False)
 
     def __repr__ (self):
         """return route information."""
@@ -146,25 +151,26 @@ class Step(db.Model):
         return d1 + d2
 
 
-class Step_Directions(object):
+class Step_Direction(db.Model):
     """ Lists of directions for each step. """
+
     __tablename__ ='step_directions'
     
-    sd_id = db.Column(db.Integer, autoincrement=True,
+    direction_id = db.Column(db.Integer, autoincrement=True,
                                     primary_key=True)
     directions = db.Column(db.ARRAY(db.Integer), nullable=False)
 
-    # Define Relationship to Route:
-    step = db.relationship("Step",
-                           backref=db.backref("step_directions",
-                           order_by=sd_id
-                           ))
+    # # Define Relationship to Route:
+    # step = db.relationship("Step",
+    #                        backref=db.backref("step_directions",
+    #                        order_by=direction_id
+    #                        ))
     
     def __repr__ (self):
         """return step directions information."""
 
-        d1 = '<sd_id={a}, sd_directions={b},'.format(a=self.sd_id,
-                                            b=self.directions)
+        d1 = '<direction_id={a}, directions={b},'.format(a=self.direction_id,
+                                                         b=self.directions)
         return d1
 
 
@@ -201,7 +207,7 @@ class Path(db.Model):
     start_point = db.Column(db.Integer, nullable=False)
     end_point = db.Column(db.Integer, nullable=False)
     steps = db.Column(db.Integer, 
-                          db.ForeignKey('path_steps.ps_id'),
+                          # db.ForeignKey('path_steps.ps_id'),
                           nullable=False)
 
     def __repr__ (self):
@@ -223,11 +229,11 @@ class Path_Steps(db.Model):
                                     primary_key=True)
     steps = db.Column(db.ARRAY(db.Integer), nullable=False)
 
-    # Define Relationship to Path:
-    path = db.relationship("Path",
-                           backref=db.backref("path_steps",
-                           order_by=ps_id
-                           ))
+    # # Define Relationship to Path:
+    # path = db.relationship("Path",
+    #                        backref=db.backref("path_steps",
+    #                        order_by=ps_id
+    #                        ))
 
     def __repr__ (self):
         """return path steps information."""
