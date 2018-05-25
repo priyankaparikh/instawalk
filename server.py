@@ -84,23 +84,23 @@ def login_user():
 @app.route('/profile', methods=['GET'])
 def user_profile():
     """User profile displaying routes to unlock/walk and credits"""
-    # user_name 
+    # user_name
     if session.get('user_id'):
         user_id = session.get('user_id')
         user = User.query.filter(User.user_id == user_id).first()
         user_name = user.user_name
-        # tokens 
+        # tokens
         tokens = user.tokens
     else:
-        return redirect('/') 
+        return redirect('/')
     # completed routes
     cr_id = user.completed
     comp_r = Comp_Routes.query.filter(Comp_Routes.cr_id == cr_id).first()
     completed_routes = comp_r.completed
-    # user routes 
+    # user routes
     ur_id = user.user_routes
     user_r = User_Routes.query.filter(User_Routes.ur_id == ur_id).first()
-    user_routes = user_r.u_routes 
+    user_routes = user_r.u_routes
     # all routes
     all_routes = Route.query.order_by("route_id").all()
 
@@ -110,6 +110,12 @@ def user_profile():
                             completed_routes=completed_routes,
                             user_routes=user_routes,
                             all_routes=all_routes)
+
+
+@app.route('/routes_panel', methods='GET')
+def all_routes():
+    """ display all available (unlocked and locked) per user."""
+    return render_template("routes_panel.html")
 
 
 @app.route('/navigation', methods=['GET'])
