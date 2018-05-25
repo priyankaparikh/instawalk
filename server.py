@@ -1,5 +1,5 @@
 # from jinja2 import StrictUndefined
-from flask import Flask, render_template, session, redirect, request
+from flask import Flask, render_template, session, redirect, request, jsonify
 from models import connect_to_db, db, User, Comp_Routes, User_Routes, Route
 from sqlalchemy import func
 
@@ -116,6 +116,18 @@ def user_profile():
 def navigate_user():
     """ display a map with basic pins of each route """
     return render_template('navigation.html')
+
+
+@app.route('/add_directions.json', methods=['POST'])
+def add_user_navigation():
+    """Add a users navigation directions to the database for their route."""
+
+    photo = request.form.get('photo')
+    directions = request.form.get('directions')
+
+    result = {'photo': photo, 'directions': directions}
+
+    return jsonify(result)
 
 
 @app.route('/route_info.json')

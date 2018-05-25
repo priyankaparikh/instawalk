@@ -36,18 +36,24 @@
                 <div class="modal-header mheader">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class='headertext'>Add directions</h4>
+<<<<<<< HEAD
                 </div>
                 <div class="modal-body mbody">
                     <form role='form' action='/add_directions' method='POST'>
+=======
+                </div> 
+                <div class="modal-body mbody add_directions">
+                    <form role='form' id='myform' class='add_directions' action='/add_directions.json' method='POST'>
+>>>>>>> 5f0324f06d92f1fdd8915c325503293a5baa0168
                         <div class="form-group">
-                            <label class='labeltext'name='photo_upload'>Upload Photo</label>
-                            <input type="file">
+                            <label class='labeltext'>Upload Photo</label>
+                            <input id='upload_photo' name='upload_photo'type="file">
                         </div>
                         <div class="form-group">
                             <label class='labeltext'>Write Directions</label>
-                            <textarea class="form-control" id="message-text" name='directions' placeholder="Enter directions"></textarea>
+                            <textarea id='directions' name='directions'class="form-control" id="message-text" placeholder="Enter directions"></textarea>
                         </div>
-                        <button type="submit" class="btn loginbtn">Add</button>
+                        <button type="submit" class="btn">Add</button>
                     </form>
                 </div>
                 <div class="modal-footer mfooter">
