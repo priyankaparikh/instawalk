@@ -125,7 +125,7 @@ def add_user_navigation():
     photo = request.form.get('photo')
     directions = request.form.get('directions')
 
-    result = 'successfully added directions'
+    result = {'photo': photo, 'directions': directions}
 
     return jsonify(result)
 

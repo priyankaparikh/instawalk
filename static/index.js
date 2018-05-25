@@ -1,11 +1,12 @@
 $('.add_directions').on('submit', function (evt) {
     evt.preventDefault();
     let formInput = {
-        photo: $('#uploadPhoto').val(),
-        directions: $('#directions').val()
+        photo: $('#upload_photo').val(),
+        directions: $('textarea#directions').val()
     };
     $.post('/add_directions.json', formInput, function (result) {
         $('#myModal .close').click();
         console.log(result)
+        $('#test').attr('src', result.photo);
     });
 });

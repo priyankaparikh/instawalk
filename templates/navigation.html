@@ -40,12 +40,12 @@
                 <div class="modal-body mbody add_directions">
                     <form role='form' class='add_directions' action='/add_directions.json' method='POST'>
                         <div class="form-group">
-                            <label class='labeltext'name='photo_upload'>Upload Photo</label>
-                            <input id='upload_photo' type="file">
+                            <label class='labeltext'>Upload Photo</label>
+                            <input id='upload_photo' name='upload_photo'type="file">
                         </div>
                         <div class="form-group">
                             <label class='labeltext'>Write Directions</label>
-                            <textarea id='directions' class="form-control" id="message-text" name='directions' placeholder="Enter directions"></textarea>
+                            <textarea id='directions' name='directions'class="form-control" id="message-text" placeholder="Enter directions"></textarea>
                         </div>
                         <button type="submit" class="btn">Add</button>
                     </form>
@@ -60,6 +60,7 @@
     <!-- directions button -->
 
     <button type='submit' class="btn" data-toggle="modal" data-target="#myModal">Add directions</button>
+    <img id='test' src='#'>
 
   </body>
 </html>
