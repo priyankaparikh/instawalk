@@ -148,13 +148,14 @@ def jsonify_waypoints():
 
     all_waypoints = {}
 
-    for waypoint in waypoints: 
-        temp_dict = {
-        "location": waypoint.location,
-        "latitude": waypoint.latitude,
-        "longitude": waypoint.longitude,
-        }
-        all_waypoints[waypoint.waypoint_id] = temp_dict
+    while len(all_waypoints) < 50:
+        for waypoint in waypoints: 
+            temp_dict = {
+            "location": waypoint.location,
+            "latitude": waypoint.latitude,
+            "longitude": waypoint.longitude,
+            }
+            all_waypoints[waypoint.waypoint_id] = temp_dict
 
     return jsonify(all_waypoints)
 
