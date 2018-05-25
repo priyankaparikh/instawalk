@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
     <h1>Logged in</h1>
+    <form action='/profile'>
+        <button type='submit'>Profile</button>
+    </form>
     <form action='/logout'>
         <button type='submit'>Logout</button>
     </form>
