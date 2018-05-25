@@ -1,6 +1,7 @@
 # from jinja2 import StrictUndefined
-from flask import Flask, render_template, session, redirect, request
-from models import connect_to_db, db, User, Comp_Routes, User_Routes, Route
+from flask import Flask, render_template, session, redirect, request, jsonify
+from models import (connect_to_db, db, User, Comp_Routes, 
+    User_Routes, Route, Waypoint, Step, Path)
 from sqlalchemy import func
 
 app = Flask(__name__)
@@ -124,6 +125,7 @@ def route_info():
 
     #return jsonify(route_info)
 
+
 @app.route('/logout')
 def logout_user():
     """Logout a user"""
@@ -132,6 +134,29 @@ def logout_user():
 
     return redirect('/')
 
+@app.route('/waypoints_map')
+def waypoints_map():
+    """ display map containing all possible waypoints for route planning """
+    waypoints = Waypoint.query.all()
+    return render_template('waypoints_map.html',
+                            waypoints=waypoints)
+
+
+@app.route("/waypoints.json")
+def jsonify_waypoints():
+    waypoints = Waypoint.query.all()
+
+    all_waypoints = {}
+
+    for waypoint in waypoints: 
+        temp_dict = {
+        "location": waypoint.location,
+        "latitude": waypoint.latitude,
+        "longitude": waypoint.longitude,
+        }
+        all_waypoints[waypoint.waypoint_id] = temp_dict
+
+    return jsonify(all_waypoints)
 
 
 if __name__ == "__main__":

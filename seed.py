@@ -9,6 +9,7 @@ from server import app
 import glob
 import os
 import re
+import string
 path = "./seed_data/*.tsv"
 
 
@@ -37,14 +38,24 @@ def load_waypoints():
                     continue
                 if "Bound" in row[-1]:
                     continue
+                print row[-1]
                 lat_long = row[-1].split(",")
-                point = [row[0], lat_long[0], lat_long[-1]]
-                
+                lat= lat_long[0]
+                lng = lat_long[-1]
+
+                printable = set(string.printable)
+                latitude = filter(lambda x: x in printable, lat)
+                latitude = latitude[0:2]+" "+latitude[2:4]+" "+latitude[4:-1]
+
+                printable = set(string.printable)
+                longitude = filter(lambda x: x in printable, lng)
+                longitude = "-"+longitude[0:3]+" "+longitude[3:5]+" "+longitude[5:-1]
+
+                point = [row[0], latitude, longitude]
                 waypoint = Waypoint(latitude=point[1],
                                     longitude=point[2],
                                     location=point[0],
                                     )
-
                 # Add waypoint to db session
                 db.session.add(waypoint)
     # Commit waypoints
