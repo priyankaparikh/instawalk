@@ -5,8 +5,8 @@ $('.add_directions').on('submit', function (evt) {
         directions: $('textarea#directions').val()
     };
     $.post('/add_directions.json', formInput, function (result) {
+        $('#myform')[0].reset();
         $('#myModal .close').click();
         console.log(result)
-        $('#test').attr('src', result.photo);
     });
 });
