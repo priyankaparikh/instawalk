@@ -138,7 +138,8 @@ class Step(db.Model):
     start_point = db.Column(db.Integer, nullable=False)
     end_point = db.Column(db.Integer, nullable=False)
     directions = db.Column(db.Integer, 
-                           db.ForeignKey('step_directions.direction_id'))
+                           # db.ForeignKey('step_directions.direction_id')
+                           nullable=False)
 
     def __repr__ (self):
         """return route information."""
@@ -159,11 +160,11 @@ class Step_Direction(db.Model):
                                     primary_key=True)
     directions = db.Column(db.ARRAY(db.Integer), nullable=False)
 
-    # Define Relationship to Route:
-    step = db.relationship("Step",
-                           backref=db.backref("step_directions",
-                           order_by=direction_id
-                           ))
+    # # Define Relationship to Route:
+    # step = db.relationship("Step",
+    #                        backref=db.backref("step_directions",
+    #                        order_by=direction_id
+    #                        ))
     
     def __repr__ (self):
         """return step directions information."""
@@ -206,7 +207,7 @@ class Path(db.Model):
     start_point = db.Column(db.Integer, nullable=False)
     end_point = db.Column(db.Integer, nullable=False)
     steps = db.Column(db.Integer, 
-                          db.ForeignKey('path_steps.ps_id'),
+                          # db.ForeignKey('path_steps.ps_id'),
                           nullable=False)
 
     def __repr__ (self):
@@ -228,11 +229,11 @@ class Path_Steps(db.Model):
                                     primary_key=True)
     steps = db.Column(db.ARRAY(db.Integer), nullable=False)
 
-    # Define Relationship to Path:
-    path = db.relationship("Path",
-                           backref=db.backref("path_steps",
-                           order_by=ps_id
-                           ))
+    # # Define Relationship to Path:
+    # path = db.relationship("Path",
+    #                        backref=db.backref("path_steps",
+    #                        order_by=ps_id
+    #                        ))
 
     def __repr__ (self):
         """return path steps information."""
