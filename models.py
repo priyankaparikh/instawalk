@@ -1,4 +1,4 @@
-""" Holds all the models for the postgres SQL DB
+""" Holds all the models for the PostgreSQL DB
     DB name : """
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
@@ -20,6 +20,7 @@ class User(db.Model):
     tokens = db.Column(db.Integer, nullable=True)
     user_routes = db.Column(db.Integer, nullable=True)
     completed = db.Column(db.Integer, nullable=True)
+    terms_agreement = db.Column(db.Boolean, default=False, nullable=False)
 
     def __repr__ (self):
         """return user_information"""

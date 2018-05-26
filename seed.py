@@ -1,11 +1,9 @@
 """Utility file to seed points database from tsv files in seed_data"""
 
 from sqlalchemy import func
-from models import Waypoint
-
+from models import Waypoint, Route, Route_Waypoints
 from models import connect_to_db, db
 from server import app
-
 import glob
 import os
 import re
@@ -14,7 +12,7 @@ path = "./seed_data/*.tsv"
 
 
 def load_waypoints():
-    """Load waypoints from all tsv in seed_data"""
+    """ Load waypoints from all tsv in seed_data """
 
     print "Waypoints"
 
@@ -77,7 +75,6 @@ def dms2dec(dms_str):
     -2.34330555556F
     """
     dms_str = re.sub(r'\s', '', dms_str)
-    
     if re.match('[swSW]', dms_str):
         sign = -1
     else:
@@ -85,11 +82,22 @@ def dms2dec(dms_str):
 
     if "." not in dms_str:
         dms_str = dms_str[:-1] + ".00" + dms_str[-1] 
-    
-    (degree, minute, second, frac_seconds, junk) = re.split('\D+', dms_str, maxsplit=4)
-    
-    return sign * (int(degree) + float(minute) / 60 + float(second) / 3600 + float(frac_seconds) / 36000)
+    (degree, minute, second, micro_seconds, trash) = re.split('\D+', dms_str, maxsplit=4)
+    return sign * (int(degree) + float(minute)
+                    / 60 + float(second) / 3600 + 
+                    float(micro_seconds) / 36000)
 
+
+##################################################################################
+
+
+def load_routes():
+    """ Seed Routes and Route_Waypoints with curated Routes """
+    pass 
+
+
+
+##################################################################################    
 
 if __name__ == "__main__":
     connect_to_db(app)
