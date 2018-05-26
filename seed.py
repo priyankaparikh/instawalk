@@ -23,7 +23,6 @@ def load_waypoints():
     Waypoint.query.delete()
 
     # Read all .tsv files in seed_data and insert data
-
     for fname in glob.glob(path):
         with open(fname) as f:
             content = f.readlines()[1:]
@@ -38,35 +37,24 @@ def load_waypoints():
                     continue
                 if "Bound" in row[-1]:
                     continue
-                # print row[-1]
+
                 lat_long = row[-1].split(",")
                 lat = lat_long[0]
                 lng = lat_long[-1]
 
-            # Convert to decimal:
-                # printable = set(string.printable)
-                # latitude = filter(lambda x: x in printable, lat)
-                # latitude = latitude[0:2]+"."+latitude[2:4]+" "+latitude[4:-1]
-                # degrees = int(latitude[0:2])
-                # minutes = float(latitude[2:4]) * 60
-                # seconds = float(latitude[4:6])
-                # fractional = (minutes + seconds) / 3600
-                # latitude = str(degrees + fractional)
-                # latitude = float("{0:.3f}".format(float(latitude)))
-                # print latitude
+                if '\xe2' in lat:
+                    latitude = re.sub("`", "'", lat)
+                elif '\xe2' in lng:
+                    longitude = re.sub("`", "'", lng)
 
-                # printable = set(string.printable)
-                # longitude = filter(lambda x: x in printable, lng)
-                # degrees = int(longitude[0:3])
-                # minutes = float(longitude[3:5]) * 60
-                # seconds = float(longitude[5:-1])
-                # fractional = (minutes + seconds) / 3600
-                # longitude = "-" + str(degrees + fractional)
-                # longitude = float("{0:.3f}".format(float(longitude)))
-                # print longitude
+                latitude = lat
+                longitude = lng
 
+                latitude = dms2dec(lat)
+                longitude = dms2dec(lng)
+                longitude = -longitude
 
-                point = [row[0], lat, lng]
+                point = [row[0], latitude, longitude]
                 waypoint = Waypoint(latitude=point[1],
                                     longitude=point[2],
                                     location=point[0],
@@ -75,6 +63,32 @@ def load_waypoints():
                 db.session.add(waypoint)
     # Commit waypoints
     db.session.commit()
+
+
+def dms2dec(dms_str):
+    """Return decimal representation of DMS
+    >>> dms2dec(utf8(4853'10.18"N))
+    48.8866111111F
+    >>> dms2dec(utf8(220'35.09"E))
+    2.34330555556F
+    >>> dms2dec(utf8(4853'10.18"S))
+    -48.8866111111F
+    >>> dms2dec(utf8(220'35.09"W))
+    -2.34330555556F
+    """
+    dms_str = re.sub(r'\s', '', dms_str)
+    
+    if re.match('[swSW]', dms_str):
+        sign = -1
+    else:
+        sign = 1
+
+    if "." not in dms_str:
+        dms_str = dms_str[:-1] + ".00" + dms_str[-1] 
+    
+    (degree, minute, second, frac_seconds, junk) = re.split('\D+', dms_str, maxsplit=4)
+    
+    return sign * (int(degree) + float(minute) / 60 + float(second) / 3600 + float(frac_seconds) / 36000)
 
 
 if __name__ == "__main__":

@@ -24,20 +24,23 @@
             center: {lat: 37.733795, lng: -122.446747},
           });
 
+          console.log(result[1])
+          console.log(result[1]['latitude'])
+          console.log(result[1]['longitude'])
+
           let one_point = result[1]
-          let myLat = parseFloat(one_point['latitude'])
-          let myLong = parseFloat(one_point['longitude'])
-          let myLatLng = {lat: myLat, lng: myLong}
-          let myLocation = one_point['location']
+          let myLat = result[1]['latitude']
+          let myLong = result[1]['longitude']
+          let myLocation = result[1]['location']
 
         // Attempted test marker. Nope.
-          // var marker = new google.maps.Marker({
-          //     position: myLatLng,
-          //     map: map,
-          //     title: myLocation
-          // });
+          var marker = new google.maps.Marker({
+              position: {lat: parseFloat(myLat), lng: parseFloat(myLong)},
+              map: map,
+              title: myLocation
+          });
 
-          // marker.setMap(map);
+          marker.setMap(map);
 
 
           for (var i = 1; i < result.length; i++) {
