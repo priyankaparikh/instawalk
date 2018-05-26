@@ -37,7 +37,7 @@
           while (i < 570) {
             var latitude = result[i]['latitude']
             var longitude = result[i]['longitude']
-            var location = '<h1>' + result[i]['location'] + '</h1>'
+            var location = '<h1>' + result[i]['location'] + result[i]['waypoint_id'] '</h1>'
             var website = '<a href=' + result[i]['description'] + '> Description </a>'
             var photo = '<img src=' + result[i]['image_url'] + '>'
             var html_s = location + photo + website

@@ -93,8 +93,34 @@ def dms2dec(dms_str):
 
 def load_routes():
     """ Seed Routes and Route_Waypoints with curated Routes """
-    pass 
+    # Themes:
+    themes = {1:"foodie", 2:"coffee", 3:"beer", 4:"weed",
+              5:"historical", 6:"architecture", 7:"art",
+              8:"nature", 9:"oddities", 10:"music"}
 
+    # Easy (3-4 Waypoints):
+    easy = {route1:{waypoints:[], route_difficulty:"easy", route_type: }}
+
+
+    # Medium (5-7 Waypoints):
+    medium = {route1:{waypoints:[], route_difficulty:"medium", route_type: }}
+
+
+    # Hard (8-10+ Waypoints):
+    hard = {route1:{waypoints:[], route_difficulty:"hard", route_type: }}
+
+
+    # Iterate through and add routes:
+    routes = [easy, medium, hard]
+
+    for route in routes:
+
+        route = Route(waypoints=waypoints,
+                      route_difficulty=route_difficulty,
+                      route_type=route_type)
+
+        db.session.add(route)
+        db.session.commit()
 
 
 ##################################################################################    
