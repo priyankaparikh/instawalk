@@ -14,52 +14,64 @@
       }
     </style>
   <body>
-    <h1>ALL WAYPOINTS</h1>
     <!-- For planning Curated Routes (all waypoints laid out on map) -->
-    <div id="map"></div>
+  <div id="map"></div>
     <script>
-      var map;
-      function initMap() {
-        map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat:37.791367, lng:-122.409348},
-          zoom: 10
-        });
 
-          $.get("/waypoints.json", function(result) {
-              for (var i = 0; i < result.length; i ++) {
-                let point = result[i]
-                let latitude = point['latitude']
-                let longitude = point['longitude']
-                let location = '<h1>' + point['location'] + '</h1>'
-                var html_s = location
-                // marker windows require a string of html as input
-                createMarkers(latitude, longitude, html_s)
-          };
-        }
-      )};
+    $.get("/waypoints.json", function(result) {
+          var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 13,
+            center: {lat: 37.733795, lng: -122.446747},
+          });
 
+          let one_point = result[1]
+          let myLat = parseFloat(one_point['latitude'])
+          let myLong = parseFloat(one_point['longitude'])
+          let myLatLng = {lat: myLat, lng: myLong}
+          let myLocation = one_point['location']
+
+        // Attempted test marker. Nope.
+          // var marker = new google.maps.Marker({
+          //     position: myLatLng,
+          //     map: map,
+          //     title: myLocation
+          // });
+
+          // marker.setMap(map);
+
+
+          for (var i = 1; i < result.length; i++) {
+            var point = result[i];
+            var latitude = point['latitude']
+            var longitude = point['longitude']
+            var location = '<h1>' + point['location'] + '</h1>'
+            var html_s = location
+            // marker windows require a string of html as input
+            createMarkers(latitude, longitude, html_s)
+          }  //end for loop
+      });
+
+      // This function only creates markers. Takes val(an object) as param
       function createMarkers(latitude, longitude, infoWindowHtml) {
-        var myLatLng = new google.maps.LatLng(latitude, longitude)
+        var myLatLng = (parseFloat(latitude), parseFloat(longitude))
         var marker = new google.maps.Marker({
+          position: myLatLng,
           map: map,
           draggable: true,
-          animation: google.maps.Animation.DROP,
-          position: myLatLng,
-          icon:''
         });
         var infowindow = new google.maps.InfoWindow({
           content: infoWindowHtml
         })
+        // marker.addListener('click', showInfoWindow );
         marker.addListener('click', function() {
           infowindow.open(map, marker);
         });
       }
 
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDiTcHmA7ZLsXXnmXfYS0fRb1J6BV9hRa4&callback=initMap"
-    async defer></script>
-
-
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDiTcHmA7ZLsXXnmXfYS0fRb1J6BV9hRa4">
+    </script>    
   </body>
 </html>
 {% endblock %}

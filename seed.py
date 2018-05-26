@@ -38,20 +38,35 @@ def load_waypoints():
                     continue
                 if "Bound" in row[-1]:
                     continue
-                print row[-1]
+                # print row[-1]
                 lat_long = row[-1].split(",")
-                lat= lat_long[0]
+                lat = lat_long[0]
                 lng = lat_long[-1]
 
-                printable = set(string.printable)
-                latitude = filter(lambda x: x in printable, lat)
-                latitude = latitude[0:2]+" "+latitude[2:4]+" "+latitude[4:-1]
+            # Convert to decimal:
+                # printable = set(string.printable)
+                # latitude = filter(lambda x: x in printable, lat)
+                # latitude = latitude[0:2]+"."+latitude[2:4]+" "+latitude[4:-1]
+                # degrees = int(latitude[0:2])
+                # minutes = float(latitude[2:4]) * 60
+                # seconds = float(latitude[4:6])
+                # fractional = (minutes + seconds) / 3600
+                # latitude = str(degrees + fractional)
+                # latitude = float("{0:.3f}".format(float(latitude)))
+                # print latitude
 
-                printable = set(string.printable)
-                longitude = filter(lambda x: x in printable, lng)
-                longitude = "-"+longitude[0:3]+" "+longitude[3:5]+" "+longitude[5:-1]
+                # printable = set(string.printable)
+                # longitude = filter(lambda x: x in printable, lng)
+                # degrees = int(longitude[0:3])
+                # minutes = float(longitude[3:5]) * 60
+                # seconds = float(longitude[5:-1])
+                # fractional = (minutes + seconds) / 3600
+                # longitude = "-" + str(degrees + fractional)
+                # longitude = float("{0:.3f}".format(float(longitude)))
+                # print longitude
 
-                point = [row[0], latitude, longitude]
+
+                point = [row[0], lat, lng]
                 waypoint = Waypoint(latitude=point[1],
                                     longitude=point[2],
                                     location=point[0],

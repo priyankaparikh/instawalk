@@ -113,7 +113,7 @@ def user_profile():
                             all_routes=all_routes)
 
 
-@app.route('/routes_panel', methods='GET')
+@app.route('/routes_panel', methods=['GET'])
 def all_routes():
     """ display all available (unlocked and locked) per user."""
     return render_template("routes_panel.html")
@@ -155,9 +155,7 @@ def logout_user():
 @app.route('/waypoints_map')
 def waypoints_map():
     """ display map containing all possible waypoints for route planning """
-    waypoints = Waypoint.query.all()
-    return render_template('waypoints_map.html',
-                            waypoints=waypoints)
+    return render_template('waypoints_map.html')
 
 
 @app.route("/waypoints.json")
@@ -174,7 +172,6 @@ def jsonify_waypoints():
             "longitude": waypoint.longitude,
             }
             all_waypoints[waypoint.waypoint_id] = temp_dict
-
     return jsonify(all_waypoints)
 
 
