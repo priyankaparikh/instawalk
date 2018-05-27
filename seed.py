@@ -100,61 +100,126 @@ def load_routes():
 
     # Easy (3-4 Waypoints):
 
-    # easy = {"route1":{"waypoints":[],
-    #         "route_difficulty":"easy", "route_type":},
-    #         "route2":{"waypoints":[], "route_difficulty":"easy", "route_type": },
-    #         "route3":{"waypoints":[], "route_difficulty":"easy", "route_type": },
-    #         "route4":{"waypoints":[], "route_difficulty":"easy", "route_type": },
-    #         "route5":{"waypoints":[], "route_difficulty":"easy", "route_type": },
-    #         "route6":{"waypoints":[], "route_difficulty":"easy", "route_type": },
-    #         "route7":{"waypoints":[], "route_difficulty":"easy", "route_type": },
-    #         "route8":{"waypoints":[], "route_difficulty":"easy", "route_type": },
-    #         "route9":{"waypoints":[], "route_difficulty":"easy", "route_type": },
-    #         "route10":{"waypoints":[], "route_difficulty":"easy", "route_type": },
-    #         }
+    easy = {"route1":{"waypoints":[93,66,247,347],
+            "route_difficulty":"easy", "route_type":themes[6],
+            "decription":"Historic houses of Hayes Valley."},
+            "route2":{"waypoints":[201,315,45,244],
+            "route_difficulty":"easy", "route_type":themes[5],
+            "decription":"Historic tour of North Beach."},
+            "route3":{"waypoints":[95,182,21],
+            "route_difficulty":"easy", "route_type":themes[5],
+            "decription":"Historic tour of Golden Gate Park and Ocean Beach."},
+            "route4":{"waypoints":[],
+            "route_difficulty":"easy", "route_type":,
+            "decription":""},
+            "route5":{"waypoints":[],
+            "route_difficulty":"easy", "route_type":,
+            "decription":""},
+            "route6":{"waypoints":[],
+            "route_difficulty":"easy", "route_type":,
+            "decription":""},
+            "route7":{"waypoints":[],
+            "route_difficulty":"easy", "route_type":,
+            "decription":""},
+            "route8":{"waypoints":[],
+            "route_difficulty":"easy", "route_type":,
+            "decription":""},
+            "route9":{"waypoints":[],
+            "route_difficulty":"easy", "route_type":,
+            "decription":""},
+            "route10":{"waypoints":[],
+            "route_difficulty":"easy", "route_type":,
+            "decription":""},
+            }
 
 
     # Medium (5-7 Waypoints):
-    medium = {"route1":{"waypoints":[71,203,117,335,183,71],
-              "route_difficulty":"medium", "route_type":themes[5]},
+    medium = {"route1":{"waypoints":[71,203,117,335,183,235,71],
+              "route_difficulty":"medium", "route_type":themes[5],
+              "decription":"Historic tour of Nob Hill."},
               "route2":{"waypoints":[70,237,79,221,199,70],
-              "route_difficulty":"medium", "route_type":themes[6]},
-              # "route3":{"waypoints":[], "route_difficulty":"medium", "route_type": },
-              # "route4":{"waypoints":[], "route_difficulty":"medium", "route_type": },
-              # "route5":{"waypoints":[], "route_difficulty":"medium", "route_type": },
-              # "route6":{"waypoints":[], "route_difficulty":"medium", "route_type": },
-              # "route7":{"waypoints":[], "route_difficulty":"medium", "route_type": },
-              # "route8":{"waypoints":[], "route_difficulty":"medium", "route_type": },
-              # "route9":{"waypoints":[], "route_difficulty":"medium", "route_type": },
-              # "route10":{"waypoints":[], "route_difficulty":"medium", "route_type": },
-              }
+              "route_difficulty":"medium", "route_type":themes[6],
+              "decription":"Historic Architecture of downtown San Francisco."},
+              "route3":{"waypoints":[105,22,230,288,205],
+              "route_difficulty":"medium", "route_type":themes[5],
+              "decription":"Historic tour of Golden Gate Park and Haight area."},
+              "route4":{"waypoints":[],
+              "route_difficulty":"medium", "route_type":,
+              "decription":""},
+              "route5":{"waypoints":[],
+              "route_difficulty":"medium", "route_type":,
+              "decription":""},
+              "route6":{"waypoints":[],
+              "route_difficulty":"medium", "route_type":,
+              "decription":""},
+              "route7":{"waypoints":[],
+              "route_difficulty":"medium", "route_type":,
+              "decription":""},
+              "route8":{"waypoints":[],
+              "route_difficulty":"medium", "route_type":,
+              "decription":""},
+              "route9":{"waypoints":[],
+              "route_difficulty":"medium", "route_type":,
+              "decription":""},
+              "route10":{"waypoints":[],
+              "route_difficulty":"medium", "route_type":,
+              "decription":""},
+            }
 
 
-    # Hard (8-10+ Waypoints):
-    # hard = {"route1":{"waypoints":[], "route_difficulty":"hard", "route_type": },
-    #         "route2":{"waypoints":[], "route_difficulty":"hard", "route_type": },
-    #         "route3":{"waypoints":[], "route_difficulty":"hard", "route_type": },
-    #         "route4":{"waypoints":[], "route_difficulty":"hard", "route_type": },
-    #         "route5":{"waypoints":[], "route_difficulty":"hard", "route_type": },
-    #         "route6":{"waypoints":[], "route_difficulty":"hard", "route_type": },
-    #         "route7":{"waypoints":[], "route_difficulty":"hard", "route_type": },
-    #         "route8":{"waypoints":[], "route_difficulty":"hard", "route_type": },
-    #         "route9":{"waypoints":[], "route_difficulty":"hard", "route_type": },
-    #         "route10":{"waypoints":[], "route_difficulty":"hard", "route_type": },
-    #         }
+    Hard (8-10+ Waypoints):
+    hard = {"route1":{"waypoints":[],
+            "route_difficulty":"hard", "route_type":,
+            "decription":""},
+            "route2":{"waypoints":[],
+            "route_difficulty":"hard", "route_type":,
+            "decription":""},
+            "route3":{"waypoints":[],
+            "route_difficulty":"hard", "route_type":,
+            "decription":""},
+            "route4":{"waypoints":[],
+            "route_difficulty":"hard", "route_type":,
+            "decription":""},
+            "route5":{"waypoints":[],
+            "route_difficulty":"hard", "route_type":,
+            "decription":""},
+            "route6":{"waypoints":[],
+            "route_difficulty":"hard", "route_type":,
+            "decription":""},
+            "route7":{"waypoints":[],
+            "route_difficulty":"hard", "route_type":,
+            "decription":""},
+            "route8":{"waypoints":[],
+            "route_difficulty":"hard", "route_type":,
+            "decription":""},
+            "route9":{"waypoints":[],
+            "route_difficulty":"hard", "route_type":,
+            "decription":""},
+            "route10":{"waypoints":[],
+            "route_difficulty":"hard", "route_type":,
+            "decription":""},
+            }
 
 
     # Iterate through and add routes:
     routes = [easy, medium, hard]
 
-    for route in routes:
-        waypoints = route[waypoints]
-        route = Route(waypoints=waypoints,
-                      route_difficulty=route_difficulty,
-                      route_type=route_type)
+    for difficulty in routes:
+        routes[difficulty] = level
+        for route in level:
+            level[route] = curr_route
+            waypoints = curr_route["waypoints"]
+            route_difficulty = curr_route["route_difficulty"]
+            route_type = curr_route["route_type"]
+            description = curr_route["description"]
 
-        db.session.add(route)
-        db.session.commit()
+            route = Route(waypoints=waypoints,
+                          route_difficulty=route_difficulty,
+                          route_type=route_type,
+                          decription=decription)
+
+            db.session.add(route)
+    db.session.commit()
 
 
 ##################################################################################    

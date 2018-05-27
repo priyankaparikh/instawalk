@@ -76,6 +76,7 @@ class Route(db.Model):
     waypoints = db.Column(db.ARRAY(db.Integer), nullable=False)
     route_difficulty = db.Column(db.Integer, nullable=False)
     route_type = db.Column(db.String, nullable=False)
+    description = db.Column(db.String, nullable=False)
 
     def __repr__ (self):
         """return route information."""
