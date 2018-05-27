@@ -87,6 +87,31 @@ class Route(db.Model):
         return d1 + d2
 
 
+class Interest_Point(db.Model):
+    """ Details and information about curated waypoints. """
+    __tablename__ ='interest_points'
+
+    poi_id = db.Column(db.Integer, autoincrement=True,
+                                          primary_key=True)
+    latitude = db.Column(db.String, nullable=False)
+    longitude = db.Column(db.String, nullable=False)
+    location = db.Column(db.String, nullable=False)
+    image_url = db.Column(db.String, nullable=True)
+    description = db.Column(db.String, nullable=True)
+    category = db.Column(db.String, nullable=True)
+
+    def __repr__ (self):
+        """return point of interest information."""
+
+        d1 = '<poi_id={a}, latitude={b},'.format(a=self.poi_id,
+                                                b=self.latitude)
+        d2 = '<longitude={c}, location={d},'.format(c=self.longitude,
+                                                d=self.location)
+        d3 = '<image_url={e}, description={f},'.format(e=self.image_url,
+                                                f=self.description)
+        return d1 + d2 + d3    
+
+
 class Waypoint(db.Model):
     """ Details and information about required waypoints by Google. """
 
