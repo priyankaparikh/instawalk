@@ -73,7 +73,7 @@ class Route(db.Model):
 
     route_id = db.Column(db.Integer, autoincrement=True,
                                        primary_key=True)
-    waypoints = db.Column(db.Integer, nullable=False)
+    waypoints = db.Column(db.ARRAY(db.Integer), nullable=False)
     route_difficulty = db.Column(db.Integer, nullable=False)
     route_type = db.Column(db.String, nullable=False)
 
@@ -84,23 +84,6 @@ class Route(db.Model):
                                                 b=self.waypoints)
         d2 = ' route_type={c}'.format(c=self.route_type)
         return d1 + d2
-
-
-class Route_Waypoints(db.Model):
-    """ Lists of waypoints on each route. """
-
-    __tablename__ ='route_waypoints'
-
-    rw_id = db.Column(db.Integer, autoincrement=True,
-                                    primary_key=True)
-    waypoints = db.Column(db.ARRAY(db.Integer), nullable=False)
-
-    def __repr__ (self):
-        """return route waypoints information."""
-
-        d1 = '<rw_id={a}, rw_waypoints={b},'.format(a=self.rw_id,
-                                            b=self.waypoints)
-        return d1
 
 
 class Waypoint(db.Model):

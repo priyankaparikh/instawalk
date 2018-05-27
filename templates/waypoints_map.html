@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
     {% block content %}
     <!-- <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDiTcHmA7ZLsXXnmXfYS0fRb1J6BV9hRa4&callback=initMap">
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCch6uBFfcByFshtBRcjLhS6LPBrz1lQog&callback=initMap">
     </script> -->
     <style>
       /* Always set the map height explicitly to define the size of the div
@@ -34,13 +34,14 @@
           //map.setCenter(center1);
           // looping though the result and calling the createMarkers func
           let i = 1
-          while (i < 570) {
+          while (i <= 354) {
             var latitude = result[i]['latitude']
             var longitude = result[i]['longitude']
-            var location = '<h1>' + result[i]['location'] + result[i]['waypoint_id'] '</h1>'
-            var website = '<a href=' + result[i]['description'] + '> Description </a>'
+            var location = '<h1>' + result[i]['location'] + '</h1>'
+            var website = '<a href=' + result[i]['description'] + '></a>'
             var photo = '<img src=' + result[i]['image_url'] + '>'
-            var html_s = location + photo + website
+            var way_id = '<p>' + i + '</p>'
+            var html_s = location + photo + website + way_id
             // marker windows require a string of html as input
             createMarkers(latitude, longitude, html_s)
             i++
@@ -67,6 +68,6 @@
   
     </script>
     <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDiTcHmA7ZLsXXnmXfYS0fRb1J6BV9hRa4&callback=initMap">
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCch6uBFfcByFshtBRcjLhS6LPBrz1lQog&callback=initMap">
     </script>
 {% endblock %}

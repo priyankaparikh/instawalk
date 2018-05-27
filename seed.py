@@ -99,22 +99,56 @@ def load_routes():
               8:"nature", 9:"oddities", 10:"music"}
 
     # Easy (3-4 Waypoints):
-    easy = {route1:{waypoints:[], route_difficulty:"easy", route_type: }}
+
+    # easy = {"route1":{"waypoints":[],
+    #         "route_difficulty":"easy", "route_type":},
+    #         "route2":{"waypoints":[], "route_difficulty":"easy", "route_type": },
+    #         "route3":{"waypoints":[], "route_difficulty":"easy", "route_type": },
+    #         "route4":{"waypoints":[], "route_difficulty":"easy", "route_type": },
+    #         "route5":{"waypoints":[], "route_difficulty":"easy", "route_type": },
+    #         "route6":{"waypoints":[], "route_difficulty":"easy", "route_type": },
+    #         "route7":{"waypoints":[], "route_difficulty":"easy", "route_type": },
+    #         "route8":{"waypoints":[], "route_difficulty":"easy", "route_type": },
+    #         "route9":{"waypoints":[], "route_difficulty":"easy", "route_type": },
+    #         "route10":{"waypoints":[], "route_difficulty":"easy", "route_type": },
+    #         }
 
 
     # Medium (5-7 Waypoints):
-    medium = {route1:{waypoints:[], route_difficulty:"medium", route_type: }}
+    medium = {"route1":{"waypoints":[71,203,117,335,183,71],
+              "route_difficulty":"medium", "route_type":themes[5]},
+              "route2":{"waypoints":[70,237,79,221,199,70],
+              "route_difficulty":"medium", "route_type":themes[6]},
+              # "route3":{"waypoints":[], "route_difficulty":"medium", "route_type": },
+              # "route4":{"waypoints":[], "route_difficulty":"medium", "route_type": },
+              # "route5":{"waypoints":[], "route_difficulty":"medium", "route_type": },
+              # "route6":{"waypoints":[], "route_difficulty":"medium", "route_type": },
+              # "route7":{"waypoints":[], "route_difficulty":"medium", "route_type": },
+              # "route8":{"waypoints":[], "route_difficulty":"medium", "route_type": },
+              # "route9":{"waypoints":[], "route_difficulty":"medium", "route_type": },
+              # "route10":{"waypoints":[], "route_difficulty":"medium", "route_type": },
+              }
 
 
     # Hard (8-10+ Waypoints):
-    hard = {route1:{waypoints:[], route_difficulty:"hard", route_type: }}
+    # hard = {"route1":{"waypoints":[], "route_difficulty":"hard", "route_type": },
+    #         "route2":{"waypoints":[], "route_difficulty":"hard", "route_type": },
+    #         "route3":{"waypoints":[], "route_difficulty":"hard", "route_type": },
+    #         "route4":{"waypoints":[], "route_difficulty":"hard", "route_type": },
+    #         "route5":{"waypoints":[], "route_difficulty":"hard", "route_type": },
+    #         "route6":{"waypoints":[], "route_difficulty":"hard", "route_type": },
+    #         "route7":{"waypoints":[], "route_difficulty":"hard", "route_type": },
+    #         "route8":{"waypoints":[], "route_difficulty":"hard", "route_type": },
+    #         "route9":{"waypoints":[], "route_difficulty":"hard", "route_type": },
+    #         "route10":{"waypoints":[], "route_difficulty":"hard", "route_type": },
+    #         }
 
 
     # Iterate through and add routes:
     routes = [easy, medium, hard]
 
     for route in routes:
-
+        waypoints = route[waypoints]
         route = Route(waypoints=waypoints,
                       route_difficulty=route_difficulty,
                       route_type=route_type)

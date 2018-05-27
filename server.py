@@ -1,6 +1,6 @@
 # from jinja2 import StrictUndefined
 from flask import Flask, render_template, session, redirect, request, jsonify
-from models import connect_to_db, db,
+from models import connect_to_db, db
 from models import User, Comp_Routes, User_Routes, Route, Waypoint, Step, Path
 from sqlalchemy import func
 
