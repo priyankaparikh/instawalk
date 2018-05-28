@@ -77,7 +77,7 @@ def login_user():
     # check password
     if user.password == password:
         session['user_id'] = user.user_id
-        return render_template('index.html')
+        return redirect('/profile')
 
     else:
         return redirect('/')

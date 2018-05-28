@@ -23,12 +23,12 @@
     {% for route in all_routes %}
         {% if route.route_id in user_routes %}
             {% if route.route_id in completed_routes %}
-                <input class="user_route completed" type="image" src=""/>
+                <input class="user_route completed" type="image" src="" alt="text"/>
             {% else %}
-                <input class="user_route" type="image" src=""/>
+                <input class="user_route" type="image" src="" alt="text"/>
             {% endif %}
         {% else %}
-            <input class="locked_route" type="image" src=""/>
+            <input class="locked_route" type="image" src="" alt="text"/>
         {% endif %}
     {% endfor %}
     </form>

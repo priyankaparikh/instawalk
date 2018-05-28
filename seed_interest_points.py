@@ -12,7 +12,7 @@ def load_interest_points():
 
     cats = {1:"foodie", 2:"coffee", 3:"beer", 4:"weed",
             5:"history", 6:"architecture", 7:"art",
-            8:"oddities", 9:"music", 10:"design", 11:"books"}
+            8:"oddities", 9:"music", 10:"design", 11:"literary"}
 
     addresses = {"1376 Haight St San Francisco, CA 94117":{
                 "location":"Pipe Dreams","category":cats[4],

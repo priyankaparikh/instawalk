@@ -96,7 +96,7 @@ def load_routes():
     # Themes:
     themes = {1:"foodie", 2:"coffee", 3:"beer", 4:"weed",
               5:"history", 6:"architecture", 7:"art",
-              8:"oddities", 9:"music", 10:"design", 11:"books"}
+              8:"oddities", 9:"music", 10:"design", 11:"literary"}
 
     # Easy (3-4 Waypoints):
 
