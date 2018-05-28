@@ -19,7 +19,7 @@
     <!-- route filters -->
 
     <!-- routes -->
-<!--     <form>
+    <form>
     {% for route in all_routes %}
         {% if route.route_id in user_routes %}
             {% if route.route_id in completed_routes %}
@@ -31,8 +31,5 @@
             <input class="locked_route" type="image" src=""/>
         {% endif %}
     {% endfor %}
-    </form> -->
-    {% for route in user_routes %}
-        <p>{{ route }} HOWDY</p>
-    {% endfor %}
+    </form>
 {% endblock %}

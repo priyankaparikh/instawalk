@@ -95,8 +95,8 @@ def load_routes():
     """ Seed Routes and Route_Waypoints with curated Routes """
     # Themes:
     themes = {1:"foodie", 2:"coffee", 3:"beer", 4:"weed",
-              5:"historical", 6:"architecture", 7:"art",
-              8:"nature", 9:"oddities", 10:"music", 11:"design"}
+              5:"history", 6:"architecture", 7:"art",
+              8:"oddities", 9:"music", 10:"design", 11:"books"}
 
     # Easy (3-4 Waypoints):
 
