@@ -9,7 +9,7 @@
     </form>
 
     <!-- username -->
-    <h2>{{ user_name }}</h2>
+    <h2>Welcome, {{ user_name }}</h2>
     <!-- points/credits, needs backend logic -->
     Credits: {{ tokens }}
     <progress value='{{ tokens }}' max="100">
@@ -19,20 +19,17 @@
     <!-- route filters -->
 
     <!-- routes -->
-<!--     <form>
+    <form>
     {% for route in all_routes %}
         {% if route.route_id in user_routes %}
             {% if route.route_id in completed_routes %}
-                <input class="user_route completed" type="image" src=""/>
+                <input class="user_route completed" type="image" src="" alt="text"/>
             {% else %}
-                <input class="user_route" type="image" src=""/>
+                <input class="user_route" type="image" src="" alt="text"/>
             {% endif %}
         {% else %}
-            <input class="locked_route" type="image" src=""/>
+            <input class="locked_route" type="image" src="" alt="text"/>
         {% endif %}
     {% endfor %}
-    </form> -->
-    {% for route in user_routes %}
-        <p>{{ route }} HOWDY</p>
-    {% endfor %}
+    </form>
 {% endblock %}

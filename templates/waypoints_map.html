@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+    {% block content %}
+    <!-- <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCch6uBFfcByFshtBRcjLhS6LPBrz1lQog&callback=initMap">
+    </script> -->
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+      }
+    </style>
+      
+    <div id="map"></div>
+    <script>
+    // we must make the map a global variable so that is accesible to
+    // all the functions that update and tinker with the map
+    let map;
+      // this function creates the map and centers it to a location
+      function initMap() {
+        $.get("/waypoints.json", function(result) {
+          // all the data is stored in result
+          var first_point = result[1]
+          // changing the global map variable
+          map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 13,
+            center : {lat: parseFloat(first_point['latitude']),
+                      lng: parseFloat(first_point['longitude'])}
+          })
+          //map.setCenter(center1);
+          // looping though the result and calling the createMarkers func
+          let i = 1
+          while (i <= 354) {
+            var latitude = result[i]['latitude']
+            var longitude = result[i]['longitude']
+            var location = '<h1>' + result[i]['location'] + '</h1>'
+            var website = '<a href=' + result[i]['description'] + '></a>'
+            var photo = '<img src=' + result[i]['image_url'] + '>'
+            var way_id = '<p>' + i + '</p>'
+            var html_s = location + photo + website + way_id
+            // marker windows require a string of html as input
+            createMarkers(latitude, longitude, html_s)
+            i++
+          }  //end for loop
+        }); //end AJAX
+      } //end initMap
+
+      // This function creates markers. Takes val(an object) as param
+      function createMarkers(latitude, longitude, infoWindowHtml) {
+        var myLatLng = new google.maps.LatLng(parseFloat(latitude),
+                                              parseFloat(longitude))
+        var marker = new google.maps.Marker({
+          map: map,
+          position: myLatLng,
+        });
+        var infowindow = new google.maps.InfoWindow({
+          content: infoWindowHtml
+        })
+        // marker.addListener('click', showInfoWindow );
+        marker.addListener('click', function() {
+          infowindow.open(map, marker);
+        });
+      }
+  
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCch6uBFfcByFshtBRcjLhS6LPBrz1lQog&callback=initMap">
+    </script>
+{% endblock %}

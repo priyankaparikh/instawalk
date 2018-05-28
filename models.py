@@ -1,4 +1,4 @@
-""" Holds all the models for the postgres SQL DB
+""" Holds all the models for the PostgreSQL DB
     DB name : """
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
@@ -6,7 +6,6 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
 ################################################################################
-
 
 class User(db.Model):
     """ User of Instawalk."""
@@ -20,6 +19,7 @@ class User(db.Model):
     tokens = db.Column(db.Integer, nullable=True)
     user_routes = db.Column(db.Integer, nullable=True)
     completed = db.Column(db.Integer, nullable=True)
+    terms_agreement = db.Column(db.Boolean, default=False, nullable=False)
 
     def __repr__ (self):
         """return user_information"""
@@ -73,9 +73,10 @@ class Route(db.Model):
 
     route_id = db.Column(db.Integer, autoincrement=True,
                                        primary_key=True)
-    waypoints = db.Column(db.Integer, nullable=False)
-    route_difficulty = db.Column(db.Integer, nullable=False)
+    waypoints = db.Column(db.ARRAY(db.Integer), nullable=False)
+    route_difficulty = db.Column(db.String, nullable=False)
     route_type = db.Column(db.String, nullable=False)
+    description = db.Column(db.String, nullable=False)
 
     def __repr__ (self):
         """return route information."""
@@ -86,21 +87,29 @@ class Route(db.Model):
         return d1 + d2
 
 
-class Route_Waypoints(db.Model):
-    """ Lists of waypoints on each route. """
+class Interest_Point(db.Model):
+    """ Details and information about curated waypoints. """
+    __tablename__ ='interest_points'
 
-    __tablename__ ='route_waypoints'
-
-    rw_id = db.Column(db.Integer, autoincrement=True,
-                                    primary_key=True)
-    waypoints = db.Column(db.ARRAY(db.Integer), nullable=False)
+    poi_id = db.Column(db.Integer, autoincrement=True,
+                                          primary_key=True)
+    latitude = db.Column(db.String, nullable=False)
+    longitude = db.Column(db.String, nullable=False)
+    location = db.Column(db.String, nullable=False)
+    image_url = db.Column(db.String, nullable=True)
+    description = db.Column(db.String, nullable=True)
+    category = db.Column(db.String, nullable=True)
 
     def __repr__ (self):
-        """return route waypoints information."""
+        """return point of interest information."""
 
-        d1 = '<rw_id={a}, rw_waypoints={b},'.format(a=self.rw_id,
-                                            b=self.waypoints)
-        return d1
+        d1 = '<poi_id={a}, latitude={b},'.format(a=self.poi_id,
+                                                b=self.latitude)
+        d2 = '<longitude={c}, location={d},'.format(c=self.longitude,
+                                                d=self.location)
+        d3 = '<image_url={e}, description={f},'.format(e=self.image_url,
+                                                f=self.description)
+        return d1 + d2 + d3    
 
 
 class Waypoint(db.Model):
