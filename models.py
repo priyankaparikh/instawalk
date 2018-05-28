@@ -74,7 +74,7 @@ class Route(db.Model):
     route_id = db.Column(db.Integer, autoincrement=True,
                                        primary_key=True)
     waypoints = db.Column(db.ARRAY(db.Integer), nullable=False)
-    route_difficulty = db.Column(db.Integer, nullable=False)
+    route_difficulty = db.Column(db.String, nullable=False)
     route_type = db.Column(db.String, nullable=False)
     description = db.Column(db.String, nullable=False)
 
