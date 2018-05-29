@@ -191,6 +191,7 @@ def jsonify_waypoints():
             all_waypoints[waypoint.waypoint_id] = temp_dict
     return jsonify(all_waypoints)
 
+
 @app.route('/finish_route')
 def test():
 
@@ -200,7 +201,6 @@ def test():
 
 # @app.route('/json_output.json')
 # def json_output():
-    
 
 
 if __name__ == "__main__":
