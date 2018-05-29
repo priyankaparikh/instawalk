@@ -103,8 +103,6 @@ def user_profile():
     ur_id = user.user_routes
     user_r = User_Routes.query.filter(User_Routes.ur_id == ur_id).first()
     user_routes = user_r.u_routes
-    # all routes
-    all_routes = Route.query.order_by("route_id").all()
 
     return render_template("profile.html",
                             user_name=user_name,
@@ -131,7 +129,12 @@ def all_routes():
         current_route["description"] = route.description
         all_routes.append(current_route)
 
-    return render_template("routes_panel.html", all_routes=all_routes)
+    return render_template("profile.html",
+                            user_name=user_name,
+                            tokens=tokens,
+                            completed_routes=completed_routes,
+                            user_routes=user_routes,
+                            all_routes=all_routes)
 
 
 @app.route('/navigation', methods=['GET'])
