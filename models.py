@@ -77,6 +77,7 @@ class Route(db.Model):
     route_difficulty = db.Column(db.String, nullable=False)
     route_type = db.Column(db.String, nullable=False)
     description = db.Column(db.String, nullable=False)
+    image_url = db.Column(db.String, nullable=False)
 
     def __repr__ (self):
         """return route information."""
@@ -85,7 +86,8 @@ class Route(db.Model):
                                                 b=self.waypoints)
         d2 = 'route_difficulty={c}, route_type={d}'.format(c=self.route_difficulty,
                                                             d=self.route_type)
-        return d1 + d2
+        d3 = ' image_url={e}'.format(e=self.image_url)
+        return d1 + d2 + d3
 
 
 class Interest_Point(db.Model):
