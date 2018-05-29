@@ -20,6 +20,7 @@ entrypoints==0.2.3
 enum34==1.1.6
 Flask==1.0.2
 Flask-SQLAlchemy==2.3.2
+functools32==3.2.3.post2
 future==0.16.0
 gunicorn==19.8.1
 html5lib==1.0b10
@@ -73,6 +74,7 @@ simplegeneric==0.8.1
 singledispatch==3.4.0.3
 six==1.11.0
 SQLAlchemy==1.2.7
+subprocess32==3.5.1
 terminado==0.6
 testpath==0.3.1
 tornado==4.5.2

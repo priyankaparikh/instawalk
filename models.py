@@ -2,6 +2,7 @@
     DB name : """
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+import os
 DATABASE_URL = os.environ['DATABASE_URL']
 
 db = SQLAlchemy()
