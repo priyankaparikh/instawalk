@@ -117,12 +117,6 @@ def user_profile():
 @app.route('/routes_panel', methods=['GET'])
 def all_routes():
     """ display all available (unlocked and locked) per user."""
-    # route_id = db.Column(db.Integer, autoincrement=True,
-    #                                    primary_key=True)
-    # waypoints = db.Column(db.ARRAY(db.Integer), nullable=False)
-    # route_difficulty = db.Column(db.String, nullable=False)
-    # route_type = db.Column(db.String, nullable=False)
-    # description = db.Column(db.String, nullable=False)
     from models import Route
 
     routes = Route.query.all()
@@ -143,6 +137,8 @@ def all_routes():
 @app.route('/navigation', methods=['GET'])
 def navigate_user():
     """ display a map with basic pins of each route """
+
+    # route_id = request.form.get('route_id')
     return render_template('navigation.html')
 
 
@@ -161,7 +157,6 @@ def add_user_navigation():
 @app.route('/route_info.json')
 def routes_info():
     """ forward route information to the google maps on the navigation route """
-
 
     #return jsonify(route_info)
 

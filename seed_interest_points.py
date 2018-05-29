@@ -155,41 +155,107 @@ def load_interest_points():
                 "2271 Union St San Francisco, CA 94123":{
                 "location":"Wrecking Ball Coffee Roasters","category":cats[2], 
                 "description":""},
-                "":{
-                "location":"","category":cats[], 
+                "563 2nd St San Francisco, CA 94107":{
+                "location":"21st Amendment Brewery & Restaurant","category":cats[3], 
+                "description":""},
+                "2704 24th St San Francisco, CA 94110":{
+                "location":"Almanac Tap Room","category":cats[3], 
+                "description":""},
+                "495 De Haro St San Francisco, CA 94107":{
+                "location":"Anchor Public Taps","category":cats[3], 
+                "description":""},
+                "1525 Cortland Ave San Francisco, CA":{
+                "location":"Barebottle Brewing Company","category":cats[3], 
+                "description":""},
+                "1785 Fulton St San Francisco, CA 94117":{
+                "location":"Barrel Head Brewhouse","category":cats[3], 
+                "description":""},
+                "544 Bryant St San Francisco, CA 94107":{
+                "location":"Black Hammer Brewing","category":cats[3], 
+                "description":""},
+                "701 Haight St San Francisco, CA 94117":{
+                "location":"Black Sands Brewery","category":cats[3], 
+                "description":""},
+                "1150 Howard St San Francisco, CA 94103":{
+                "location":"Cellarmaker Brewing Company","category":cats[3], 
+                "description":""},
+                "2636 San Bruno Ave San Francisco, CA 94134":{
+                "location":"Ferment.Drink.Repeat","category":cats[3], 
+                "description":""},
+                "1 Sausalito San Francisco, CA 94111":{
+                "location":"Fort Point Beer Company","category":cats[3], 
+                "description":""},
+                "1050 26th St San Francisco, CA 94107":{
+                "location":"Harmonic Brewing","category":cats[3], 
+                "description":""},
+                "1439 Egbert Ave Unit A San Francisco, CA 94124":{
+                "location":"Laughing Monk Brewing","category":cats[3], 
+                "description":""},
+                "69 Bluxome St San Francisco, CA 94107":{
+                "location":"Local Brewing Co.","category":cats[3], 
+                "description":""},
+                "665 22nd St San Francisco, CA 94107":{
+                "location":"Magnolia Brewing Company","category":cats[3], 
+                "description":""},
+                "3193 Mission St San Francisco, CA 94110":{
+                "location":"Old Bus Tavern","category":cats[3], 
+                "description":""},
+                "1439 Egbert Ave Unit c San Francisco, CA 94124":{
+                "location":"Seven Stills Brewery & Distillery","category":cats[3], 
+                "description":""},
+                "1195 Evans Ave San Francisco, CA 94124":{
+                "location":"Speakeasy Ales & Lagers","category":cats[3], 
+                "description":""},
+                "1735 Noriega St San Francisco, CA 94122":{
+                "location":"Sunset Reservoir Brewing Company","category":cats[3], 
+                "description":""},
+                "661 Howard St San Francisco, CA 94105":{
+                "location":"ThirstyBear Brewing Company","category":cats[3], 
+                "description":""},
+                "2245 3rd St San Francisco, CA 94107":{
+                "location":"Triple Voodoo Brewery & Tap Room","category":cats[3], 
+                "description":""},
+                "3801 18th St San Francisco, CA 94114":{
+                "location":"Woods Cerveceria","category":cats[3], 
+                "description":""},
+                "1150 Howard St, San Francisco, CA 94103":{
+                "location":"Cellarmaker Brewing Company","category":cats[3], 
                 "description":""},
                 "":{
-                "location":"","category":cats[], 
+                "location":"Aardvark Books","category":cats[], 
                 "description":""},
                 "":{
-                "location":"","category":cats[], 
+                "location":"Adobe Books","category":cats[], 
                 "description":""},
                 "":{
-                "location":"","category":cats[], 
+                "location":"Bird and Beckett","category":cats[], 
                 "description":""},
                 "":{
-                "location":"","category":cats[], 
+                "location":"Book Passage","category":cats[], 
                 "description":""},
                 "":{
-                "location":"","category":cats[], 
+                "location":"Books Inc.","category":cats[], 
                 "description":""},
                 "":{
-                "location":"","category":cats[], 
+                "location":"The Booksmith","category":cats[], 
                 "description":""},
                 "":{
-                "location":"","category":cats[], 
+                "location":"Borderlands","category":cats[], 
                 "description":""},
                 "":{
-                "location":"","category":cats[], 
+                "location":"City Lights","category":cats[], 
                 "description":""},
                 "":{
-                "location":"","category":cats[], 
+                "location":"Dog-Eared Books","category":cats[], 
                 "description":""},
                 "":{
-                "location":"","category":cats[], 
+                "location":"Green Apple Books","category":cats[], 
                 "description":""},
                 "":{
-                "location":"","category":cats[], 
+                "location":"Kayo Books","category":cats[], 
+                "description":""},
+                "":{
+                "location":"Omnivore Books","category":cats[], 
                 "description":""},
                 "":{
                 "location":"","category":cats[], 
