@@ -1,9 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
     <h1>Logged in</h1>
-    <form action='/navigation'>
-        <button type='submit'>Choose Route</button>
-    </form>
     <form action='/logout'>
         <button type='submit'>Logout</button>
     </form>
@@ -38,6 +35,27 @@
                             <img src="{{route['image_url']}}" class="img-responsive img-rounded" style="width:200px;height:200px;">
                           </div>
                           <div style="text-align:center">
+<<<<<<< HEAD
+                          <h4> route difficulty = {{ route.route_difficulty}}</h4>
+                        </div>
+                        <div class="col-xs-6">
+                          <form action="/unlock_route" method="POST">
+                            <button class="btn btn-default match-button" name="match_profile" type="submit">
+                              Unlock
+                            </button>
+                          </form>
+                        </div>
+                        <div class="col-xs-6">
+                        </div>
+                        <div class="col-xs-6">
+                          <form action="/navigation" method="POST">
+                            <button class="explore btn btn-default" name="route_details" type="submit" value='{{ route["route_id"] }}' style="text-align: center">
+                              Explore
+                            </button>
+                          </form>
+                        </div>
+                        </div>
+=======
                             <h4> route difficulty = {{ route.route_difficulty }}</h4>
                           </div>
                           <div class="col-xs-6">
@@ -56,6 +74,7 @@
                             </form>
                           </div><!-- end col -->
                       </div><!-- end panel-body -->
+>>>>>>> 6a308e11edce5a4b52d0d635c4d2598c156144c5
                       </div>
                     </div>
                 {% endfor %}

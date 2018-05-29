@@ -10,3 +10,4 @@ $('.add_directions').on('submit', function (evt) {
         console.log(result)
     });
 });
+

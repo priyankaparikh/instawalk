@@ -130,12 +130,17 @@ def user_profile():
                             all_routes=all_routes)
 
 
-@app.route('/navigation', methods=['GET'])
+@app.route('/navigation', methods=['POST'])
 def navigate_user():
     """ display a map with basic pins of each route """
 
+<<<<<<< HEAD
+    route_id = request.form.get('route_details')
+    return render_template('navigation.html', route_id=route_id)
+=======
     route_id = request.form.get('route_id')
     return render_template('navigation.html')
+>>>>>>> 6a308e11edce5a4b52d0d635c4d2598c156144c5
 
 
 @app.route('/add_directions.json', methods=['POST'])
@@ -150,11 +155,15 @@ def add_user_navigation():
     return jsonify(result)
 
 
-@app.route('/route_info.json')
+@app.route('/route_info.json', methods=['POST'])
 def routes_info():
     """ forward route information to the google maps on the navigation route """
 
-    #return jsonify(route_info)
+    route_id = request.form.get('id')
+    waypoints = Route.query.filter(Route.route_id == route_id)
+    waypoints = list(map(lambda x: x.waypoints, waypoints))
+
+    return jsonify(route_id)
 
 
 @app.route('/logout')
@@ -186,6 +195,12 @@ def jsonify_waypoints():
             }
             all_waypoints[waypoint.waypoint_id] = temp_dict
     return jsonify(all_waypoints)
+
+@app.route('/finish_route')
+def test():
+
+    tokens = queries.get_tokens(session['user_id'])    
+    return redirect('/profile')
 
 
 @app.route('/json_output.json')
