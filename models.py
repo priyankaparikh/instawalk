@@ -149,7 +149,7 @@ class Step(db.Model):
                                       primary_key=True)
     start_point = db.Column(db.Integer, nullable=False)
     end_point = db.Column(db.Integer, nullable=False)
-    directions = db.Column(db.Integer,
+    sd_id = db.Column(db.Integer,
                            # db.ForeignKey('step_directions.direction_id')
                            nullable=False)
 
@@ -158,8 +158,8 @@ class Step(db.Model):
 
         d1 = '<step_id={a}, start_point={b},'.format(a=self.step_id,
                                                 b=self.start_point)
-        d2 = '<end_point={c}, directions={d},'.format(c=self.end_point,
-                                                d=self.directions)
+        d2 = '<end_point={c}, sd_id={d},'.format(c=self.end_point,
+                                                d=self.sd_id)
         return d1 + d2
 
 
@@ -168,7 +168,7 @@ class Step_Direction(db.Model):
 
     __tablename__ ='step_directions'
 
-    direction_id = db.Column(db.Integer, autoincrement=True,
+    sd_id = db.Column(db.Integer, autoincrement=True,
                                     primary_key=True)
     directions = db.Column(db.ARRAY(db.Integer), nullable=False)
 
@@ -195,8 +195,8 @@ class Direction(db.Model):
                                            primary_key=True)
     image_url = db.Column(db.String, nullable=False)
     direction_text = db.Column(db.String, nullable=False)
-    latitude = db.Column(db.String, nullable=True)
-    longitude = db.Column(db.String, nullable=True)
+    # latitude = db.Column(db.String, nullable=True)
+    # longitude = db.Column(db.String, nullable=True)
 
     def __repr__ (self):
         """return direction information."""
