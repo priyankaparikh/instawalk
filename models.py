@@ -2,6 +2,7 @@
     DB name : """
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+DATABASE_URL = os.environ['DATABASE_URL']
 
 db = SQLAlchemy()
 
@@ -255,7 +256,7 @@ class Path_Steps(db.Model):
         return d1
 
 
-def connect_to_db(app, db_uri='postgresql:///instawalk'):
+def connect_to_db(app, db_uri=DATABASE_URL):
     """Connect the database to our Flask app."""
 
     # Configure to use our PstgreSQL database
