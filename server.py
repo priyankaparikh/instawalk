@@ -184,6 +184,11 @@ def jsonify_waypoints():
     return jsonify(all_waypoints)
 
 
+@app.route('/json_output.json')
+def json_output():
+    
+
+
 if __name__ == "__main__":
     # app.debug = True
     # app.jinja_env.auto_reload = app.debug
