@@ -35,7 +35,6 @@
                             <img src="{{route['image_url']}}" class="img-responsive img-rounded" style="width:200px;height:200px;">
                           </div>
                           <div style="text-align:center">
-<<<<<<< HEAD
                           <h4> route difficulty = {{ route.route_difficulty}}</h4>
                         </div>
                         <div class="col-xs-6">
@@ -55,26 +54,6 @@
                           </form>
                         </div>
                         </div>
-=======
-                            <h4> route difficulty = {{ route.route_difficulty }}</h4>
-                          </div>
-                          <div class="col-xs-6">
-                            <form action="/unlock_route" method="POST">
-                              <button class="btn btn-default" name="unlock_route" type="submit"
-                              style="text-align: center">
-                                Unlock
-                              </button>
-                            </form>
-                          </div><!-- end col -->
-                          <div class="col-xs-6">
-                            <form action="/navigation" method="POST">
-                              <button class="btn btn-default" name="route_details" type="submit" value="{{ route[route_id] }}" style="text-align: center">
-                                Explore
-                              </button>
-                            </form>
-                          </div><!-- end col -->
-                      </div><!-- end panel-body -->
->>>>>>> 6a308e11edce5a4b52d0d635c4d2598c156144c5
                       </div>
                     </div>
                 {% endfor %}
