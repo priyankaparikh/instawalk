@@ -116,6 +116,7 @@ def user_profile():
         current_route["route_difficulty"] = route.route_difficulty
         current_route["route_type"] = route.route_type
         current_route["description"] = route.description
+        current_route["image_url"] = route.image_url
         all_routes.append(current_route)
 
     return render_template("profile.html",
@@ -130,8 +131,13 @@ def user_profile():
 def navigate_user():
     """ display a map with basic pins of each route """
 
+<<<<<<< HEAD
     route_id = request.form.get('route_details')
     return render_template('navigation.html', route_id=route_id)
+=======
+    route_id = request.form.get('route_id')
+    return render_template('navigation.html')
+>>>>>>> 6a308e11edce5a4b52d0d635c4d2598c156144c5
 
 
 @app.route('/add_directions.json', methods=['POST'])
@@ -192,6 +198,11 @@ def test():
 
     tokens = queries.get_tokens(session['user_id'])    
     return redirect('/profile')
+
+
+@app.route('/json_output.json')
+def json_output():
+    
 
 
 if __name__ == "__main__":
