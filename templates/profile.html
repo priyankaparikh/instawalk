@@ -1,9 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
     <h1>Logged in</h1>
-    <form action='/navigation'>
-        <button type='submit'>Choose Route</button>
-    </form>
     <form action='/logout'>
         <button type='submit'>Logout</button>
     </form>
@@ -50,7 +47,7 @@
                         </div>
                         <div class="col-xs-6">
                           <form action="/navigation" method="POST">
-                            <button class="btn btn-default" name="route_details" type="submit" value="{{ route[route_id] }}" style="text-align: center">
+                            <button class="explore btn btn-default" name="route_details" type="submit" value='{{ route["route_id"] }}' style="text-align: center">
                               Explore
                             </button>
                           </form>
