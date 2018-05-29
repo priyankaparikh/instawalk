@@ -3,6 +3,7 @@ from flask import Flask, render_template, session, redirect, request, jsonify
 from models import connect_to_db, db
 from models import User, Comp_Routes, User_Routes, Route, Waypoint, Step, Path
 from sqlalchemy import func
+import queries
 
 app = Flask(__name__)
 app.secret_key = 'ABCD'
@@ -174,6 +175,15 @@ def jsonify_waypoints():
             }
             all_waypoints[waypoint.waypoint_id] = temp_dict
     return jsonify(all_waypoints)
+
+
+@app.route('/finish_route')
+def test():
+
+    tokens = queries.get_tokens(session['user_id'])
+    
+    return redirect('/profile')
+
 
 
 if __name__ == "__main__":
