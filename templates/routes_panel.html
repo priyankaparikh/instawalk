@@ -18,15 +18,14 @@
                         </div>
                         <div class="panel-body">
                           <div class="profile_picture">
-                            <!-- <img src="{{}}" class="img-responsive img-rounded" style="height: 325px;"> -->
                           </div>
                           <div style="text-align:center">
-                          <h4> route length = {{ len(route["waypoints"]}} points of interest </h4>
+                          <h4> route difficulty = {{ route.route_difficulty}}</h4>
                         </div>
                         <div class="col-xs-6">
                           <form action="/unlock_route" method="POST">
-                            <button class="btn btn-default match-button" name="match_profile" type="submit" value="{{len(route[waypoints]}}">
-                              Unlock for {{ len(route["waypoints"] }} points.
+                            <button class="btn btn-default match-button" name="match_profile" type="submit">
+                              Unlock
                             </button>
                           </form>
                         </div>
