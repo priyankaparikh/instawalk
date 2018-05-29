@@ -116,6 +116,7 @@ def user_profile():
         current_route["route_difficulty"] = route.route_difficulty
         current_route["route_type"] = route.route_type
         current_route["description"] = route.description
+        current_route["image_url"] = route.image_url
         all_routes.append(current_route)
 
     return render_template("profile.html",
@@ -130,7 +131,7 @@ def user_profile():
 def navigate_user():
     """ display a map with basic pins of each route """
 
-    # route_id = request.form.get('route_id')
+    route_id = request.form.get('route_id')
     return render_template('navigation.html')
 
 
