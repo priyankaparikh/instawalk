@@ -202,11 +202,11 @@ def jsonify_waypoints():
     return jsonify(all_waypoints)
 
 
-@app.route('/finish_route')
-def test():
+# @app.route('/finish_route')
+# def test():
 
-    tokens = queries.get_tokens(session['user_id'])    
-    return redirect('/profile')
+#     tokens = queries.get_tokens(session['user_id'])    
+#     return redirect('/profile')
 
 
 # @app.route('/json_output.json')
