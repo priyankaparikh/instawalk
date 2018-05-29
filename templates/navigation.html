@@ -18,7 +18,11 @@
     <script>
       var map;
       function initMap() {
-        map = new google.maps.Map(document.getElementById('map'), {
+        let route_id = {
+          id: {{ route_id }},
+        };
+        $.post('/route_info.json', route_id, function(result){  })
+          map = new google.maps.Map(document.getElementById('map'), {
           center: {lat: -34.397, lng: 150.644},
           zoom: 8
         });
@@ -65,7 +69,6 @@
     </div>
 
     <!-- directions button -->
-
     <button type='submit' class="btn" data-toggle="modal" data-target="#myModal">Add directions</button>
     <form action='/finish_route'>
       <button type="submit" class='btn'>Finished</button>

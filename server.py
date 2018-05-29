@@ -29,6 +29,8 @@ def register_user():
 
     user_name = request.form.get('usrname')
     password = request.form.get('psw')
+    terms = request.form.get('terms')
+    terms_agreement = True
 
     # check if user already exists in database. if the do redirect to login
     if User.query.filter(User.user_name == user_name).all():
@@ -55,6 +57,7 @@ def register_user():
                     tokens=10,
                     user_routes=user_routes,
                     completed=completed,
+                    terms_agreement=terms_agreement
                 )
 
         db.session.add(user)
@@ -127,6 +130,7 @@ def user_profile():
                             all_routes=all_routes)
 
 
+<<<<<<< HEAD
 @app.route('/unlock_route', methods=['GET'])
 def unlock_route():
     """Unlock a specific route."""
@@ -136,11 +140,19 @@ def unlock_route():
     
 
 @app.route('/navigation', methods=['GET'])
+=======
+@app.route('/navigation', methods=['POST'])
+>>>>>>> 77463b5e9d357c2aca1589038f1e615f59ece388
 def navigate_user():
     """ display a map with basic pins of each route """
 
+<<<<<<< HEAD
+    route_id = request.form.get('route_details')
+    return render_template('navigation.html', route_id=route_id)
+=======
     route_id = request.form.get('route_id')
     return render_template('navigation.html')
+>>>>>>> 6a308e11edce5a4b52d0d635c4d2598c156144c5
 
 
 @app.route('/add_directions.json', methods=['POST'])
@@ -155,11 +167,15 @@ def add_user_navigation():
     return jsonify(result)
 
 
-@app.route('/route_info.json')
+@app.route('/route_info.json', methods=['POST'])
 def routes_info():
     """ forward route information to the google maps on the navigation route """
 
-    #return jsonify(route_info)
+    route_id = request.form.get('id')
+    waypoints = Route.query.filter(Route.route_id == route_id)
+    waypoints = list(map(lambda x: x.waypoints, waypoints))
+
+    return jsonify(route_id)
 
 
 @app.route('/logout')
@@ -191,6 +207,17 @@ def jsonify_waypoints():
             }
             all_waypoints[waypoint.waypoint_id] = temp_dict
     return jsonify(all_waypoints)
+
+@app.route('/finish_route')
+def test():
+
+    tokens = queries.get_tokens(session['user_id'])    
+    return redirect('/profile')
+
+
+@app.route('/json_output.json')
+def json_output():
+    
 
 
 if __name__ == "__main__":
