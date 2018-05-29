@@ -42,18 +42,19 @@
                           </div>
                           <div class="col-xs-6">
                             <form action="/unlock_route" method="POST">
-                              <button class="btn btn-default" name="unlock_route" type="submit"
-                              style="text-align: center">
+                              <button class="btn btn-default" name="unlock_route" type="submit" value="{{ route[route_id] }}" style="text-align: center">
                                 Unlock
                               </button>
                             </form>
                           </div><!-- end col -->
                           <div class="col-xs-6">
+                          {% if route[route_id] in user_routes %}
                             <form action="/navigation" method="POST">
                               <button class="btn btn-default" name="route_details" type="submit" value="{{ route[route_id] }}" style="text-align: center">
                                 Explore
                               </button>
                             </form>
+                          {% endif %}
                           </div><!-- end col -->
                       </div><!-- end panel-body -->
                       </div>

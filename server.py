@@ -43,7 +43,7 @@ def register_user():
         completed = completed_tup[0]
         print("CR_ID:" + str(completed))
 
-        usr_routes = User_Routes(u_routes=[1,2,3,4,5,6,7]) #placeholder route_ids
+        usr_routes = User_Routes(u_routes=[]) #placeholder route_ids
         db.session.add(usr_routes)
         db.session.commit()
         user_routes_tup = db.session.query(func.max(User_Routes.ur_id)).first()
@@ -52,7 +52,7 @@ def register_user():
 
         user = User(user_name=user_name,
                     password=password,
-                    tokens=0,
+                    tokens=10,
                     user_routes=user_routes,
                     completed=completed,
                 )
@@ -126,6 +126,14 @@ def user_profile():
                             user_routes=user_routes,
                             all_routes=all_routes)
 
+
+@app.route('/unlock_route', methods=['GET'])
+def unlock_route():
+    """Unlock a specific route."""
+
+    route_id = request.form.get('route_id')
+    print route_id
+    
 
 @app.route('/navigation', methods=['GET'])
 def navigate_user():
