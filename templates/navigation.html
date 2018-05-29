@@ -18,7 +18,7 @@
     <script>
       var map;
       function initMap() {
-        map = new google.maps.Map(document.getElementById('map'), {
+        map = new google.maps.Map(document.getElementaById('map'), {
           center: {lat: -34.397, lng: 150.644},
           zoom: 8
         });
@@ -43,8 +43,12 @@
                 <div class="modal-body mbody add_directions">
                     <form role='form' id='myform' class='add_directions' action='/add_directions.json' method='POST'>
                         <div class="form-group">
-                            <label class='labeltext'>Upload Photo</label>
-                            <input id='upload_photo' name='upload_photo'type="file">
+                            <label class='labeltext'>Take Photo</label>
+
+                            <!-- Take and upload photo from phone camera -->
+                            <input id="upload_photo" type="file" accept="image/*" capture="camera">
+
+                      <!--       <input id='upload_photo' name='upload_photo' type="file"> -->
                         </div>
                         <div class="form-group">
                             <label class='labeltext'>Write Directions</label>
