@@ -104,17 +104,6 @@ def user_profile():
     user_r = User_Routes.query.filter(User_Routes.ur_id == ur_id).first()
     user_routes = user_r.u_routes
 
-    return render_template("profile.html",
-                            user_name=user_name,
-                            tokens=tokens,
-                            completed_routes=completed_routes,
-                            user_routes=user_routes,
-                            all_routes=all_routes)
-
-
-@app.route('/routes_panel', methods=['GET'])
-def all_routes():
-    """ display all available (unlocked and locked) per user."""
     from models import Route
 
     routes = Route.query.all()
