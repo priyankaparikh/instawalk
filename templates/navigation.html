@@ -21,12 +21,44 @@
         let route_id = {
           id: {{ route_id }},
         };
-        $.post('/route_info.json', route_id, function(result){  })
+        $.post('/route_info.json', route_id, function(result){ 
+          waypoints = Object.keys(result)
+          let first = waypoints[1]
+
           map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: -34.397, lng: 150.644},
-          zoom: 8
+            zoom: 13,
+            center : {lat: parseFloat(result[first]['latitude']),
+                      lng: parseFloat(result[first]['longitude'])}
+          })
+          let i = 0
+          while (i <= waypoints.length()) {
+            var latitude = result[waypoints[i]]['latitude']
+            var longitude = result[waypoints[i]]['longitude']
+            var location = '<h1>' + result[waypoints[i]]['location'] + '</h1>'
+            var way_id = '<p>' + waypoints[i] + '</p>'
+            var html_s = location + photo + website + way_id
+            // marker windows require a string of html as input
+            createMarkers(latitude, longitude, html_s)
+            i++
+        })
+      }
+
+      function createMarkers(latitude, longitude, infoWindowHtml) {
+        var myLatLng = new google.maps.LatLng(parseFloat(latitude),
+                                              parseFloat(longitude))
+        var marker = new google.maps.Marker({
+          map: map,
+          position: myLatLng,
+        });
+        var infowindow = new google.maps.InfoWindow({
+          content: infoWindowHtml
+        })
+        // marker.addListener('click', showInfoWindow );
+        marker.addListener('click', function() {
+          infowindow.open(map, marker);
         });
       }
+
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCch6uBFfcByFshtBRcjLhS6LPBrz1lQog&callback=initMap"
     async defer></script>

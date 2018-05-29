@@ -155,10 +155,19 @@ def routes_info():
     """ forward route information to the google maps on the navigation route """
 
     route_id = request.form.get('id')
-    waypoints = Route.query.filter(Route.route_id == route_id)
-    waypoints = list(map(lambda x: x.waypoints, waypoints))
+    waypoints = Route.query.filter(Route.route_id == route_id).all()
+    waypoints = map(lambda x: x.waypoints, waypoints)
+    ways = {}
+    for x in waypoints:
+        for y in x:
+            waypoint_data = Waypoint.query.filter(Waypoint.waypoint_id == y).first()
+            ways[y] = {
+                'latitude': waypoint_data.latitude,
+                'longitude': waypoint_data.longitude,
+                'location': waypoint_data.location
+            }
 
-    return jsonify(route_id)
+    return jsonify(ways)
 
 
 @app.route('/logout')
