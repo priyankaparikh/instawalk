@@ -81,9 +81,10 @@ class Route(db.Model):
     def __repr__ (self):
         """return route information."""
 
-        d1 = '<route_id={a}, waypoints={b},'.format(a=self.user_id,
+        d1 = '<route_id={a}, waypoints={b},'.format(a=self.route_id,
                                                 b=self.waypoints)
-        d2 = ' route_type={c}'.format(c=self.route_type)
+        d2 = 'route_difficulty={c}, route_type={d}'.format(c=self.route_difficulty,
+                                                            d=self.route_type)
         return d1 + d2
 
 
@@ -109,7 +110,7 @@ class Interest_Point(db.Model):
                                                 d=self.location)
         d3 = '<image_url={e}, description={f},'.format(e=self.image_url,
                                                 f=self.description)
-        return d1 + d2 + d3    
+        return d1 + d2 + d3
 
 
 class Waypoint(db.Model):
@@ -146,7 +147,7 @@ class Step(db.Model):
                                       primary_key=True)
     start_point = db.Column(db.Integer, nullable=False)
     end_point = db.Column(db.Integer, nullable=False)
-    directions = db.Column(db.Integer, 
+    directions = db.Column(db.Integer,
                            # db.ForeignKey('step_directions.direction_id')
                            nullable=False)
 
@@ -164,7 +165,7 @@ class Step_Direction(db.Model):
     """ Lists of directions for each step. """
 
     __tablename__ ='step_directions'
-    
+
     direction_id = db.Column(db.Integer, autoincrement=True,
                                     primary_key=True)
     directions = db.Column(db.ARRAY(db.Integer), nullable=False)
@@ -174,7 +175,7 @@ class Step_Direction(db.Model):
     #                        backref=db.backref("step_directions",
     #                        order_by=direction_id
     #                        ))
-    
+
     def __repr__ (self):
         """return step directions information."""
 
@@ -215,7 +216,7 @@ class Path(db.Model):
                                       primary_key=True)
     start_point = db.Column(db.Integer, nullable=False)
     end_point = db.Column(db.Integer, nullable=False)
-    steps = db.Column(db.Integer, 
+    steps = db.Column(db.Integer,
                           # db.ForeignKey('path_steps.ps_id'),
                           nullable=False)
 
@@ -266,8 +267,7 @@ def connect_to_db(app, db_uri='postgresql:///instawalk'):
 ##################################################################################
 
 if __name__ == "__main__":
-
     from server import app
     connect_to_db(app)
     db.create_all()
-    print 'Connected to DB.'
+    print('Connected to DB.')

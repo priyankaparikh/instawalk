@@ -3,7 +3,6 @@ from flask import Flask, render_template, session, redirect, request, jsonify
 from models import connect_to_db, db
 from models import User, Comp_Routes, User_Routes, Route, Waypoint, Step, Path
 from sqlalchemy import func
-import queries
 
 app = Flask(__name__)
 app.secret_key = 'ABCD'
@@ -42,14 +41,14 @@ def register_user():
         db.session.commit()
         completed_tup = db.session.query(func.max(Comp_Routes.cr_id)).first()
         completed = completed_tup[0]
-        print "CR_ID:" + str(completed)
+        print("CR_ID:" + str(completed))
 
         usr_routes = User_Routes(u_routes=[1,2,3,4,5,6,7]) #placeholder route_ids
         db.session.add(usr_routes)
         db.session.commit()
         user_routes_tup = db.session.query(func.max(User_Routes.ur_id)).first()
         user_routes = user_routes_tup[0]
-        print "UR_ID:" + str(user_routes)
+        print("UR_ID:" + str(user_routes))
 
         user = User(user_name=user_name,
                     password=password,
@@ -118,7 +117,27 @@ def user_profile():
 @app.route('/routes_panel', methods=['GET'])
 def all_routes():
     """ display all available (unlocked and locked) per user."""
-    return render_template("routes_panel.html")
+    # route_id = db.Column(db.Integer, autoincrement=True,
+    #                                    primary_key=True)
+    # waypoints = db.Column(db.ARRAY(db.Integer), nullable=False)
+    # route_difficulty = db.Column(db.String, nullable=False)
+    # route_type = db.Column(db.String, nullable=False)
+    # description = db.Column(db.String, nullable=False)
+    from models import Route
+
+    routes = Route.query.all()
+    all_routes = []
+
+    for route in routes:
+        current_route = {}
+        current_route["route_id"] = route.route_id
+        current_route["waypoints"] = route.waypoints
+        current_route["route_difficulty"] = route.route_difficulty
+        current_route["route_type"] = route.route_type
+        current_route["description"] = route.description
+        all_routes.append(current_route)
+
+    return render_template("routes_panel.html", all_routes=all_routes)
 
 
 @app.route('/navigation', methods=['GET'])
@@ -140,8 +159,9 @@ def add_user_navigation():
 
 
 @app.route('/route_info.json')
-def route_info():
+def routes_info():
     """ forward route information to the google maps on the navigation route """
+
 
     #return jsonify(route_info)
 
@@ -167,7 +187,7 @@ def jsonify_waypoints():
     all_waypoints = {}
 
     while len(all_waypoints) < 50:
-        for waypoint in waypoints: 
+        for waypoint in waypoints:
             temp_dict = {
             "location": waypoint.location,
             "latitude": waypoint.latitude,
@@ -175,15 +195,6 @@ def jsonify_waypoints():
             }
             all_waypoints[waypoint.waypoint_id] = temp_dict
     return jsonify(all_waypoints)
-
-
-@app.route('/finish_route')
-def test():
-
-    tokens = queries.get_tokens(session['user_id'])
-    
-    return redirect('/profile')
-
 
 
 if __name__ == "__main__":
