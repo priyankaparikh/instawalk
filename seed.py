@@ -81,10 +81,10 @@ def dms2dec(dms_str):
         sign = 1
 
     if "." not in dms_str:
-        dms_str = dms_str[:-1] + ".00" + dms_str[-1] 
+        dms_str = dms_str[:-1] + ".00" + dms_str[-1]
     (degree, minute, second, micro_seconds, trash) = re.split('\D+', dms_str, maxsplit=4)
     return sign * (int(degree) + float(minute)
-                    / 60 + float(second) / 3600 + 
+                    / 60 + float(second) / 3600 +
                     float(micro_seconds) / 36000)
 
 
@@ -97,107 +97,125 @@ def load_routes():
     themes = {1:"foodie", 2:"coffee", 3:"beer", 4:"weed",
               5:"history", 6:"architecture", 7:"art",
               8:"oddities", 9:"music", 10:"design", 11:"literary"}
+    # Themes and their corresponding images:
+    theme_images = {1:'/static/images/foodie.png',
+                    2:'/static/images/coffee.png',
+                    3:'/static/images/beer.png',
+                    4:'/static/images/weed.png',
+                    5:'/static/images/history.png',
+                    6:'/static/images/architecture.png',
+                    7:'/static/images/art.png',
+                    8:'/static/images/oddities.png',
+                    9:'/static/images/music.png',
+                    10:'/static/images/design.png',
+                    11:'/static/images/literary.png',}
 
     # Easy (3-4 Waypoints):
 
     easy = {"route1":{"waypoints":[93,66,247,347],
             "route_difficulty":"easy", "route_type":themes[6],
-            "description":"Historic houses of Hayes Valley."},
+            "description":"Historic houses of Hayes Valley.",
+            "image_url":theme_images[6]},
             "route2":{"waypoints":[201,315,45,244],
             "route_difficulty":"easy", "route_type":themes[5],
-            "description":"Historic tour of North Beach."},
+            "description":"Historic tour of North Beach.",
+            "image_url":theme_images[5]},
             "route3":{"waypoints":[95,182,21],
             "route_difficulty":"easy", "route_type":themes[5],
-            "description":"Historic tour of Golden Gate Park and Ocean Beach."},
+            "description":"Historic tour of Golden Gate Park and Ocean Beach.",
+            "image_url":theme_images[5]},
             # "route4":{"waypoints":[],
             # "route_difficulty":"easy", "route_type":,
-            # "description":""},
+            # "description":"","image_url":theme_images[]},
             # "route5":{"waypoints":[],
             # "route_difficulty":"easy", "route_type":,
-            # "description":""},
+            # "description":"","image_url":theme_images[]},
             # "route6":{"waypoints":[],
             # "route_difficulty":"easy", "route_type":,
-            # "description":""},
+            # "description":"","image_url":theme_images[]},
             # "route7":{"waypoints":[],
             # "route_difficulty":"easy", "route_type":,
-            # "description":""},
+            # "description":"","image_url":theme_images[]},
             # "route8":{"waypoints":[],
             # "route_difficulty":"easy", "route_type":,
-            # "description":""},
+            # "description":"","image_url":theme_images[]},
             # "route9":{"waypoints":[],
             # "route_difficulty":"easy", "route_type":,
-            # "description":""},
+            # "description":"","image_url":theme_images[]},
             # "route10":{"waypoints":[],
             # "route_difficulty":"easy", "route_type":,
-            # "description":""},
+            # "description":"","image_url":theme_images[]},
             }
 
 
     # Medium (5-7 Waypoints):
     medium = {"route1":{"waypoints":[71,203,117,335,183,235,71],
               "route_difficulty":"medium", "route_type":themes[5],
-              "description":"Historic tour of Nob Hill."},
+              "description":"Historic tour of Nob Hill.",
+              "image_url":theme_images[5]},
               "route2":{"waypoints":[70,237,79,221,199,70],
               "route_difficulty":"medium", "route_type":themes[6],
-              "description":"Historic Architecture of downtown San Francisco."},
+              "description":"Historic Architecture of downtown San Francisco."
+              ,"image_url":theme_images[6]},
               "route3":{"waypoints":[105,22,230,288,205],
               "route_difficulty":"medium", "route_type":themes[5],
-              "description":"Historic tour of Golden Gate Park and Haight area."},
+              "description":"Historic tour of Golden Gate Park and Haight area."
+              ,"image_url":theme_images[5]},
               # "route4":{"waypoints":[],
               # "route_difficulty":"medium", "route_type":,
-              # "description":""},
+              # "description":"","image_url":theme_images[]},
               # "route5":{"waypoints":[],
               # "route_difficulty":"medium", "route_type":,
-              # "description":""},
+              # "description":"","image_url":theme_images[]},
               # "route6":{"waypoints":[],
               # "route_difficulty":"medium", "route_type":,
-              # "description":""},
+              # "description":"","image_url":theme_images[]},
               # "route7":{"waypoints":[],
               # "route_difficulty":"medium", "route_type":,
-              # "description":""},
+              # "description":"","image_url":theme_images[]},
               # "route8":{"waypoints":[],
               # "route_difficulty":"medium", "route_type":,
-              # "description":""},
+              # "description":"","image_url":theme_images[]},
               # "route9":{"waypoints":[],
               # "route_difficulty":"medium", "route_type":,
-              # "description":""},
+              # "description":"","image_url":theme_images[]},
               # "route10":{"waypoints":[],
               # "route_difficulty":"medium", "route_type":,
-              # "description":""},
+              # "description":"","image_url":theme_images[]},
             }
 
 
     # Hard (8-10+ Waypoints):
     # hard = {"route1":{"waypoints":[],
     #         "route_difficulty":"hard", "route_type":,
-    #         "description":""},
+    #         "description":"","image_url":theme_images[]},
     #         "route2":{"waypoints":[],
     #         "route_difficulty":"hard", "route_type":,
-    #         "description":""},
+    #         "description":"","image_url":theme_images[]},
     #         "route3":{"waypoints":[],
     #         "route_difficulty":"hard", "route_type":,
-    #         "description":""},
+    #         "description":"","image_url":theme_images[]},
     #         "route4":{"waypoints":[],
     #         "route_difficulty":"hard", "route_type":,
-    #         "description":""},
+    #         "description":"","image_url":theme_images[]},
     #         "route5":{"waypoints":[],
     #         "route_difficulty":"hard", "route_type":,
-    #         "description":""},
+    #         "description":"","image_url":theme_images[]},
     #         "route6":{"waypoints":[],
     #         "route_difficulty":"hard", "route_type":,
-    #         "description":""},
+    #         "description":"","image_url":theme_images[]},
     #         "route7":{"waypoints":[],
     #         "route_difficulty":"hard", "route_type":,
-    #         "description":""},
+    #         "description":"","image_url":theme_images[]},
     #         "route8":{"waypoints":[],
     #         "route_difficulty":"hard", "route_type":,
-    #         "description":""},
+    #         "description":"","image_url":theme_images[]},
     #         "route9":{"waypoints":[],
     #         "route_difficulty":"hard", "route_type":,
-    #         "description":""},
+    #         "description":"","image_url":theme_images[]},
     #         "route10":{"waypoints":[],
     #         "route_difficulty":"hard", "route_type":,
-    #         "description":""},
+    #         "description":"","image_url":theme_images[]},
     #         }
 
 
@@ -212,17 +230,19 @@ def load_routes():
             route_difficulty = curr_route["route_difficulty"]
             route_type = curr_route["route_type"]
             description = curr_route["description"]
+            image_url = curr_route["image_url"]
 
             route = Route(waypoints=waypoints,
                           route_difficulty=route_difficulty,
                           route_type=route_type,
-                          description=description)
+                          description=description,
+                          image_url=image_url)
 
             db.session.add(route)
     db.session.commit()
 
 
-##################################################################################    
+##################################################################################
 
 if __name__ == "__main__":
     connect_to_db(app)
@@ -233,5 +253,3 @@ if __name__ == "__main__":
     # Import data type
     load_waypoints()
     load_routes()
-
-       
