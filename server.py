@@ -6,6 +6,7 @@ from sqlalchemy import func
 import queries
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://xllajhyyvxmohg:586b67a7d8124b2dfbe064491e95b5c80e5042511be61108c393956923d3302a@ec2-54-225-107-174.compute-1.amazonaws.com:5432/d82mvtff7vnuge'
 app.secret_key = 'ABCD'
 
 # app.jinja_env.undefined = StrictUndefined
