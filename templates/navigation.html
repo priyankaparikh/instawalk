@@ -23,26 +23,30 @@
         };
         $.post('/route_info.json', route_id, function(result){ 
           waypoints = Object.keys(result)
-          let first = waypoints[1]
+          let first = waypoints[0]
 
           map = new google.maps.Map(document.getElementById('map'), {
             zoom: 13,
             center : {lat: parseFloat(result[first]['latitude']),
                       lng: parseFloat(result[first]['longitude'])}
           })
+
           let i = 0
-          while (i <= waypoints.length()) {
+          while (i < waypoints.length) {
+            console.log(waypoints[i])
             var latitude = result[waypoints[i]]['latitude']
             var longitude = result[waypoints[i]]['longitude']
             var location = '<h1>' + result[waypoints[i]]['location'] + '</h1>'
             var way_id = '<p>' + waypoints[i] + '</p>'
-            var html_s = location + photo + website + way_id
+            var html_s = location + way_id
             // marker windows require a string of html as input
             createMarkers(latitude, longitude, html_s)
             i++
+          }  //end for loop
         })
       }
 
+      // This function creates markers. Takes val(an object) as param
       function createMarkers(latitude, longitude, infoWindowHtml) {
         var myLatLng = new google.maps.LatLng(parseFloat(latitude),
                                               parseFloat(longitude))
@@ -58,7 +62,6 @@
           infowindow.open(map, marker);
         });
       }
-
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCch6uBFfcByFshtBRcjLhS6LPBrz1lQog&callback=initMap"
     async defer></script>
