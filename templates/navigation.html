@@ -23,7 +23,7 @@
         };
         $.post('/route_info.json', route_id, function(result){ 
           waypoints = Object.keys(result)
-          let first = waypoints[0]
+          let first = waypoints[2]
 
           map = new google.maps.Map(document.getElementById('map'), {
             zoom: 13,
