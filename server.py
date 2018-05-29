@@ -29,6 +29,8 @@ def register_user():
 
     user_name = request.form.get('usrname')
     password = request.form.get('psw')
+    terms = request.form.get('terms')
+    terms_agreement = True
 
     # check if user already exists in database. if the do redirect to login
     if User.query.filter(User.user_name == user_name).all():
@@ -55,6 +57,7 @@ def register_user():
                     tokens=0,
                     user_routes=user_routes,
                     completed=completed,
+                    terms_agreement=terms_agreement
                 )
 
         db.session.add(user)
