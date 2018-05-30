@@ -240,30 +240,30 @@ def add_user_navigation():
         #tempDataList.append(w_latlongs[w_id])
     closest = closest(w_latlongs, v)
 
-    if closest == v:
-        step = Step.query.filter(Step.path_id == path_id).all()
-        step_id = step[-1]
-    else:
-        for w_id in w_latlongs:
-            if w_latlongs[w_id] == closest:
-                step = Step.query.filter(Step.path_id == path_id).first()
-                setattr(step, 'end_point', w_id)
-                session.commit()
+    # if closest == v:
+    #     step = Step.query.filter(Step.path_id == path_id).all()
+    #     step_id = step[-1]
+    # else:
+    #     for w_id in w_latlongs:
+    #         if w_latlongs[w_id] == closest:
+    #             step = Step.query.filter(Step.path_id == path_id).first()
+    #             setattr(step, 'end_point', w_id)
+    #             session.commit()
 
-                step_start = w_id
-                path_id = path_id
-                step = Step(path_id=path_id,
-                            step_start=step_start
-                            )
-                db.session.add(new_direction)
-                db.session.commit()
+    #             step_start = w_id
+    #             path_id = path_id
+    #             step = Step(path_id=path_id,
+    #                         step_start=step_start
+    #                         )
+    #             db.session.add(new_direction)
+    #             db.session.commit()
 
-    new_direction = Direction(step_id=step_id,
-                              image_url=image_url,
-                              direction_text=direction_text)
+    # new_direction = Direction(step_id=step_id,
+    #                           image_url=image_url,
+    #                           direction_text=direction_text)
 
-    db.session.add(new_direction)
-    db.session.commit()
+    # db.session.add(new_direction)
+    # db.session.commit()
 
 
 

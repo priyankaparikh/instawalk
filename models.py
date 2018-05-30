@@ -2,8 +2,7 @@
     DB name : """
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-import os
-from manage import app, db
+from manage import db, app
 # db = SQLAlchemy()
 
 
