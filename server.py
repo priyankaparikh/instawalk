@@ -1,11 +1,13 @@
 # from jinja2 import StrictUndefined
 from flask import Flask, render_template, session, redirect, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
+from werkzeug.utils import secure_filename
+import os
 
 app = Flask(__name__)
 app.secret_key = 'ABCD'
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://xllajhyyvxmohg:586b67a7d8124b2dfbe064491e95b5c80e5042511be61108c393956923d3302a@ec2-54-225-107-174.compute-1.amazonaws.com:5432/d82mvtff7vnuge'
-
+app.config['UPLOAD_FOLDER'] = './static/user_sourced_photos'
 # db = SQLAlchemy(app)
 
 from models import connect_to_db, db
@@ -47,9 +49,26 @@ def register_user():
 
     # if not in the database add them and redirect to home page
     else:
+
+        c_routes = Comp_Routes(completed=[])
+        db.session.add(c_routes)
+        db.session.commit()
+        completed_tup = db.session.query(func.max(Comp_Routes.cr_id)).first()
+        completed = completed_tup[0]
+        print("CR_ID:" + str(completed))
+
+        usr_routes = User_Routes(u_routes=[]) #placeholder route_ids
+        db.session.add(usr_routes)
+        db.session.commit()
+        user_routes_tup = db.session.query(func.max(User_Routes.ur_id)).first()
+        user_routes = user_routes_tup[0]
+        print("UR_ID:" + str(user_routes))
+
         user = User(user_name=user_name,
                     password=password,
-                    tokens=0,
+                    tokens=10,
+                    user_routes=user_routes,
+                    completed=completed,
                     terms_agreement=terms_agreement
                 )
 
@@ -181,11 +200,15 @@ def navigate_user():
 @app.route('/add_directions', methods=['POST'])
 def add_user_navigation():
     """Add a users navigation directions to the database for their route."""
-    
+
     path_id = request.form.get('pathId')
     latitude = request.form.get('latitude')
     longitude = request.form.get('longitude')
     photo = request.form.get('photo')
+    # file = request.files.get('photo', None)
+    # filename = secure_filename(file.filename)
+    # file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+    # image_url = 'static/user_sourced_photos' + str(filename)
     directions = request.form.get('directions')
 
     image_url = photo
@@ -193,10 +216,11 @@ def add_user_navigation():
     step = Step.query.filter(Step.path_id == path_id).first()
     step_id = step.step_id
 
-    direction = Direction(step_id=step_id,
-                          image_url=image_url,
-                          direction_text=direction_text)
-    db.session.add(direction)
+    new_direction = Direction(image_url=image_url,
+                              direction_text=direction_text)
+
+    db.session.add(new_direction)
+    
     db.session.commit()
     
     return "Goose Egg"
@@ -258,7 +282,7 @@ def jsonify_waypoints():
 # @app.route('/finish_route')
 # def test():
 
-#     tokens = queries.get_tokens(session['user_id'])    
+#     tokens = queries.get_tokens(session['user_id'])
 #     return redirect('/profile')
 
 
@@ -267,7 +291,7 @@ def json_output():
     pass
 
 
-@app.route('/terms_of_service')  
+@app.route('/terms_of_service')
 def terms_of_service():
     return render_template('/terms_of_service.html')
 
