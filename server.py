@@ -41,6 +41,7 @@ def register_user():
     user_name = request.form.get('usrname')
     password = request.form.get('psw')
     terms = request.form.get('terms')
+    tokens = 10
     terms_agreement = True
 
     # check if user already exists in database. if the do redirect to login
@@ -49,34 +50,10 @@ def register_user():
 
     # if not in the database add them and redirect to home page
     else:
-<<<<<<< HEAD
-=======
-
->>>>>>> 64118b96cca7d2b8291297ff30136da2cc65bb89
-        c_routes = Comp_Routes(completed=[])
-        db.session.add(c_routes)
-        db.session.commit()
-        completed_tup = db.session.query(func.max(Comp_Routes.cr_id)).first()
-        completed = completed_tup[0]
-        print("CR_ID:" + str(completed))
-
-        usr_routes = User_Routes(u_routes=[]) #placeholder route_ids
-        db.session.add(usr_routes)
-        db.session.commit()
-        user_routes_tup = db.session.query(func.max(User_Routes.ur_id)).first()
-        user_routes = user_routes_tup[0]
-        print("UR_ID:" + str(user_routes))
-
         user = User(user_name=user_name,
                     password=password,
-                    tokens=10,
-                    user_routes=user_routes,
-                    completed=completed,
-<<<<<<< HEAD
-=======
-                    terms_agreement=terms_agreement
-                )
->>>>>>> 64118b96cca7d2b8291297ff30136da2cc65bb89
+                    tokens=tokens,
+                    terms_agreement=terms_agreement)
 
         db.session.add(user)
         db.session.commit()
