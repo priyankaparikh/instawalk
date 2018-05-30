@@ -97,7 +97,6 @@
                           <label class='labeltext'>Longitude</label>
                           <input type="text" name="longitude" id="longitude" value="">
                         </div>
-                        <input id="clickMe" type="button" value="clickme" onclick="getLocation();" />
                         <div class="form-group">
                             <label class='labeltext'>Take Photo</label>
                             <!-- TEST THIS FEATURE ON MOBILE -->
@@ -148,7 +147,7 @@
        <!-- Get User Location -->
 
     <script>
-      // $(document).on(, getLocation());
+      $(document).on('show.modal', "#myModal", getLocation());
       var latitude = document.getElementById("latitude");
       var longitude = document.getElementById("longitude");
       function getLocation() {

@@ -173,10 +173,10 @@ def navigate_user():
     path_id = path_id_tup[0]
 
     step_start = start_point
-    step_end = route_waypoints[1]
+    # step_end = route_waypoints[1]
     step = Step(path_id=path_id,
                 start_point=step_start,
-                end_point=step_end,
+                # end_point=step_end,
                 )
     db.session.add(step)
     db.session.commit() 
@@ -200,10 +200,12 @@ def navigate_user():
 @app.route('/add_directions', methods=['POST'])
 def add_user_navigation():
     """Add a users navigation directions to the database for their route."""
+    from math import cos, asin, sqrt
 
     path_id = request.form.get('pathId')
-    latitude = request.form.get('latitude')
-    longitude = request.form.get('longitude')
+    route_id = request.form.get('routeId')
+    u_latitude = request.form.get('latitude')
+    u_longitude = request.form.get('longitude')
     photo = request.form.get('photo')
     # file = request.files.get('photo', None)
     # filename = secure_filename(file.filename)
@@ -213,15 +215,56 @@ def add_user_navigation():
 
     image_url = photo
     direction_text = directions
-    step = Step.query.filter(Step.path_id == path_id).first()
-    step_id = step.step_id
 
+    route = Route.query.filter(Route.route_id == route_id).first()
+    route_waypoints = route.waypoints
+    w_latlongs = []
+    for waypoint in waypoints:
+        temp_dict = {}
+        waypoint = Waypoint.query.filter(Waypoint.waypoint_id == waypoint).first()
+        w_latitude = waypoint.latitude
+        w_longitude = waypoint.longitude
+        w_id = waypoint.waypoint_id
+        temp_dict[w_id] = {'lat': w_latitude, 'lon': w_longitude}
+        w_latlongs.append(temp_dict)
+
+    def distance(lat1, lon1, lat2, lon2):
+        p = 0.017453292519943295
+        a = 0.5 - cos((lat2-lat1)*p)/2 + cos(lat1*p)*cos(lat2*p) * (1-cos((lon2-lon1)*p)) / 2    
+        return 12742 * asin(sqrt(a))
+
+    def closest(data, v):
+        return min(data, key=lambda p: distance(v['lat'],v['lon'],p['lat'],p['lon']))
+    v = {'lat':u_latitude,'lon':u_longitude}
+    
+    for w_id in w_latlongs:
+        tempDataList = []
+        tempDataList.append(w_latlongs[w_id])
+        closest = closest(tempDataList, v)
+
+    if closest == v:
+        step = Step.query.filter(Step.path_id == path_id).all()
+        step_id = step[-1]
+    else:
+        for w_id in w_latlongs:
+            if w_latlongs[w_id] == closest:
+                step = Step.query.filter(Step.path_id == path_id).first()
+                    setattr(step, 'end_point', w_id)
+                    session.commit()
+
+                    step_start = w_id
+                    path_id = path_id
+                    step = Step(path_id=path_id,
+                                step_start=step_start
+                                )
+                    db.session.add(new_direction)
+                    db.session.commit()
+    
     new_direction = Direction(step_id=step_id,
                               image_url=image_url,
                               direction_text=direction_text)
 
     db.session.add(new_direction)
-    
     db.session.commit()
     
     return "Goose Egg"
