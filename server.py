@@ -146,13 +146,8 @@ def unlock_route():
 def navigate_user():
     """ display a map with basic pins of each route """
 
-<<<<<<< HEAD
     route_id = request.form.get('route_details')
     return render_template('navigation.html', route_id=route_id)
-=======
-    route_id = request.form.get('route_id')
-    return render_template('navigation.html')
->>>>>>> 6a308e11edce5a4b52d0d635c4d2598c156144c5
 
 
 @app.route('/add_directions.json', methods=['POST'])
@@ -215,8 +210,8 @@ def test():
     return redirect('/profile')
 
 
-@app.route('/json_output.json')
-def json_output():
+# @app.route('/json_output.json')
+# def json_output():
     
 
 
