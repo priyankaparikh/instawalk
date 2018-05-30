@@ -214,14 +214,30 @@ def add_user_navigation():
                               direction_text=direction_text)
     db.session.add(new_direction)
     db.session.commit()
+    direction_id_tup = db.session.query(func.max(Direction.direction_id)).first()
+    direction_id = direction_id_tup[0]
 
     path = Path.query.filter(Path.path_id == path_id).first()
     ps_id = path.steps_id
     path_steps = Path_Step.query.filter(Path_Step.ps_id == ps_id).first()
     steps = path_steps.steps
+    curr_step = steps[-1]
 
-    # steps = steps.append()
-    # path_steps.steps = steps
+    step = Step.query.filter(Step.step_id == curr_step).first()
+    s_d_id = step.directions_id
+    step_directions = Step_Direction.query.filter(Step_Direction.s_d_id == sd_id).first()
+    directions = step_directions.directions
+
+    # Get current directions array from row
+    directions = directions[:]
+
+    # Append new direction_id
+    directions = directions.append(direction_id)
+
+    # Point step directions directions array to new appended array
+    step_directions.directions = directions
+    db.session.commit() 
+
     return "Goose Egg"
 
 
