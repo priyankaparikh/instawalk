@@ -121,7 +121,7 @@
     <!-- AJAX request for form submission -->
     <script>
       $(document).ready(function() {
-        $('form').on('submit', function(event) {
+        $('#myform').on('submit', function(event) {
           var dir = document.getElementById("directions").value;
           $.ajax({
             data: {
@@ -164,9 +164,14 @@
       }
     </script>
 
-    <form action='/finish_route'>
+    <form id='comp_route' action='/finish_route'>
       <input type="submit" id='compRouteId' value='Finished'>
     </form>
+    <script>
+      $('#comp_route').on('submit', function(){
+        $.get('/finish_route');
+      })
+    </script>
 
   </body>
 </html>
