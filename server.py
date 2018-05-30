@@ -8,7 +8,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://xllajhyyvxmohg:586b67a7d8124
 
 db = SQLAlchemy(app)
 
-from models import (User, Comp_Routes, User_Routes, Route, Waypoint, Step, Pathfrom models import (User, Comp_Routes, User_Routes, Route, Waypoint, Step, Path,
+from models import (User, Comp_Routes, User_Routes, Route, Waypoint, Step, Path,
                     Path_Step, Direction, Step_Direction)
 from sqlalchemy import func
 import queries
