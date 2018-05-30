@@ -207,7 +207,7 @@ class Path(db.Model):
                                       primary_key=True)
     start_point = db.Column(db.Integer, nullable=False)
     end_point = db.Column(db.Integer, nullable=False)
-
+    sent = db.Column(db.Boolean, default=False, nullable=True)
 
     def __repr__ (self):
         """return path information."""

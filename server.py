@@ -233,16 +233,16 @@ def add_user_navigation():
         for w_id in w_latlongs:
             if w_latlongs[w_id] == closest:
                 step = Step.query.filter(Step.path_id == path_id).first()
-                    setattr(step, 'end_point', w_id)
-                    session.commit()
+                setattr(step, 'end_point', w_id)
+                session.commit()
 
-                    step_start = w_id
-                    path_id = path_id
-                    step = Step(path_id=path_id,
-                                step_start=step_start
-                                )
-                    db.session.add(new_direction)
-                    db.session.commit()
+                step_start = w_id
+                path_id = path_id
+                step = Step(path_id=path_id,
+                            step_start=step_start
+                            )
+                db.session.add(new_direction)
+                db.session.commit()
     
     new_direction = Direction(step_id=step_id,
                               image_url=image_url,
