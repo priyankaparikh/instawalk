@@ -37,8 +37,10 @@
             var latitude = result[waypoints[i]]['latitude']
             var longitude = result[waypoints[i]]['longitude']
             var location = '<h1>' + result[waypoints[i]]['location'] + '</h1>'
+            var website = '<a href=' + result[waypoints[i]]['description'] + '></a>'
+            var photo = '<img src=' + result[waypoints[i]]['image_url'] + '>'
             var way_id = '<p>' + waypoints[i] + '</p>'
-            var html_s = location + way_id
+            var html_s = location + photo + website + way_id
             // marker windows require a string of html as input
             createMarkers(latitude, longitude, html_s)
             i++
