@@ -255,7 +255,9 @@ def routes_info():
             ways[y] = {
                 'latitude': waypoint_data.latitude,
                 'longitude': waypoint_data.longitude,
-                'location': waypoint_data.location
+                'location': waypoint_data.location,
+                'image_url': waypoint_data.image_url,
+                'description': waypoint_data.description
             }
 
     return jsonify(ways)
