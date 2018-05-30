@@ -181,16 +181,16 @@ def navigate_user():
 #     return jsonify(result)
 
 
-# @app.route('/add_directions', methods=['POST'])
-# def add_user_navigation():
+@app.route('/add_directions', methods=['POST'])
+def add_user_navigation():
 #     """Add a users navigation directions to the database for their route."""
 #     from math import cos, asin, sqrt
 
-#     path_id = request.form.get('pathId')
-#     route_id = request.form.get('routeId')
+    path_id = request.form.get('pathId')
+    route_id = request.form.get('routeId')
 #     u_latitude = request.form.get('latitude')
 #     u_longitude = request.form.get('longitude')
-#     photo = request.form.get('photo')
+    photo = request.form.get('photo')
 #     # file = request.files.get('photo', None)
 #     # filename = secure_filename(file.filename)
 #     # file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
@@ -264,6 +264,7 @@ def navigate_user():
 
     # db.session.add(new_direction)
     # db.session.commit()
+    return "NOTHING"
 
 
 
