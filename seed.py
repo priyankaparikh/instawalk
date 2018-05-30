@@ -112,11 +112,11 @@ def load_routes():
 
     # Easy (3-4 Waypoints):
 
-    easy = {"route1":{"waypoints":[93,66,247,347],
+    easy = {"route1":{"waypoints":[177,77,179,292],
             "route_difficulty":"easy", "route_type":themes[6],
             "description":"Historic houses of Hayes Valley.",
             "image_url":theme_images[6]},
-            "route2":{"waypoints":[201,315,45,244],
+            "route2":{"waypoints":[354,315,96,181],
             "route_difficulty":"easy", "route_type":themes[5],
             "description":"Historic tour of North Beach.",
             "image_url":theme_images[5]},
@@ -149,15 +149,15 @@ def load_routes():
 
 
     # Medium (5-7 Waypoints):
-    medium = {"route1":{"waypoints":[71,203,117,335,183,235,71],
+    medium = {"route1":{"waypoints":[138,271,337,92,119,65,343],
               "route_difficulty":"medium", "route_type":themes[5],
               "description":"Historic tour of Nob Hill.",
               "image_url":theme_images[5]},
-              "route2":{"waypoints":[70,237,79,221,199,70],
+              "route2":{"waypoints":[198,202,98,191,8,169],
               "route_difficulty":"medium", "route_type":themes[6],
               "description":"Historic Architecture of downtown San Francisco."
               ,"image_url":theme_images[6]},
-              "route3":{"waypoints":[105,22,230,288,205],
+              "route3":{"waypoints":[35,118,60,257,261],
               "route_difficulty":"medium", "route_type":themes[5],
               "description":"Historic tour of Golden Gate Park and Haight area."
               ,"image_url":theme_images[5]},
