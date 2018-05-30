@@ -181,29 +181,29 @@ def navigate_user():
 #     return jsonify(result)
 
 
-@app.route('/add_directions', methods=['POST'])
-def add_user_navigation():
-    """Add a users navigation directions to the database for their route."""
-    from math import cos, asin, sqrt
+# @app.route('/add_directions', methods=['POST'])
+# def add_user_navigation():
+#     """Add a users navigation directions to the database for their route."""
+#     from math import cos, asin, sqrt
 
-    path_id = request.form.get('pathId')
-    route_id = request.form.get('routeId')
-    u_latitude = request.form.get('latitude')
-    u_longitude = request.form.get('longitude')
-    photo = request.form.get('photo')
-    # file = request.files.get('photo', None)
-    # filename = secure_filename(file.filename)
-    # file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-    # image_url = 'static/user_sourced_photos' + str(filename)
-    directions = request.form.get('directions')
+#     path_id = request.form.get('pathId')
+#     route_id = request.form.get('routeId')
+#     u_latitude = request.form.get('latitude')
+#     u_longitude = request.form.get('longitude')
+#     photo = request.form.get('photo')
+#     # file = request.files.get('photo', None)
+#     # filename = secure_filename(file.filename)
+#     # file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+#     # image_url = 'static/user_sourced_photos' + str(filename)
+#     directions = request.form.get('directions')
 
-    image_url = photo
-    direction_text = directions
+#     image_url = photo
+#     direction_text = directions
 
-    route = Route.query.filter(Route.route_id == route_id).first()
-    #route_waypoints is a list of integers representing the waypoints
-    route_waypoints = route.waypoints
-    w_latlongs = []
+#     route = Route.query.filter(Route.route_id == route_id).first()
+#     #route_waypoints is a list of integers representing the waypoints
+#     route_waypoints = route.waypoints
+#     w_latlongs = []
     # for waypoint in route_waypoints:
     #     temp_dict = {}
     #     waypoint = Waypoint.query.filter(Waypoint.waypoint_id == waypoint).first()
@@ -212,33 +212,33 @@ def add_user_navigation():
     #     w_id = waypoint.waypoint_id
     #     temp_dict[w_id] = {'lat': w_latitude, 'lon': w_longitude}
     #     w_latlongs.append(temp_dict)
-    for i in range(len(route_waypoints)):
-        temp = {}
-        w_id = route_waypoints[i]
-        waypoint = Waypoint.query.filter(Waypoint.waypoint_id == w_id).first()
-        w_latitude = waypoint.latitude
-        w_longitude = waypoint.longitude
-        temp['lat'] = w_latitude
-        temp['long'] = w_longitude
-        w_latlongs.append(temp)
-    print w_latlongs
+    # for i in range(len(route_waypoints)):
+    #     temp = {}
+    #     w_id = route_waypoints[i]
+    #     waypoint = Waypoint.query.filter(Waypoint.waypoint_id == w_id).first()
+    #     w_latitude = waypoint.latitude
+    #     w_longitude = waypoint.longitude
+    #     temp['lat'] = w_latitude
+    #     temp['long'] = w_longitude
+    #     w_latlongs.append(temp)
+    # print w_latlongs
 
-    def distance(lat1, lon1, lat2, lon2):
-        # haversine formula. calculating distances b/w points on the globe
-        p = 0.017453292519943295
-        a = 0.5 - cos((lat2-lat1)*p)/2 + cos(lat1*p)*cos(lat2*p) * (1-cos((lon2-lon1)*p)) / 2
-        return 12742 * asin(sqrt(a))
+    # def distance(lat1, lon1, lat2, lon2):
+    #     # haversine formula. calculating distances b/w points on the globe
+    #     p = 0.017453292519943295
+    #     a = 0.5 - cos((lat2-lat1)*p)/2 + cos(lat1*p)*cos(lat2*p) * (1-cos((lon2-lon1)*p)) / 2
+    #     return 12742 * asin(sqrt(a))
 
-    def closest(data, v):
-        #data is a list of dictionaries containing the latitude and longitude
+    # def closest(data, v):
+    #     #data is a list of dictionaries containing the latitude and longitude
 
 
-        return min(data, key=lambda p: distance(1.0,1.0,float(p['lat']),float(p['long'])))
-    v = {'lat':u_latitude,'long':u_longitude}
+    #     return min(data, key=lambda p: distance(1.0,1.0,float(p['lat']),float(p['long'])))
+    # v = {'lat':u_latitude,'long':u_longitude}
 
-    #for w_latlong in w_latlongs:
-        #tempDataList.append(w_latlongs[w_id])
-    closest = closest(w_latlongs, v)
+    # #for w_latlong in w_latlongs:
+    #     #tempDataList.append(w_latlongs[w_id])
+    # closest = closest(w_latlongs, v)
 
     # if closest == v:
     #     step = Step.query.filter(Step.path_id == path_id).all()
