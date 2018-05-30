@@ -1,13 +1,15 @@
 # from jinja2 import StrictUndefined
 from flask import Flask, render_template, session, redirect, request, jsonify
 from models import connect_to_db, db
-from models import User, Comp_Routes, User_Routes, Route, Waypoint, Step, Path
+from models import (User, Comp_Routes, User_Routes, Route, Waypoint, Step, Path,
+                    Path_Step, Direction, Step_Direction)
 from sqlalchemy import func
-import queries
 
 
 app = Flask(__name__)
 app.secret_key = 'ABCD'
+
+import queries
 
 # app.jinja_env.undefined = StrictUndefined
 
@@ -144,10 +146,10 @@ def navigate_user():
     end_point = route_waypoints[-1]
 
     steps = []
-    path_steps = Path_Steps(steps=steps)
+    path_steps = Path_Step(steps=steps)
     db.session.add(path_steps)
     db.session.commit()
-    ps_id_tup = db.session.query(func.max(Path_Steps.ps_id)).first()
+    ps_id_tup = db.session.query(func.max(Path_Step.ps_id)).first()
     ps_id = ps_id_tup[0]
 
     path = Path(start_point=start_point,
@@ -158,10 +160,10 @@ def navigate_user():
     db.session.commit()
 
     directions = []
-    step_directions = Step_Directions(directions=directions)
+    step_directions = Step_Direction(directions=directions)
     db.session.add(step_directions)
     db.session.commit()
-    sd_id_tup = db.session.query(func.max(Step_Directions.sd_id)).first()
+    sd_id_tup = db.session.query(func.max(Step_Direction.sd_id)).first()
     sd_id = sd_id_tup[0]
 
     step_start = start_point
@@ -190,22 +192,23 @@ def navigate_user():
 #     return jsonify(result)
 
 
-@app.route('/add_directions', methods=['POST'])
+@app.route('/add_directions', methods=['GET','POST'])
 def add_user_navigation():
     """Add a users navigation directions to the database for their route."""
-
+    
+    path_id = request.form.get('path-id')
+    latitude = request.form.get('latitude')
+    longitude = request.form.get('longitude')
     photo = request.form.get('photo')
     directions = request.form.get('directions')
-    path_id = request.form.get('path-id')
+    
     path = Path.query.filter(Path.path_id == path_id).first()
     ps_id = path.ps_id
-    path_steps = Path_Steps.query.filter(Path_Steps.ps_id == ps_id).first()
+    path_steps = Path_Step.query.filter(Path_Step.ps_id == ps_id).all()
     steps = path_steps.steps
-
 
     steps = steps.append()
     path_steps.steps = steps
-
 
 
 @app.route('/route_info.json', methods=['POST'])

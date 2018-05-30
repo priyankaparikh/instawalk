@@ -80,17 +80,28 @@
                     <form role='form' action='/add_directions' method='POST'>
                 </div> 
                 <div class="modal-body mbody add_directions">
-                    <form role='form' id='myform' class='add_directions' action='/add_directions.json' method='POST'>
+                    <form onsubmit="getLocation()" role='form' id='myform' class='add_directions' action='/add_directions' method='POST'>
                         <div class="form-group">
-                            <input type="hidden" id="path-id" value="{{ path_id }}">
+                          <label class='labeltext'>Path ID</label>
+                          <input type="text" name="path-id" id="path-id" value="{{ path_id }}">
+                        </div>
+                        <div class="form-group">
+                          <label class='labeltext'>Latitude</label>
+                          <input type="text" name="latitude" id="latitude" value="">
+                        </div>
+                        <div class="form-group">
+                          <label class='labeltext'>Longitude</label>
+                          <input type="text" name="longitude" id="longitude" value="">
+                        </div>
+                        <div class="form-group">
                             <label class='labeltext'>Take Photo</label>
                             <!-- TEST THIS FEATURE ON MOBILE -->
                             <!-- Take and upload photo from phone camera -->
-                            <input id="upload_photo" type="file" accept="image/*" capture="camera">
+                            <input id="photo" name="photo" type="file" accept="image/*" capture="camera">
                         </div>
                         <div class="form-group">
                             <label class='labeltext'>Write Directions</label>
-                            <textarea id='directions' name='directions'class="form-control" id="message-text" placeholder="Enter directions"></textarea>
+                            <textarea id='directions' name='directions' class="form-control" id="message-text" placeholder="Enter directions"></textarea>
                         </div>
                         <button type="submit" class="btn">Add</button>
                     </form>
@@ -101,6 +112,25 @@
             </div>
         </div>
     </div>
+
+       <!-- Get User Location -->
+    
+    <script>
+        var latitude = document.getElementById("latitude");
+        var longitude = document.getElementById("longitude");
+        function getLocation() {
+            if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(formPosition);
+            } else {
+              alert("Geolocation is not supported by this browser.")
+      }
+    }
+      function formPosition(position) {
+          latitude.value = position.coords.latitude;
+          longitude.value = position.coords.longitude;
+      }
+    </script> 
+    
 
     <!-- directions button -->
     <button type='submit' class="btn" data-toggle="modal" data-target="#myModal">Add directions</button>

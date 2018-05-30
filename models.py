@@ -148,7 +148,7 @@ class Step(db.Model):
     step_id = db.Column(db.Integer, autoincrement=True,
                                       primary_key=True)
     start_point = db.Column(db.Integer, nullable=False)
-    end_point = db.Column(db.Integer, nullable=False)
+    end_point = db.Column(db.Integer, nullable=True)
     sd_id = db.Column(db.Integer, nullable=False)
 
     def __repr__ (self):
@@ -216,9 +216,7 @@ class Path(db.Model):
                                       primary_key=True)
     start_point = db.Column(db.Integer, nullable=False)
     end_point = db.Column(db.Integer, nullable=False)
-    steps = db.Column(db.Integer,
-                          # db.ForeignKey('path_steps.ps_id'),
-                          nullable=False)
+    ps_id = db.Column(db.Integer, nullable=False)
 
     def __repr__ (self):
         """return path information."""
@@ -230,7 +228,7 @@ class Path(db.Model):
         return d1 + d2
 
 
-class Path_Steps(db.Model):
+class Path_Step(db.Model):
     """ Lists of steps for each path. """
 
     __tablename__ ='path_steps'
