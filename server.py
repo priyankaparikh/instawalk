@@ -49,6 +49,7 @@ def register_user():
 
     # if not in the database add them and redirect to home page
     else:
+
         c_routes = Comp_Routes(completed=[])
         db.session.add(c_routes)
         db.session.commit()
