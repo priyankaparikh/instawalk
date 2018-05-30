@@ -150,11 +150,11 @@ def navigate_user():
     db.session.add(path_steps)
     db.session.commit()
     ps_id_tup = db.session.query(func.max(Path_Step.ps_id)).first()
-    ps_id = ps_id_tup[0]
+    steps_id = ps_id_tup[0]
 
     path = Path(start_point=start_point,
                 end_point=end_point,
-                ps_id=ps_id
+                steps_id=steps_id
                 )
     db.session.add(path)
     db.session.commit()
@@ -164,13 +164,13 @@ def navigate_user():
     db.session.add(step_directions)
     db.session.commit()
     sd_id_tup = db.session.query(func.max(Step_Direction.sd_id)).first()
-    sd_id = sd_id_tup[0]
+    directions_id = sd_id_tup[0]
 
     step_start = start_point
     step_end = route_waypoints[1]
     step = Step(start_point=step_start,
                 end_point=step_end,
-                sd_id = sd_id
+                directions_id = directions_id
                 )
 
     path_id_tup = db.session.query(func.max(Path.path_id)).first()
@@ -196,19 +196,20 @@ def navigate_user():
 def add_user_navigation():
     """Add a users navigation directions to the database for their route."""
     
-    path_id = request.form.get('path-id')
+    path_id = request.form.get('pathId')
     latitude = request.form.get('latitude')
     longitude = request.form.get('longitude')
     photo = request.form.get('photo')
     directions = request.form.get('directions')
 
     path = Path.query.filter(Path.path_id == path_id).first()
-    ps_id = path.ps_id
-    path_steps = Path_Step.query.filter(Path_Step.ps_id == ps_id).all()
+    ps_id = path.steps_id
+    path_steps = Path_Step.query.filter(Path_Step.ps_id == ps_id).first()
     steps = path_steps.steps
 
-    steps = steps.append()
-    path_steps.steps = steps
+    # steps = steps.append()
+    # path_steps.steps = steps
+    return "Goose Egg"
 
 
 @app.route('/route_info.json', methods=['POST'])

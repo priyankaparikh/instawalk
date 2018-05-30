@@ -149,15 +149,15 @@ class Step(db.Model):
                                       primary_key=True)
     start_point = db.Column(db.Integer, nullable=False)
     end_point = db.Column(db.Integer, nullable=True)
-    sd_id = db.Column(db.Integer, nullable=False)
+    directions_id = db.Column(db.Integer, nullable=False)
 
     def __repr__ (self):
         """return route information."""
 
         d1 = '<step_id={a}, start_point={b},'.format(a=self.step_id,
                                                 b=self.start_point)
-        d2 = '<end_point={c}, sd_id={d},'.format(c=self.end_point,
-                                                d=self.sd_id)
+        d2 = '<end_point={c}, directions_id={d},'.format(c=self.end_point,
+                                                d=self.directions_id)
         return d1 + d2
 
 
@@ -216,7 +216,7 @@ class Path(db.Model):
                                       primary_key=True)
     start_point = db.Column(db.Integer, nullable=False)
     end_point = db.Column(db.Integer, nullable=False)
-    ps_id = db.Column(db.Integer, nullable=False)
+    steps_id = db.Column(db.Integer, nullable=False)
 
     def __repr__ (self):
         """return path information."""
