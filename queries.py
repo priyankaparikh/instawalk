@@ -1,7 +1,8 @@
 """ Holds all the queries made by the application to the postgres SQL db.
 Db name: """
 
-from manage import db, app
+# from manage import db, app
+from models import connect_to_db, db
 from models import (User, Comp_Routes, User_Routes, Route, Waypoint, Step, Path,
                     Direction, Step_Direction, Path_Step)
 from server import app
@@ -116,7 +117,7 @@ def jsonify_paths():
         curr_path["steps"] = step_list
 
 
-# if __name__ == "__main__":
-#     connect_to_db(app)
+if __name__ == "__main__":
+    connect_to_db(app)
 
 

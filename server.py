@@ -4,10 +4,11 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.secret_key = 'ABCD'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://xllajhyyvxmohg:586b67a7d8124b2dfbe064491e95b5c80e5042511be61108c393956923d3302a@ec2-54-225-107-174.compute-1.amazonaws.com:5432/d82mvtff7vnuge'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://xllajhyyvxmohg:586b67a7d8124b2dfbe064491e95b5c80e5042511be61108c393956923d3302a@ec2-54-225-107-174.compute-1.amazonaws.com:5432/d82mvtff7vnuge'
 
-db = SQLAlchemy(app)
+# db = SQLAlchemy(app)
 
+from models import connect_to_db, db
 from models import (User, Comp_Routes, User_Routes, Route, Waypoint, Step, Path,
                     Path_Step, Direction, Step_Direction)
 from sqlalchemy import func
@@ -291,4 +292,6 @@ def privacy_policy():
 if __name__ == "__main__":
     # app.debug = True
     # app.jinja_env.auto_reload = app.debug
-    app.run()
+
+    connect_to_db(app)
+    app.run(port=5000, host='0.0.0.0', debug=True)
