@@ -1,11 +1,13 @@
 # from jinja2 import StrictUndefined
 from flask import Flask, render_template, session, redirect, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
+from werkzeug.utils import secure_filename
+import os
 
 app = Flask(__name__)
 app.secret_key = 'ABCD'
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://xllajhyyvxmohg:586b67a7d8124b2dfbe064491e95b5c80e5042511be61108c393956923d3302a@ec2-54-225-107-174.compute-1.amazonaws.com:5432/d82mvtff7vnuge'
-
+app.config['UPLOAD_FOLDER'] = './static/user_sourced_photos'
 # db = SQLAlchemy(app)
 
 from models import connect_to_db, db
@@ -205,6 +207,10 @@ def add_user_navigation():
     latitude = request.form.get('latitude')
     longitude = request.form.get('longitude')
     photo = request.form.get('photo')
+    # file = request.files.get('photo', None)
+    # filename = secure_filename(file.filename)
+    # file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+    # image_url = 'static/user_sourced_photos' + str(filename)
     directions = request.form.get('directions')
 
     image_url = photo
