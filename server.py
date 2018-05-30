@@ -326,11 +326,11 @@ def finish_route():
     tokens = queries.get_tokens(session['user_id'])
     user_id = session.get('user_id')
 
-    comp_route = Comp_Routes(route_id=route_id,
-                             user_id=user_id
-                            )
-    db.session.add(comp_route)
-    db.session.commit()
+    # comp_route = Comp_Routes(route_id=route_id,
+    #                          user_id=user_id
+    #                         )
+    # db.session.add(comp_route)
+    # db.session.commit()
 
     return redirect('/profile')
 
