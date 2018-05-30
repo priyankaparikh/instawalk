@@ -201,30 +201,44 @@ def add_user_navigation():
     direction_text = directions
 
     route = Route.query.filter(Route.route_id == route_id).first()
+    #route_waypoints is a list of integers representing the waypoints
     route_waypoints = route.waypoints
     w_latlongs = []
-    for waypoint in waypoints:
-        temp_dict = {}
-        waypoint = Waypoint.query.filter(Waypoint.waypoint_id == waypoint).first()
+    # for waypoint in route_waypoints:
+    #     temp_dict = {}
+    #     waypoint = Waypoint.query.filter(Waypoint.waypoint_id == waypoint).first()
+    #     w_latitude = waypoint.latitude
+    #     w_longitude = waypoint.longitude
+    #     w_id = waypoint.waypoint_id
+    #     temp_dict[w_id] = {'lat': w_latitude, 'lon': w_longitude}
+    #     w_latlongs.append(temp_dict)
+    for i in range(len(route_waypoints)):
+        temp = {}
+        w_id = route_waypoints[i]
+        waypoint = Waypoint.query.filter(Waypoint.waypoint_id == w_id).first()
         w_latitude = waypoint.latitude
         w_longitude = waypoint.longitude
-        w_id = waypoint.waypoint_id
-        temp_dict[w_id] = {'lat': w_latitude, 'lon': w_longitude}
-        w_latlongs.append(temp_dict)
+        temp['lat'] = w_latitude
+        temp['long'] = w_longitude
+        w_latlongs.append(temp)
+    print w_latlongs
 
     def distance(lat1, lon1, lat2, lon2):
+        # haversine formula. calculating distances b/w points on the globe
         p = 0.017453292519943295
-        a = 0.5 - cos((lat2-lat1)*p)/2 + cos(lat1*p)*cos(lat2*p) * (1-cos((lon2-lon1)*p)) / 2    
+        a = 0.5 - cos((lat2-lat1)*p)/2 + cos(lat1*p)*cos(lat2*p) * (1-cos((lon2-lon1)*p)) / 2
         return 12742 * asin(sqrt(a))
 
     def closest(data, v):
-        return min(data, key=lambda p: distance(v['lat'],v['lon'],p['lat'],p['lon']))
-    v = {'lat':u_latitude,'lon':u_longitude}
-    
-    for w_id in w_latlongs:
-        tempDataList = []
-        tempDataList.append(w_latlongs[w_id])
-        closest = closest(tempDataList, v)
+        #data is a list of dictionaries containing the latitude and longitude
+
+
+        return min(data, key=lambda p: distance(1.0,1.0,float(p['lat']),float(p['long'])))
+    v = {'lat':u_latitude,'long':u_longitude}
+
+    #for w_latlong in w_latlongs:
+        #tempDataList.append(w_latlongs[w_id])
+    closest = closest(w_latlongs, v)
 
     if closest == v:
         step = Step.query.filter(Step.path_id == path_id).all()
@@ -243,7 +257,7 @@ def add_user_navigation():
                             )
                 db.session.add(new_direction)
                 db.session.commit()
-    
+
     new_direction = Direction(step_id=step_id,
                               image_url=image_url,
                               direction_text=direction_text)
