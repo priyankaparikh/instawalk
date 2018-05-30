@@ -184,7 +184,7 @@ def navigate_user():
                 end_point=step_end,
                 )
     db.session.add(step)
-    db.session.commit() 
+    db.session.commit()
 
     return render_template('navigation.html', route_id=route_id,
                                               path_id=path_id)
@@ -221,20 +221,12 @@ def add_user_navigation():
     step = Step.query.filter(Step.path_id == path_id).first()
     step_id = step.step_id
 
-<<<<<<< HEAD
     new_direction = Direction(image_url=image_url,
                               direction_text=direction_text)
 
     db.session.add(new_direction)
-=======
-    direction = Direction(step_id=step_id,
-                          image_url=image_url,
-                          direction_text=direction_text)
-    db.session.add(direction)
->>>>>>> 0f071363345460bcb0fada819a94a4375fa95988
     db.session.commit()
-    
-    return "Goose Egg"
+
 
 
 @app.route('/route_info.json', methods=['POST'])
