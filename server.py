@@ -139,19 +139,7 @@ def user_profile():
                             all_routes=all_routes)
 
 
-<<<<<<< HEAD
-@app.route('/unlock_route', methods=['GET'])
-def unlock_route():
-    """Unlock a specific route."""
-
-    route_id = request.form.get('route_id')
-    print route_id
-    
-
-@app.route('/navigation', methods=['GET'])
-=======
 @app.route('/navigation', methods=['POST'])
->>>>>>> 77463b5e9d357c2aca1589038f1e615f59ece388
 def navigate_user():
     """ display a map with basic pins of each route """
     route_id = request.form.get('route_details')
@@ -212,7 +200,7 @@ def navigate_user():
 @app.route('/add_directions', methods=['POST'])
 def add_user_navigation():
     """Add a users navigation directions to the database for their route."""
-    
+
     path_id = request.form.get('pathId')
     latitude = request.form.get('latitude')
     longitude = request.form.get('longitude')
@@ -224,6 +212,7 @@ def add_user_navigation():
 
     new_direction = Direction(image_url=image_url,
                               direction_text=direction_text)
+
     db.session.add(new_direction)
     db.session.commit()
 
@@ -291,7 +280,7 @@ def jsonify_waypoints():
 # @app.route('/finish_route')
 # def test():
 
-#     tokens = queries.get_tokens(session['user_id'])    
+#     tokens = queries.get_tokens(session['user_id'])
 #     return redirect('/profile')
 
 
@@ -300,7 +289,7 @@ def json_output():
     pass
 
 
-@app.route('/terms_of_service')  
+@app.route('/terms_of_service')
 def terms_of_service():
     return render_template('/terms_of_service.html')
 

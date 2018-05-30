@@ -21,7 +21,7 @@
         let route_id = {
           id: {{ route_id }},
         };
-        $.post('/route_info.json', route_id, function(result){ 
+        $.post('/route_info.json', route_id, function(result){
           waypoints = Object.keys(result)
           let first = waypoints[2]
 
@@ -78,7 +78,7 @@
                 </div>
                 <div class="modal-body mbody">
                     <form role='form' action='/add_directions' method='POST'>
-                </div> 
+                </div>
                 <div class="modal-body mbody add_directions">
                     <form onsubmit="getLocation()" role='form' id='myform' class='add_directions' action='/add_directions' method='POST'>
                         <div class="form-group">
@@ -100,8 +100,8 @@
                             <input id="photo" name="photo" type="file" accept="image/*" capture="camera">
                         </div>
                         <div class="form-group">
-                            <label class='labeltext'>Write Directions</label>
-                            <textarea id='directions' name='directions' class="form-control" id="message-text" placeholder="Enter directions"></textarea>
+                            <label for="directions">Write Directions</label>
+                            <textarea class="form-control" id="directions" rows="3" type="text"></textarea>
                         </div>
                         <button type="submit" class="btn">Add</button>
                     </form>
@@ -124,7 +124,9 @@
             data: {
               pathId: $('#pathId').val(),
               latitude: $('#latitude').val(),
-              longitude: $('#longitude').val()
+              longitude: $('#longitude').val(),
+              photo: $('#photo').val(),
+              directions: $('#directions').val(),
             },
             type: 'POST',
             url: '/add_directions'
@@ -136,7 +138,7 @@
     </script>
 
        <!-- Get User Location -->
-    
+
     <script>
         var latitude = document.getElementById("latitude");
         var longitude = document.getElementById("longitude");
@@ -151,7 +153,7 @@
           latitude.value = position.coords.latitude;
           longitude.value = position.coords.longitude;
       }
-    </script> 
+    </script>
 
     <form action='/finish_route'>
       <button type="submit" class='btn'>Finished</button>
