@@ -3,9 +3,8 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 import os
-DATABASE_URL = os.environ['DATABASE_URL']
+from manage import db,app
 
-db = SQLAlchemy()
 
 ################################################################################
 
@@ -257,21 +256,21 @@ class Path_Steps(db.Model):
         return d1
 
 
-def connect_to_db(app, db_uri=DATABASE_URL):
-    """Connect the database to our Flask app."""
+# def connect_to_db(app, db_uri=DATABASE_URL):
+#     """Connect the database to our Flask app."""
 
-    # Configure to use our PstgreSQL database
-    app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
-    # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    app.config['SQLALCHEMY_ECHO'] = True
-    db.app = app
-    db.init_app(app)
+#     # Configure to use our PstgreSQL database
+#     app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
+#     # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+#     app.config['SQLALCHEMY_ECHO'] = True
+#     db.app = app
+#     db.init_app(app)
 
 
 ##################################################################################
 
-if __name__ == "__main__":
-    from server import app
-    connect_to_db(app)
-    db.create_all()
-    print('Connected to DB.')
+# if __name__ == "__main__":
+#     from server import app
+#     connect_to_db(app)
+#     db.create_all()
+#     print('Connected to DB.')
