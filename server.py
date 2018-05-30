@@ -192,7 +192,7 @@ def navigate_user():
 #     return jsonify(result)
 
 
-@app.route('/add_directions', methods=['GET','POST'])
+@app.route('/add_directions', methods=['POST'])
 def add_user_navigation():
     """Add a users navigation directions to the database for their route."""
     
@@ -201,7 +201,7 @@ def add_user_navigation():
     longitude = request.form.get('longitude')
     photo = request.form.get('photo')
     directions = request.form.get('directions')
-    
+
     path = Path.query.filter(Path.path_id == path_id).first()
     ps_id = path.ps_id
     path_steps = Path_Step.query.filter(Path_Step.ps_id == ps_id).all()
