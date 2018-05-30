@@ -1,7 +1,7 @@
 """ Holds all the queries made by the application to the postgres SQL db.
 Db name: """
 
-from models import connect_to_db, db
+from manage import db, app
 from models import (User, Comp_Routes, User_Routes, Route, Waypoint, Step, Path,
                     Direction, Step_Direction, Path_Step)
 from server import app
