@@ -1,12 +1,12 @@
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
 
-import server
+from server import app, db
 
-migrate = Migrate(server.app, server.db)
+migrate = Migrate(app, db)
 
-manager = Manager(server.app)
-manager.add_command('server.db', MigrateCommand)
+manager = Manager(app)
+manager.add_command('db', MigrateCommand)
 
 
 if __name__ == '__main__':
