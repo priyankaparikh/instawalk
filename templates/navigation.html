@@ -79,13 +79,17 @@
                     <h4 class='headertext'>Add directions</h4>
                 </div>
                 <div class="modal-body mbody">
-                    <form role='form' action='/add_directions' method='POST'>
+                    <form class="addDirectionForm "role='form' action='/add_directions' method='POST'>
                 </div>
                 <div class="modal-body mbody add_directions">
                     <form onsubmit="getLocation()" role='form' id='myform' class='add_directions' action='/add_directions' method='POST'>
                         <div class="form-group">
                           <label class='labeltext'>Path ID</label>
-                          <input type="text" name="pathId" id="pathId" value="{{ path_id }}">
+                          <input type="hidden" name="pathId" id="pathId" value="{{ path_id }}">
+                        </div>
+                        <div class="form-group">
+                          <label class='labeltext'>Route ID</label>
+                          <input type="hidden" name="routeId" id="routeId" value="{{ route_id }}">
                         </div>
                         <div class="form-group">
                           <label class='labeltext'>Latitude</label>
@@ -103,9 +107,9 @@
                         </div>
                         <div class="form-group">
                             <label for="directions">Write Directions</label>
-                            <textarea class="form-control" id="directions" rows="3" name="directions"></textarea>
+                            <textarea class="form-control" id="textDirections" rows="3" name="directions"></textarea>
                         </div>
-                        <button type="submit" class="btn">Add</button>
+                        <button id="addDirection" type="submit" class="btn">Add</button>
                     </form>
                 </div>
                 <div class="modal-footer mfooter">
@@ -125,16 +129,19 @@
           $.ajax({
             data: {
               pathId: $('#pathId').val(),
+              routeId: $('#routeId').val(),
               latitude: $('#latitude').val(),
               longitude: $('#longitude').val(),
               photo: $('#photo').val(),
-              directions: $('#directions').val(),
+              directions: $('textarea#textDirections').val(),
             },
             type: 'POST',
             url: '/add_directions'
           })
         event.preventDefault()
-        $('#myModal').hide();
+        $('#myModal').modal('hide');
+        $('form.addDirectionForm input[type="text"],input[type="file"]').val('');
+        $('#textDirections').val('');
         })
       })
     </script>

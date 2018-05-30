@@ -216,7 +216,8 @@ def add_user_navigation():
     step = Step.query.filter(Step.path_id == path_id).first()
     step_id = step.step_id
 
-    new_direction = Direction(image_url=image_url,
+    new_direction = Direction(step_id=step_id,
+                              image_url=image_url,
                               direction_text=direction_text)
 
     db.session.add(new_direction)
