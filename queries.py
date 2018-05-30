@@ -5,7 +5,7 @@ from manage import db, app
 from models import (User, Comp_Routes, User_Routes, Route, Waypoint, Step, Path,
                     Direction, Step_Direction, Path_Step)
 from server import app
-from geopy import Nominatim
+# from geopy import Nominatim
 
 # def get_tokens(user_id):
 #     """Get the amount of tokens that a user already has."""
