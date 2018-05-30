@@ -124,6 +124,7 @@
     <script>
       $(document).ready(function() {
         $('form').on('submit', function(event) {
+          var dir = document.getElementById("directions").value;
           $.ajax({
             data: {
               pathId: $('#pathId').val(),

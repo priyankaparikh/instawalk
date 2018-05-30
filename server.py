@@ -41,6 +41,7 @@ def register_user():
     user_name = request.form.get('usrname')
     password = request.form.get('psw')
     terms = request.form.get('terms')
+    tokens = 10
     terms_agreement = True
 
     # check if user already exists in database. if the do redirect to login
@@ -49,31 +50,14 @@ def register_user():
 
     # if not in the database add them and redirect to home page
     else:
-
-        c_routes = Comp_Routes(completed=[])
-        db.session.add(c_routes)
-        db.session.commit()
-        completed_tup = db.session.query(func.max(Comp_Routes.cr_id)).first()
-        completed = completed_tup[0]
-        print("CR_ID:" + str(completed))
-
-        usr_routes = User_Routes(u_routes=[]) #placeholder route_ids
-        db.session.add(usr_routes)
-        db.session.commit()
-        user_routes_tup = db.session.query(func.max(User_Routes.ur_id)).first()
-        user_routes = user_routes_tup[0]
-        print("UR_ID:" + str(user_routes))
-
         user = User(user_name=user_name,
                     password=password,
-                    tokens=10,
-                    user_routes=user_routes,
-                    completed=completed,
-                    terms_agreement=terms_agreement
-                )
+                    tokens=tokens,
+                    terms_agreement=terms_agreement)
 
         db.session.add(user)
         db.session.commit()
+
         user = User.query.filter(User.user_name == user_name).first()
         session['user_id'] = user.user_id
 
@@ -179,7 +163,7 @@ def navigate_user():
                 # end_point=step_end,
                 )
     db.session.add(step)
-    db.session.commit() 
+    db.session.commit()
 
     return render_template('navigation.html', route_id=route_id,
                                               path_id=path_id)
@@ -266,8 +250,7 @@ def add_user_navigation():
 
     db.session.add(new_direction)
     db.session.commit()
-    
-    return "Goose Egg"
+
 
 
 @app.route('/route_info.json', methods=['POST'])
