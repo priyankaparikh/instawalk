@@ -22,7 +22,6 @@ def get_tokens(user_id):
 
 def jsonify_paths():
     paths = Path.query.all()
-
     for path in paths:
         if path.sent == False:
             path_start = path.start_point
@@ -126,5 +125,3 @@ def jsonify_paths():
 
 if __name__ == "__main__":
     connect_to_db(app)
-
-
