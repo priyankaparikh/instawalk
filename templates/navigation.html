@@ -122,13 +122,14 @@
     <script>
       $(document).ready(function() {
         $('form').on('submit', function(event) {
+          var dir = document.getElementById("directions").value;
           $.ajax({
             data: {
               pathId: $('#pathId').val(),
               latitude: $('#latitude').val(),
               longitude: $('#longitude').val(),
               photo: $('#photo').val(),
-              directions: $('#directions').val(),
+              directions: dir
             },
             type: 'POST',
             url: '/add_directions'

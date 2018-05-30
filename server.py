@@ -49,7 +49,6 @@ def register_user():
 
     # if not in the database add them and redirect to home page
     else:
-<<<<<<< HEAD
         c_routes = Comp_Routes(completed=[])
         db.session.add(c_routes)
         db.session.commit()
@@ -69,16 +68,10 @@ def register_user():
                     tokens=10,
                     user_routes=user_routes,
                     completed=completed,
-=======
-        user = User(user_name=user_name,
-                    password=password,
-                    tokens=0,
->>>>>>> 0f071363345460bcb0fada819a94a4375fa95988
-                    terms_agreement=terms_agreement
-                )
 
         db.session.add(user)
         db.session.commit()
+
         user = User.query.filter(User.user_name == user_name).first()
         session['user_id'] = user.user_id
 
