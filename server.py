@@ -1,13 +1,18 @@
 # from jinja2 import StrictUndefined
 from flask import Flask, render_template, session, redirect, request, jsonify
+from flask_sqlalchemy import SQLAlchemy
+
+app = Flask(__name__)
+app.secret_key = 'ABCD'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://xllajhyyvxmohg:586b67a7d8124b2dfbe064491e95b5c80e5042511be61108c393956923d3302a@ec2-54-225-107-174.compute-1.amazonaws.com:5432/d82mvtff7vnuge'
+
+# db = SQLAlchemy(app)
+
 from models import connect_to_db, db
 from models import (User, Comp_Routes, User_Routes, Route, Waypoint, Step, Path,
                     Path_Step, Direction, Step_Direction)
 from sqlalchemy import func
-
-
-app = Flask(__name__)
-app.secret_key = 'ABCD'
+import queries
 
 import queries
 
@@ -263,11 +268,11 @@ def jsonify_waypoints():
     return jsonify(all_waypoints)
 
 
-@app.route('/finish_route')
-def test():
+# @app.route('/finish_route')
+# def test():
 
-    tokens = queries.get_tokens(session['user_id'])    
-    return redirect('/profile')
+#     tokens = queries.get_tokens(session['user_id'])    
+#     return redirect('/profile')
 
 
 @app.route('/json_output.json')

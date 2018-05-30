@@ -1,21 +1,22 @@
 """ Holds all the queries made by the application to the postgres SQL db.
 Db name: """
 
+# from manage import db, app
 from models import connect_to_db, db
 from models import (User, Comp_Routes, User_Routes, Route, Waypoint, Step, Path,
                     Direction, Step_Direction, Path_Step)
 from server import app
-from geopy import Nominatim
+# from geopy import Nominatim
 
-def get_tokens(user_id):
-    """Get the amount of tokens that a user already has."""
+# def get_tokens(user_id):
+#     """Get the amount of tokens that a user already has."""
 
-    user = User.query.filter(User.user_id == user_id).first()
-    user.tokens += 5
-    tokens = user.tokens
-    db.session.commit()
+#     user = User.query.filter(User.user_id == user_id).first()
+#     user.tokens += 5
+#     tokens = user.tokens
+#     db.session.commit()
 
-    return str(tokens)
+#     return str(tokens)
 
 
 def jsonify_paths():
