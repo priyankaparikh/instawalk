@@ -47,25 +47,9 @@ def register_user():
 
     # if not in the database add them and redirect to home page
     else:
-        c_routes = Comp_Routes(completed=[])
-        db.session.add(c_routes)
-        db.session.commit()
-        completed_tup = db.session.query(func.max(Comp_Routes.cr_id)).first()
-        completed = completed_tup[0]
-        print("CR_ID:" + str(completed))
-
-        usr_routes = User_Routes(u_routes=[1,2,3,4,5,6,7]) #placeholder route_ids
-        db.session.add(usr_routes)
-        db.session.commit()
-        user_routes_tup = db.session.query(func.max(User_Routes.ur_id)).first()
-        user_routes = user_routes_tup[0]
-        print("UR_ID:" + str(user_routes))
-
         user = User(user_name=user_name,
                     password=password,
                     tokens=0,
-                    user_routes=user_routes,
-                    completed=completed,
                     terms_agreement=terms_agreement
                 )
 
