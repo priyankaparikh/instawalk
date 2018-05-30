@@ -306,16 +306,25 @@ def jsonify_waypoints():
     return jsonify(all_waypoints)
 
 
-# @app.route('/finish_route')
-# def test():
+@app.route('/finish_route')
+def finish_route():
+    route_id = request.form.get('compRouteId')
+    tokens = queries.get_tokens(session['user_id'])
+    user_id = session.get('user_id')
 
-#     tokens = queries.get_tokens(session['user_id'])
-#     return redirect('/profile')
+    comp_route = Comp_Routes(route_id=route_id,
+                             user_id=user_id
+                            )
+    db.session.add(comp_route)
+    db.session.commit()
+
+    return redirect('/profile')
 
 
 @app.route('/json_output.json')
 def json_output():
-    pass
+    result = jsonify_paths()
+    return jsonify(result)
 
 
 @app.route('/terms_of_service')

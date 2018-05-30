@@ -2,21 +2,22 @@
 Db name: """
 
 # from manage import db, app
+from flask import Flask, session, redirect, request, jsonify
 from models import connect_to_db, db
 from models import (User, Comp_Routes, User_Routes, Route, Waypoint, Step, Path,
                     Direction)
 from server import app
 from geopy import Nominatim
 
-# def get_tokens(user_id):
-#     """Get the amount of tokens that a user already has."""
+def get_tokens(user_id):
+    """Get the amount of tokens that a user already has."""
 
-#     user = User.query.filter(User.user_id == user_id).first()
-#     user.tokens += 5
-#     tokens = user.tokens
-#     db.session.commit()
+    user = User.query.filter(User.user_id == user_id).first()
+    user.tokens += 5
+    tokens = user.tokens
+    db.session.commit()
 
-#     return str(tokens)
+    return str(tokens)
 
 
 def jsonify_paths():
@@ -116,6 +117,11 @@ def jsonify_paths():
                     step_list.append(step_dict)
 
             curr_path["steps"] = step_list
+            path = Path.query.filter(Step.path_id == path_id).first()
+            setattr(step, 'sent', True)
+            db.session.commit()
+        return curr_path
+
 
 
 if __name__ == "__main__":
