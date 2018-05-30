@@ -19,8 +19,6 @@ class User(db.Model):
     user_name = db.Column(db.String(100), nullable=False)
     password = db.Column(db.String(100), nullable=False)
     tokens = db.Column(db.Integer, nullable=True)
-    user_routes = db.Column(db.Integer, nullable=True)
-    completed = db.Column(db.Integer, nullable=True)
     terms_agreement = db.Column(db.Boolean, default=False, nullable=False)
 
     def __repr__ (self):
@@ -41,7 +39,8 @@ class Comp_Routes(db.Model):
 
     cr_id = db.Column(db.Integer, autoincrement=True,
                                     primary_key=True)
-    completed = db.Column(db.ARRAY(db.Integer), nullable=False)
+    route_id = db.Column(db.Integer, nullable=False)
+    user_id = db.Column(db.Integer, nullable=False)
 
     def __repr__ (self):
         """return comp routes information"""
@@ -58,7 +57,9 @@ class User_Routes(db.Model):
 
     ur_id = db.Column(db.Integer, autoincrement=True,
                                     primary_key=True)
-    u_routes = db.Column(db.ARRAY(db.Integer), nullable=False)
+    user_id = db.Column(db.Integer, nullable=False)
+    route_id = db.Column(db.Integer, nullable=False)
+
 
     def __repr__ (self):
         """return comp routes information"""
@@ -149,9 +150,15 @@ class Step(db.Model):
 
     step_id = db.Column(db.Integer, autoincrement=True,
                                       primary_key=True)
+    # path_id = db.Column(db.Integer, db.ForeignKey('paths.path_id'), nullable=False)
+    path_id = db.Column(db.Integer, nullable=False)
     start_point = db.Column(db.Integer, nullable=False)
     end_point = db.Column(db.Integer, nullable=True)
-    directions_id = db.Column(db.Integer, nullable=False)
+
+    # path = db.relationship("Path",
+    #                        backref=db.backref("paths",
+    #                        order_by=path_id
+    # ))
 
     def __repr__ (self):
         """return route information."""
@@ -163,29 +170,6 @@ class Step(db.Model):
         return d1 + d2
 
 
-class Step_Direction(db.Model):
-    """ Lists of directions for each step. """
-
-    __tablename__ ='step_directions'
-
-    sd_id = db.Column(db.Integer, autoincrement=True,
-                                    primary_key=True)
-    directions = db.Column(db.ARRAY(db.Integer), nullable=False)
-
-    # # Define Relationship to Route:
-    # step = db.relationship("Step",
-    #                        backref=db.backref("step_directions",
-    #                        order_by=direction_id
-    #                        ))
-
-    def __repr__ (self):
-        """return step directions information."""
-
-        d1 = '<direction_id={a}, directions={b},'.format(a=self.direction_id,
-                                                         b=self.directions)
-        return d1
-
-
 class Direction(db.Model):
     """ Directions provided by users between two waypoints."""
 
@@ -193,10 +177,15 @@ class Direction(db.Model):
 
     direction_id = db.Column(db.Integer, autoincrement=True,
                                            primary_key=True)
-    image_url = db.Column(db.String, nullable=False)
-    direction_text = db.Column(db.String, nullable=False)
-    # latitude = db.Column(db.String, nullable=True)
-    # longitude = db.Column(db.String, nullable=True)
+    # step_id = db.Column(db.Integer, db.ForeignKey('steps.step_id'), nullable=False)
+    step_id = db.Column(db.Integer, nullable=False)
+    image_url = db.Column(db.String, nullable=True)
+    direction_text = db.Column(db.String, nullable=True)
+
+    # step = db.relationship("Direction",
+    #                        backref=db.backref("steps",
+    #                        order_by=step_id
+    # ))
 
     def __repr__ (self):
         """return direction information."""
@@ -218,7 +207,7 @@ class Path(db.Model):
                                       primary_key=True)
     start_point = db.Column(db.Integer, nullable=False)
     end_point = db.Column(db.Integer, nullable=False)
-    steps_id = db.Column(db.Integer, nullable=False)
+
 
     def __repr__ (self):
         """return path information."""
@@ -229,28 +218,6 @@ class Path(db.Model):
                                                 d=self.steps)
         return d1 + d2
 
-
-class Path_Step(db.Model):
-    """ Lists of steps for each path. """
-
-    __tablename__ ='path_steps'
-
-    ps_id = db.Column(db.Integer, autoincrement=True,
-                                    primary_key=True)
-    steps = db.Column(db.ARRAY(db.Integer), nullable=False)
-
-    # # Define Relationship to Path:
-    # path = db.relationship("Path",
-    #                        backref=db.backref("path_steps",
-    #                        order_by=ps_id
-    #                        ))
-
-    def __repr__ (self):
-        """return path steps information."""
-
-        d1 = '<ps_id={a}, ps_steps={b},'.format(a=self.ps_id,
-                                            b=self.steps)
-        return d1
 
 
 def connect_to_db(app, db_uri='postgresql:///instawalk'):
