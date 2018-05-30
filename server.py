@@ -1,11 +1,20 @@
 # from jinja2 import StrictUndefined
 from flask import Flask, render_template, session, redirect, request, jsonify
-from models import connect_to_db, db
-from models import User, Comp_Routes, User_Routes, Route, Waypoint, Step, Path
-from sqlalchemy import func
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.secret_key = 'ABCD'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://xllajhyyvxmohg:586b67a7d8124b2dfbe064491e95b5c80e5042511be61108c393956923d3302a@ec2-54-225-107-174.compute-1.amazonaws.com:5432/d82mvtff7vnuge'
+
+# db = SQLAlchemy(app)
+
+from models import connect_to_db, db
+from models import (User, Comp_Routes, User_Routes, Route, Waypoint, Step, Path,
+                    Path_Step, Direction, Step_Direction)
+from sqlalchemy import func
+import queries
+
+import queries
 
 # app.jinja_env.undefined = StrictUndefined
 
@@ -145,21 +154,87 @@ def unlock_route():
 >>>>>>> 77463b5e9d357c2aca1589038f1e615f59ece388
 def navigate_user():
     """ display a map with basic pins of each route """
-
     route_id = request.form.get('route_details')
-    return render_template('navigation.html', route_id=route_id)
+
+    route = Route.query.filter(Route.route_id == route_id).first()
+    route_waypoints = route.waypoints
+
+    start_point = route_waypoints[0]
+    end_point = route_waypoints[-1]
+
+    steps = []
+    path_steps = Path_Step(steps=steps)
+    db.session.add(path_steps)
+    db.session.commit()
+    ps_id_tup = db.session.query(func.max(Path_Step.ps_id)).first()
+    steps_id = ps_id_tup[0]
+
+    path = Path(start_point=start_point,
+                end_point=end_point,
+                steps_id=steps_id
+                )
+    db.session.add(path)
+    db.session.commit()
+
+    directions = []
+    step_directions = Step_Direction(directions=directions)
+    db.session.add(step_directions)
+    db.session.commit()
+    sd_id_tup = db.session.query(func.max(Step_Direction.sd_id)).first()
+    directions_id = sd_id_tup[0]
+
+    step_start = start_point
+    step_end = route_waypoints[1]
+    step = Step(start_point=step_start,
+                end_point=step_end,
+                directions_id = directions_id
+                )
+
+    path_id_tup = db.session.query(func.max(Path.path_id)).first()
+    path_id = path_id_tup[0]
+
+    return render_template('navigation.html', route_id=route_id,
+                                              path_id=path_id)
 
 
-@app.route('/add_directions.json', methods=['POST'])
+# @app.route('/add_directions.json', methods=['POST'])
+# def add_user_navigation():
+#     """Add a users navigation directions to the database for their route."""
+
+#     photo = request.form.get('photo')
+#     directions = request.form.get('directions')
+
+#     result = {'photo': photo, 'directions': directions}
+
+#     return jsonify(result)
+
+
+@app.route('/add_directions', methods=['POST'])
 def add_user_navigation():
     """Add a users navigation directions to the database for their route."""
-
+    
+    path_id = request.form.get('pathId')
+    latitude = request.form.get('latitude')
+    longitude = request.form.get('longitude')
     photo = request.form.get('photo')
     directions = request.form.get('directions')
 
-    result = {'photo': photo, 'directions': directions}
+    image_url = photo
+    direction_text = directions
 
-    return jsonify(result)
+    new_direction = Direction(image_url=image_url,
+                              direction_text=direction_text)
+    db.session.add(new_direction)
+    db.session.commit()
+
+    path = Path.query.filter(Path.path_id == path_id).first()
+    ps_id = path.steps_id
+    path_steps = Path_Step.query.filter(Path_Step.ps_id == ps_id).first()
+    steps = path_steps.steps
+
+    # steps = steps.append()
+    # path_steps.steps = steps
+    return "Goose Egg"
 
 
 @app.route('/route_info.json', methods=['POST'])
@@ -167,10 +242,19 @@ def routes_info():
     """ forward route information to the google maps on the navigation route """
 
     route_id = request.form.get('id')
-    waypoints = Route.query.filter(Route.route_id == route_id)
-    waypoints = list(map(lambda x: x.waypoints, waypoints))
+    waypoints = Route.query.filter(Route.route_id == route_id).all()
+    waypoints = map(lambda x: x.waypoints, waypoints)
+    ways = {}
+    for x in waypoints:
+        for y in x:
+            waypoint_data = Waypoint.query.filter(Waypoint.waypoint_id == y).first()
+            ways[y] = {
+                'latitude': waypoint_data.latitude,
+                'longitude': waypoint_data.longitude,
+                'location': waypoint_data.location
+            }
 
-    return jsonify(route_id)
+    return jsonify(ways)
 
 
 @app.route('/logout')
@@ -193,7 +277,7 @@ def jsonify_waypoints():
     waypoints = Waypoint.query.all()
     all_waypoints = {}
 
-    while len(all_waypoints) < 50:
+    while len(all_waypoints) < 350:
         for waypoint in waypoints:
             temp_dict = {
             "location": waypoint.location,
@@ -203,16 +287,27 @@ def jsonify_waypoints():
             all_waypoints[waypoint.waypoint_id] = temp_dict
     return jsonify(all_waypoints)
 
-@app.route('/finish_route')
-def test():
 
-    tokens = queries.get_tokens(session['user_id'])    
-    return redirect('/profile')
+# @app.route('/finish_route')
+# def test():
+
+#     tokens = queries.get_tokens(session['user_id'])    
+#     return redirect('/profile')
 
 
-# @app.route('/json_output.json')
-# def json_output():
-    
+@app.route('/json_output.json')
+def json_output():
+    pass
+
+
+@app.route('/terms_of_service')  
+def terms_of_service():
+    return render_template('/terms_of_service.html')
+
+
+@app.route('/privacy_policy')
+def privacy_policy():
+    return render_template('/privacy_policy.html')
 
 
 if __name__ == "__main__":

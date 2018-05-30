@@ -2,8 +2,10 @@
     DB name : """
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-
+import os
+# from manage import db,app
 db = SQLAlchemy()
+
 
 ################################################################################
 
@@ -148,18 +150,16 @@ class Step(db.Model):
     step_id = db.Column(db.Integer, autoincrement=True,
                                       primary_key=True)
     start_point = db.Column(db.Integer, nullable=False)
-    end_point = db.Column(db.Integer, nullable=False)
-    directions = db.Column(db.Integer,
-                           # db.ForeignKey('step_directions.direction_id')
-                           nullable=False)
+    end_point = db.Column(db.Integer, nullable=True)
+    directions_id = db.Column(db.Integer, nullable=False)
 
     def __repr__ (self):
         """return route information."""
 
         d1 = '<step_id={a}, start_point={b},'.format(a=self.step_id,
                                                 b=self.start_point)
-        d2 = '<end_point={c}, directions={d},'.format(c=self.end_point,
-                                                d=self.directions)
+        d2 = '<end_point={c}, directions_id={d},'.format(c=self.end_point,
+                                                d=self.directions_id)
         return d1 + d2
 
 
@@ -168,7 +168,7 @@ class Step_Direction(db.Model):
 
     __tablename__ ='step_directions'
 
-    direction_id = db.Column(db.Integer, autoincrement=True,
+    sd_id = db.Column(db.Integer, autoincrement=True,
                                     primary_key=True)
     directions = db.Column(db.ARRAY(db.Integer), nullable=False)
 
@@ -195,8 +195,8 @@ class Direction(db.Model):
                                            primary_key=True)
     image_url = db.Column(db.String, nullable=False)
     direction_text = db.Column(db.String, nullable=False)
-    latitude = db.Column(db.String, nullable=True)
-    longitude = db.Column(db.String, nullable=True)
+    # latitude = db.Column(db.String, nullable=True)
+    # longitude = db.Column(db.String, nullable=True)
 
     def __repr__ (self):
         """return direction information."""
@@ -218,9 +218,7 @@ class Path(db.Model):
                                       primary_key=True)
     start_point = db.Column(db.Integer, nullable=False)
     end_point = db.Column(db.Integer, nullable=False)
-    steps = db.Column(db.Integer,
-                          # db.ForeignKey('path_steps.ps_id'),
-                          nullable=False)
+    steps_id = db.Column(db.Integer, nullable=False)
 
     def __repr__ (self):
         """return path information."""
@@ -232,7 +230,7 @@ class Path(db.Model):
         return d1 + d2
 
 
-class Path_Steps(db.Model):
+class Path_Step(db.Model):
     """ Lists of steps for each path. """
 
     __tablename__ ='path_steps'

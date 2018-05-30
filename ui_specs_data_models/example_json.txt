@@ -1,0 +1,82 @@
+{
+   "path": {
+      "start_point": {
+         "latitude":  37.423701,
+         "longitude": -122.090085,
+         "address": "XXX Charleston Road",
+         "images": [
+            {
+               "filename": "start_point/0.jpeg"
+            },
+            {
+               "filename": "start_point/1.jpeg"
+            }
+         ],
+         "descriptions": [
+            "Intersection at Rengstorff/Amphitheatre",
+            "Second description"
+         ]
+      },
+      "end_point": {
+         "latitude": 37.421073,
+         "longitude": -122.087388,
+         "address": "YYY Charleston Road",
+         "images": [
+            {
+               "filename": "end_point/0.jpeg"
+            }
+         ],
+         "descriptions": [
+            "The Landmark office building"
+         ]
+      },
+      "steps": [
+         {
+            "start_point": {
+               "latitude": 37.423701,
+               "longitude": -122.090085,
+               "address": "XXX Charleston Road",
+               "images": [
+                  {
+                     "filename": "start_point/0.jpeg"
+                  },
+                  {
+                     "filename": "start_point/1.jpeg"
+                  }
+               ],
+               "descriptions": [
+                  "Intersection at Rengstorff/Amphitheatre",
+                  "Second description"
+               ]
+            },
+            "end_point": {
+               "latitude": 37.421073,
+               "longitude": -122.087388,
+               "address": "YYY Charleston Road",
+               "images": [
+                  {
+                     "filename": "end_point/0.jpeg"
+                  }
+               ],
+               "descriptions": [
+                  "The Landmark office building"
+               ]
+            },
+            "direction": "Head south on Charleston Road until you see a flagpole. You will pass a bunch of trees on the way.",
+            "data_points": [
+               {
+                  "images": [
+                     {
+                        "filename": "step_0/0.jpeg"
+                     }
+                  ]
+               }
+            ],
+            "descriptions": [
+               "Trees and a driveway"
+            ]
+         }
+      ],
+      "id": 12345
+   }
+}

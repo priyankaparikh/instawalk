@@ -21,10 +21,45 @@
         let route_id = {
           id: {{ route_id }},
         };
-        $.post('/route_info.json', route_id, function(result){  })
+        $.post('/route_info.json', route_id, function(result){ 
+          waypoints = Object.keys(result)
+          let first = waypoints[2]
+
           map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: -34.397, lng: 150.644},
-          zoom: 8
+            zoom: 13,
+            center : {lat: parseFloat(result[first]['latitude']),
+                      lng: parseFloat(result[first]['longitude'])}
+          })
+
+          let i = 0
+          while (i < waypoints.length) {
+            console.log(waypoints[i])
+            var latitude = result[waypoints[i]]['latitude']
+            var longitude = result[waypoints[i]]['longitude']
+            var location = '<h1>' + result[waypoints[i]]['location'] + '</h1>'
+            var way_id = '<p>' + waypoints[i] + '</p>'
+            var html_s = location + way_id
+            // marker windows require a string of html as input
+            createMarkers(latitude, longitude, html_s)
+            i++
+          }  //end for loop
+        })
+      }
+
+      // This function creates markers. Takes val(an object) as param
+      function createMarkers(latitude, longitude, infoWindowHtml) {
+        var myLatLng = new google.maps.LatLng(parseFloat(latitude),
+                                              parseFloat(longitude))
+        var marker = new google.maps.Marker({
+          map: map,
+          position: myLatLng,
+        });
+        var infowindow = new google.maps.InfoWindow({
+          content: infoWindowHtml
+        })
+        // marker.addListener('click', showInfoWindow );
+        marker.addListener('click', function() {
+          infowindow.open(map, marker);
         });
       }
     </script>
@@ -45,18 +80,28 @@
                     <form role='form' action='/add_directions' method='POST'>
                 </div> 
                 <div class="modal-body mbody add_directions">
-                    <form role='form' id='myform' class='add_directions' action='/add_directions.json' method='POST'>
+                    <form onsubmit="getLocation()" role='form' id='myform' class='add_directions' action='/add_directions' method='POST'>
+                        <div class="form-group">
+                          <label class='labeltext'>Path ID</label>
+                          <input type="text" name="pathId" id="pathId" value="{{ path_id }}">
+                        </div>
+                        <div class="form-group">
+                          <label class='labeltext'>Latitude</label>
+                          <input type="text" name="latitude" id="latitude" value="">
+                        </div>
+                        <div class="form-group">
+                          <label class='labeltext'>Longitude</label>
+                          <input type="text" name="longitude" id="longitude" value="">
+                        </div>
                         <div class="form-group">
                             <label class='labeltext'>Take Photo</label>
                             <!-- TEST THIS FEATURE ON MOBILE -->
                             <!-- Take and upload photo from phone camera -->
-                            <input id="upload_photo" type="file" accept="image/*" capture="camera">
-
-                      <!--       <input id='upload_photo' name='upload_photo' type="file"> -->
+                            <input id="photo" name="photo" type="file" accept="image/*" capture="camera">
                         </div>
                         <div class="form-group">
                             <label class='labeltext'>Write Directions</label>
-                            <textarea id='directions' name='directions'class="form-control" id="message-text" placeholder="Enter directions"></textarea>
+                            <textarea id='directions' name='directions' class="form-control" id="message-text" placeholder="Enter directions"></textarea>
                         </div>
                         <button type="submit" class="btn">Add</button>
                     </form>
@@ -70,6 +115,44 @@
 
     <!-- directions button -->
     <button type='submit' class="btn" data-toggle="modal" data-target="#myModal">Add directions</button>
+
+    <!-- AJAX request for form submission -->
+    <script>
+      $(document).ready(function() {
+        $('form').on('submit', function(event) {
+          $.ajax({
+            data: {
+              pathId: $('#pathId').val(),
+              latitude: $('#latitude').val(),
+              longitude: $('#longitude').val()
+            },
+            type: 'POST',
+            url: '/add_directions'
+          })
+        event.preventDefault()
+        })
+        $('#myModal').hide();
+      })
+    </script>
+
+       <!-- Get User Location -->
+    
+    <script>
+        var latitude = document.getElementById("latitude");
+        var longitude = document.getElementById("longitude");
+        function getLocation() {
+            if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(formPosition);
+            } else {
+              alert("Geolocation is not supported by this browser.")
+      }
+    }
+      function formPosition(position) {
+          latitude.value = position.coords.latitude;
+          longitude.value = position.coords.longitude;
+      }
+    </script> 
+
     <form action='/finish_route'>
       <button type="submit" class='btn'>Finished</button>
     </form>
