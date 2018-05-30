@@ -8,8 +8,11 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://xllajhyyvxmohg:586b67a7d8124
 
 db = SQLAlchemy(app)
 
-from models import User, Comp_Routes, User_Routes, Route, Waypoint, Step, Path
+from models import (User, Comp_Routes, User_Routes, Route, Waypoint, Step, Pathfrom models import (User, Comp_Routes, User_Routes, Route, Waypoint, Step, Path,
+                    Path_Step, Direction, Step_Direction)
 from sqlalchemy import func
+import queries
+
 import queries
 
 # app.jinja_env.undefined = StrictUndefined
@@ -138,21 +141,78 @@ def user_profile():
 @app.route('/navigation', methods=['POST'])
 def navigate_user():
     """ display a map with basic pins of each route """
-
     route_id = request.form.get('route_details')
-    return render_template('navigation.html', route_id=route_id)
+
+    route = Route.query.filter(Route.route_id == route_id).first()
+    route_waypoints = route.waypoints
+
+    start_point = route_waypoints[0]
+    end_point = route_waypoints[-1]
+
+    steps = []
+    path_steps = Path_Step(steps=steps)
+    db.session.add(path_steps)
+    db.session.commit()
+    ps_id_tup = db.session.query(func.max(Path_Step.ps_id)).first()
+    ps_id = ps_id_tup[0]
+
+    path = Path(start_point=start_point,
+                end_point=end_point,
+                ps_id=ps_id
+                )
+    db.session.add(path)
+    db.session.commit()
+
+    directions = []
+    step_directions = Step_Direction(directions=directions)
+    db.session.add(step_directions)
+    db.session.commit()
+    sd_id_tup = db.session.query(func.max(Step_Direction.sd_id)).first()
+    sd_id = sd_id_tup[0]
+
+    step_start = start_point
+    step_end = route_waypoints[1]
+    step = Step(start_point=step_start,
+                end_point=step_end,
+                sd_id = sd_id
+                )
+
+    path_id_tup = db.session.query(func.max(Path.path_id)).first()
+    path_id = path_id_tup[0]
+
+    return render_template('navigation.html', route_id=route_id,
+                                              path_id=path_id)
 
 
-@app.route('/add_directions.json', methods=['POST'])
+# @app.route('/add_directions.json', methods=['POST'])
+# def add_user_navigation():
+#     """Add a users navigation directions to the database for their route."""
+
+#     photo = request.form.get('photo')
+#     directions = request.form.get('directions')
+
+#     result = {'photo': photo, 'directions': directions}
+
+#     return jsonify(result)
+
+
+@app.route('/add_directions', methods=['POST'])
 def add_user_navigation():
     """Add a users navigation directions to the database for their route."""
-
+    
+    path_id = request.form.get('path-id')
+    latitude = request.form.get('latitude')
+    longitude = request.form.get('longitude')
     photo = request.form.get('photo')
     directions = request.form.get('directions')
 
-    result = {'photo': photo, 'directions': directions}
+    path = Path.query.filter(Path.path_id == path_id).first()
+    ps_id = path.ps_id
+    path_steps = Path_Step.query.filter(Path_Step.ps_id == ps_id).all()
+    steps = path_steps.steps
 
-    return jsonify(result)
+    steps = steps.append()
+    path_steps.steps = steps
 
 
 @app.route('/route_info.json', methods=['POST'])
@@ -195,7 +255,7 @@ def jsonify_waypoints():
     waypoints = Waypoint.query.all()
     all_waypoints = {}
 
-    while len(all_waypoints) < 50:
+    while len(all_waypoints) < 350:
         for waypoint in waypoints:
             temp_dict = {
             "location": waypoint.location,
@@ -213,8 +273,9 @@ def jsonify_waypoints():
 #     return redirect('/profile')
 
 
-# @app.route('/json_output.json')
-# def json_output():
+@app.route('/json_output.json')
+def json_output():
+    pass
 
 
 @app.route('/terms_of_service')  
