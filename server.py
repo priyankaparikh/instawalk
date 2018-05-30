@@ -207,6 +207,14 @@ def add_user_navigation():
     photo = request.form.get('photo')
     directions = request.form.get('directions')
 
+    image_url = photo
+    direction_text = directions
+
+    new_direction = Direction(image_url=image_url,
+                              direction_text=direction_text)
+    db.session.add(new_direction)
+    db.session.commit()
+
     path = Path.query.filter(Path.path_id == path_id).first()
     ps_id = path.steps_id
     path_steps = Path_Step.query.filter(Path_Step.ps_id == ps_id).first()
