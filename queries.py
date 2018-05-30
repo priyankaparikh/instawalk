@@ -111,6 +111,8 @@ def jsonify_paths():
                     step_dict[direction_num] = direction_dict
                     step_list.append(step_dict)
 
+            curr_path["steps"] = step_list
+
 
 if __name__ == "__main__":
     connect_to_db(app)

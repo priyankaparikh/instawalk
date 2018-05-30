@@ -149,9 +149,7 @@ class Step(db.Model):
                                       primary_key=True)
     start_point = db.Column(db.Integer, nullable=False)
     end_point = db.Column(db.Integer, nullable=False)
-    sd_id = db.Column(db.Integer,
-                           # db.ForeignKey('step_directions.direction_id')
-                           nullable=False)
+    sd_id = db.Column(db.Integer, nullable=False)
 
     def __repr__ (self):
         """return route information."""

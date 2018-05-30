@@ -135,21 +135,77 @@ def user_profile():
 @app.route('/navigation', methods=['POST'])
 def navigate_user():
     """ display a map with basic pins of each route """
-
     route_id = request.form.get('route_details')
-    return render_template('navigation.html', route_id=route_id)
+
+    route = Route.query.filter(Route.route_id == route_id).first()
+    route_waypoints = route.waypoints
+
+    start_point = route_waypoints[0]
+    end_point = route_waypoints[-1]
+
+    steps = []
+    path_steps = Path_Steps(steps=steps)
+    db.session.add(path_steps)
+    db.session.commit()
+    ps_id_tup = db.session.query(func.max(Path_Steps.ps_id)).first()
+    ps_id = ps_id_tup[0]
+
+    path = Path(start_point=start_point,
+                end_point=end_point,
+                ps_id=ps_id
+                )
+    db.session.add(path)
+    db.session.commit()
+
+    directions = []
+    step_directions = Step_Directions(directions=directions)
+    db.session.add(step_directions)
+    db.session.commit()
+    sd_id_tup = db.session.query(func.max(Step_Directions.sd_id)).first()
+    sd_id = sd_id_tup[0]
+
+    step_start = start_point
+    step_end = route_waypoints[1]
+    step = Step(start_point=step_start,
+                end_point=step_end,
+                sd_id = sd_id
+                )
+
+    path_id_tup = db.session.query(func.max(Path.path_id)).first()
+    path_id = path_id_tup[0]
+
+    return render_template('navigation.html', route_id=route_id,
+                                              path_id=path_id)
 
 
-@app.route('/add_directions.json', methods=['POST'])
+# @app.route('/add_directions.json', methods=['POST'])
+# def add_user_navigation():
+#     """Add a users navigation directions to the database for their route."""
+
+#     photo = request.form.get('photo')
+#     directions = request.form.get('directions')
+
+#     result = {'photo': photo, 'directions': directions}
+
+#     return jsonify(result)
+
+
+@app.route('/add_directions', methods=['POST'])
 def add_user_navigation():
     """Add a users navigation directions to the database for their route."""
 
     photo = request.form.get('photo')
     directions = request.form.get('directions')
+    path_id = request.form.get('path-id')
+    path = Path.query.filter(Path.path_id == path_id).first()
+    ps_id = path.ps_id
+    path_steps = Path_Steps.query.filter(Path_Steps.ps_id == ps_id).first()
+    steps = path_steps.steps
 
-    result = {'photo': photo, 'directions': directions}
 
-    return jsonify(result)
+    steps = steps.append()
+    path_steps.steps = steps
+
 
 
 @app.route('/route_info.json', methods=['POST'])
