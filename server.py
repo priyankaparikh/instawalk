@@ -49,6 +49,10 @@ def register_user():
 
     # if not in the database add them and redirect to home page
     else:
+<<<<<<< HEAD
+=======
+
+>>>>>>> 64118b96cca7d2b8291297ff30136da2cc65bb89
         c_routes = Comp_Routes(completed=[])
         db.session.add(c_routes)
         db.session.commit()
@@ -68,6 +72,11 @@ def register_user():
                     tokens=10,
                     user_routes=user_routes,
                     completed=completed,
+<<<<<<< HEAD
+=======
+                    terms_agreement=terms_agreement
+                )
+>>>>>>> 64118b96cca7d2b8291297ff30136da2cc65bb89
 
         db.session.add(user)
         db.session.commit()
@@ -214,7 +223,8 @@ def add_user_navigation():
     step = Step.query.filter(Step.path_id == path_id).first()
     step_id = step.step_id
 
-    new_direction = Direction(image_url=image_url,
+    new_direction = Direction(step_id=step_id,
+                              image_url=image_url,
                               direction_text=direction_text)
 
     db.session.add(new_direction)
