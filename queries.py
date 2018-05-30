@@ -4,7 +4,7 @@ Db name: """
 # from manage import db, app
 from models import connect_to_db, db
 from models import (User, Comp_Routes, User_Routes, Route, Waypoint, Step, Path,
-                    Direction, Step_Direction, Path_Step)
+                    Direction)
 from server import app
 # from geopy import Nominatim
 

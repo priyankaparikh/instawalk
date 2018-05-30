@@ -12,7 +12,7 @@ app.config['UPLOAD_FOLDER'] = './static/user_sourced_photos'
 
 from models import connect_to_db, db
 from models import (User, Comp_Routes, User_Routes, Route, Waypoint, Step, Path,
-                    Path_Step, Direction, Step_Direction)
+                    Direction)
 from sqlalchemy import func
 import queries
 
@@ -109,17 +109,26 @@ def user_profile():
         tokens = user.tokens
     else:
         return redirect('/')
+
     # completed routes
-    cr_id = user.completed
-    comp_r = Comp_Routes.query.filter(Comp_Routes.cr_id == cr_id).first()
-    completed_routes = comp_r.completed
+    completed_routes = []
+    comp_routes = Comp_Routes.query.filter(Comp_Routes.user_id == user_id).all()
+    for route in comp_routes:
+        current_route = {}
+        current_route["route_id"] = comp_routes.route_id
+        completed_routes.append(current_route)
+
     # user routes
-    ur_id = user.user_routes
-    user_r = User_Routes.query.filter(User_Routes.ur_id == ur_id).first()
-    user_routes = user_r.u_routes
+    user_routes = []
+    user_routes = User_Routes.query.filter(User_Routes.user_id == user_id).all()
+    for route in user_routes:
+        current_route = {}
+        current_route["route_id"] = user_routes.route_id
+        user_routes.append(current_route)
 
     from models import Route
 
+    # all routes
     routes = Route.query.all()
     all_routes = []
 
@@ -152,36 +161,24 @@ def navigate_user():
     start_point = route_waypoints[0]
     end_point = route_waypoints[-1]
 
-    steps = []
-    path_steps = Path_Step(steps=steps)
-    db.session.add(path_steps)
-    db.session.commit()
-    ps_id_tup = db.session.query(func.max(Path_Step.ps_id)).first()
-    steps_id = ps_id_tup[0]
 
     path = Path(start_point=start_point,
                 end_point=end_point,
-                steps_id=steps_id
                 )
     db.session.add(path)
     db.session.commit()
 
-    directions = []
-    step_directions = Step_Direction(directions=directions)
-    db.session.add(step_directions)
-    db.session.commit()
-    sd_id_tup = db.session.query(func.max(Step_Direction.sd_id)).first()
-    directions_id = sd_id_tup[0]
+    path_id_tup = db.session.query(func.max(Path.path_id)).first()
+    path_id = path_id_tup[0]
 
     step_start = start_point
     step_end = route_waypoints[1]
-    step = Step(start_point=step_start,
+    step = Step(path_id=path_id,
+                start_point=step_start,
                 end_point=step_end,
-                directions_id = directions_id
                 )
-
-    path_id_tup = db.session.query(func.max(Path.path_id)).first()
-    path_id = path_id_tup[0]
+    db.session.add(step)
+    db.session.commit() 
 
     return render_template('navigation.html', route_id=route_id,
                                               path_id=path_id)
@@ -215,20 +212,16 @@ def add_user_navigation():
 
     image_url = photo
     direction_text = directions
+    step = Step.query.filter(Step.path_id == path_id).first()
+    step_id = step.step_id
 
     new_direction = Direction(image_url=image_url,
                               direction_text=direction_text)
 
     db.session.add(new_direction)
+    
     db.session.commit()
-
-    path = Path.query.filter(Path.path_id == path_id).first()
-    ps_id = path.steps_id
-    path_steps = Path_Step.query.filter(Path_Step.ps_id == ps_id).first()
-    steps = path_steps.steps
-
-    # steps = steps.append()
-    # path_steps.steps = steps
+    
     return "Goose Egg"
 
 
@@ -246,7 +239,9 @@ def routes_info():
             ways[y] = {
                 'latitude': waypoint_data.latitude,
                 'longitude': waypoint_data.longitude,
-                'location': waypoint_data.location
+                'location': waypoint_data.location,
+                'image_url': waypoint_data.image_url,
+                'description': waypoint_data.description
             }
 
     return jsonify(ways)
