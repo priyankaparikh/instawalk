@@ -82,13 +82,11 @@
                     <form class="addDirectionForm "role='form' action='/add_directions' method='POST'>
                 </div>
                 <div class="modal-body mbody add_directions">
-                    <form onsubmit="getLocation()" role='form' id='myform' class='add_directions' action='/add_directions' method='POST'>
+                    <form role='form' id='myform' class='add_directions' action='/add_directions' method='POST'>
                         <div class="form-group">
-                          <label class='labeltext'>Path ID</label>
                           <input type="hidden" name="pathId" id="pathId" value="{{ path_id }}">
                         </div>
                         <div class="form-group">
-                          <label class='labeltext'>Route ID</label>
                           <input type="hidden" name="routeId" id="routeId" value="{{ route_id }}">
                         </div>
                         <div class="form-group">
@@ -99,6 +97,7 @@
                           <label class='labeltext'>Longitude</label>
                           <input type="text" name="longitude" id="longitude" value="">
                         </div>
+                        <input id="clickMe" type="button" value="clickme" onclick="getLocation();" />
                         <div class="form-group">
                             <label class='labeltext'>Take Photo</label>
                             <!-- TEST THIS FEATURE ON MOBILE -->
@@ -149,9 +148,10 @@
        <!-- Get User Location -->
 
     <script>
-        var latitude = document.getElementById("latitude");
-        var longitude = document.getElementById("longitude");
-        function getLocation() {
+      // $(document).on(, getLocation());
+      var latitude = document.getElementById("latitude");
+      var longitude = document.getElementById("longitude");
+      function getLocation() {
             if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(formPosition);
             } else {
@@ -159,6 +159,8 @@
       }
     }
       function formPosition(position) {
+          // $('#latitude').val(position.coords.latitude);
+          // $('#longitude').val(position.coords.longitude);
           latitude.value = position.coords.latitude;
           longitude.value = position.coords.longitude;
       }
