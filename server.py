@@ -21,7 +21,7 @@ import queries
 # app.jinja_env.undefined = StrictUndefined
 
 
-@app.route('/')
+@app.route('/', methods=['POST'])
 def landing_page():
     """Render landing page."""
 
