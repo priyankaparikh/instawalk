@@ -77,7 +77,7 @@
                     <h4 class='headertext'>Add directions</h4>
                 </div>
                 <div class="modal-body mbody">
-                    <form class="addDirectionForm "role='form' action='/add_directions' method='POST'>
+                    <form class="addDirectionForm" enctype='multipart/form-data' role='form' action='/add_directions' method='POST'>
                 </div>
                 <div class="modal-body mbody add_directions">
                     <form role='form' id='myform' class='add_directions' action='/add_directions' method='POST'>
@@ -116,31 +116,70 @@
     </div>
 
     <!-- directions button -->
-    <button type='submit' class="btn btn-lg" data-toggle="modal" data-target="#myModal">Add directions</button>
+    <button type='submit' id="addDirection" class="btn btn-lg" data-toggle="modal" data-target="#myModal">Add directions</button>
 
     <!-- AJAX request for form submission -->
     <script>
-      $(document).ready(function() {
-        $('#myform').on('submit', function(event) {
-          var dir = document.getElementById("directions").value;
-          $.ajax({
-            data: {
-              pathId: $('#pathId').val(),
-              routeId: $('#routeId').val(),
-              latitude: $('#latitude').val(),
-              longitude: $('#longitude').val(),
-              photo: $('#photo').val(),
-              directions: $('textarea#textDirections').val(),
-            },
-            type: 'POST',
-            url: '/add_directions'
-          })
-        event.preventDefault()
-        $('#myModal').modal('hide');
-        $('form.addDirectionForm input[type="text"],input[type="file"]').val('');
-        $('#textDirections').val('');
-        })
+
+      let imgFile
+      $("#photo").on('change'),function(evt) {
+        imgFile = evt.target.files;
+      }
+
+      $('#addDirection').on('click', function(evt) {
+        evt.preventDefault();
+      
+      $('#myModal').modal('hide');
+
+      let formData = new FormData();
+      formData.append('imgFile', imgFile[0]);
+      let pathId = $('#pathId').val();
+      let routeId = $('#routeId').val();
+      let latitude = $('#latitude').val();
+      let longitude = $('#longitude').val();
+      let directions = $('textarea#textDirections').val();
+      formData.append('pathId', pathId);
+      formData.append('routeId', routeId);
+      formData.append('latitude', latitude);
+      formData.append('longitude', longitude);
+      formData.append('directions', directions);
+
+      $.ajax({
+              type: 'POST',
+              url: '/add_directions'
+              data: formData,
+              contentType: false,
+              processData: false,
+              success: function() {
+                $('form.addDirectionForm input[type="text"],
+                                         input,input[type="file"]').val('');
+                $('#textDirections').val('');
+              }
+        });
       })
+
+      // $(document).ready(function() {
+      //   $('#myform').on('submit', function(event) {
+      //     var dir = document.getElementById("directions").value;
+      //     $.ajax({
+      //       data: {
+      //         pathId: $('#pathId').val(),
+      //         routeId: $('#routeId').val(),
+      //         latitude: $('#latitude').val(),
+      //         longitude: $('#longitude').val(),
+      //         photo: $('#photo').val(),
+      //         directions: $('textarea#textDirections').val(),
+      //       },
+      //       type: 'POST',
+      //       url: '/add_directions'
+      //     })
+
+        
+      //   $('form.addDirectionForm input[type="text"],input[type="file"]').val('');
+      //   $('#textDirections').val('');
+      //   })
+      // })
+
     </script>
 
        <!-- Get User Location -->
@@ -157,15 +196,13 @@
       }
     }
       function formPosition(position) {
-          // $('#latitude').val(position.coords.latitude);
-          // $('#longitude').val(position.coords.longitude);
-          latitude.value = position.coords.latitude;
-          longitude.value = position.coords.longitude;
+          $('#latitude').val(position.coords.latitude);
+          $('#longitude').val(position.coords.longitude);
       }
     </script>
 
     <form id='comp_route' action='/finish_route'>
-      <input type="submit" class='btn btn-lg' id='compRouteId' value='Finished'>
+      <input type="submit" class='btn btn-lg' id='compRouteId' value='{{ route_id }}'>
     </form>
     <script>
       $('#comp_route').on('submit', function(){
