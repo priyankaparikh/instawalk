@@ -4,7 +4,7 @@
       /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
       #map {
-        height: 90%;
+        height: 80%;
       }
       /* Optional: Makes the sample page fill the window. */
       html, body {
@@ -37,10 +37,8 @@
             var latitude = result[waypoints[i]]['latitude']
             var longitude = result[waypoints[i]]['longitude']
             var location = '<h1>' + result[waypoints[i]]['location'] + '</h1>'
-            var website = '<a href=' + result[waypoints[i]]['description'] + '></a>'
-            var photo = '<img src=' + result[waypoints[i]]['image_url'] + '>'
             var way_id = '<p>' + waypoints[i] + '</p>'
-            var html_s = location + photo + website + way_id
+            var html_s = location + way_id
             // marker windows require a string of html as input
             createMarkers(latitude, longitude, html_s)
             i++
@@ -118,12 +116,12 @@
     </div>
 
     <!-- directions button -->
-    <button type='submit' class="btn" data-toggle="modal" data-target="#myModal">Add directions</button>
+    <button type='submit' class="btn btn-lg" data-toggle="modal" data-target="#myModal">Add directions</button>
 
     <!-- AJAX request for form submission -->
     <script>
       $(document).ready(function() {
-        $('form').on('submit', function(event) {
+        $('#myform').on('submit', function(event) {
           var dir = document.getElementById("directions").value;
           $.ajax({
             data: {
@@ -166,9 +164,14 @@
       }
     </script>
 
-    <form action='/finish_route'>
-      <button type="submit" class='btn' id='compRouteId' value='{{ route_id }}'>Finished</button>
+    <form id='comp_route' action='/finish_route'>
+      <input type="submit" class='btn btn-lg' id='compRouteId' value='Finished'>
     </form>
+    <script>
+      $('#comp_route').on('submit', function(){
+        $.get('/finish_route');
+      })
+    </script>
 
   </body>
 </html>
