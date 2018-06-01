@@ -17,8 +17,6 @@ from models import (User, Comp_Routes, User_Routes, Route, Waypoint, Step, Path,
 from sqlalchemy import func
 import queries
 
-
-
 # app.jinja_env.undefined = StrictUndefined
 
 
