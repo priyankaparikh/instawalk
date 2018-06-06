@@ -1,25 +1,18 @@
-# from jinja2 import StrictUndefined
+from jinja2 import StrictUndefined
 from flask import Flask, render_template, session, redirect, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
-from werkzeug.utils import secure_filename
 import os
-
-app = Flask(__name__)
-app.secret_key = 'ABCD'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://xllajhyyvxmohg:586b67a7d8124b2dfbe064491e95b5c80e5042511be61108c393956923d3302a@ec2-54-225-107-174.compute-1.amazonaws.com:5432/d82mvtff7vnuge'
-app.config['UPLOAD_FOLDER'] = './static/user_sourced_photos'
-db = SQLAlchemy(app)
-
-# from models import connect_to_db, db
+import bcrypt
+from models import connect_to_db, db
 from models import (User, Comp_Routes, User_Routes, Route, Waypoint, Step, Path,
                     Direction)
 from sqlalchemy import func
 import queries
 
-# import queries
-
+app = Flask(__name__)
+app.secret_key = 'ABCD'
 # app.jinja_env.undefined = StrictUndefined
-
+UPLOAD_FOLDER = 'static/uploaded_images/'
 
 @app.route('/', methods=['POST'])
 def landing_page():
@@ -188,40 +181,38 @@ def add_user_navigation():
 
     path_id = request.form.get('pathId')
     route_id = request.form.get('routeId')
-#     u_latitude = request.form.get('latitude')
-#     u_longitude = request.form.get('longitude')
-    photo = request.form.get('photo')
-#     # file = request.files.get('photo', None)
-#     # filename = secure_filename(file.filename)
-#     # file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-#     # image_url = 'static/user_sourced_photos' + str(filename)
-#     directions = request.form.get('directions')
+    u_latitude = request.form.get('latitude')
+    u_longitude = request.form.get('longitude')
+    photo = request.files['imgFile']
+    direction_text = request.form.get('directions')
+    
+    img_url = UPLOAD_FOLDER + photo.filename
+    photo.save(img_url)
 
-#     image_url = photo
-#     direction_text = directions
+    route = Route.query.filter(Route.route_id == route_id).first()
 
-#     route = Route.query.filter(Route.route_id == route_id).first()
-#     #route_waypoints is a list of integers representing the waypoints
-#     route_waypoints = route.waypoints
-#     w_latlongs = []
-    # for waypoint in route_waypoints:
-    #     temp_dict = {}
-    #     waypoint = Waypoint.query.filter(Waypoint.waypoint_id == waypoint).first()
-    #     w_latitude = waypoint.latitude
-    #     w_longitude = waypoint.longitude
-    #     w_id = waypoint.waypoint_id
-    #     temp_dict[w_id] = {'lat': w_latitude, 'lon': w_longitude}
-    #     w_latlongs.append(temp_dict)
-    # for i in range(len(route_waypoints)):
-    #     temp = {}
-    #     w_id = route_waypoints[i]
-    #     waypoint = Waypoint.query.filter(Waypoint.waypoint_id == w_id).first()
-    #     w_latitude = waypoint.latitude
-    #     w_longitude = waypoint.longitude
-    #     temp['lat'] = w_latitude
-    #     temp['long'] = w_longitude
-    #     w_latlongs.append(temp)
-    # print w_latlongs
+    #route_waypoints is a list of integers representing the waypoints
+    route_waypoints = route.waypoints
+    w_latlongs = []
+
+    for waypoint in route_waypoints:
+        temp_dict = {}
+        waypoint = Waypoint.query.filter(Waypoint.waypoint_id == waypoint).first()
+        w_latitude = waypoint.latitude
+        w_longitude = waypoint.longitude
+        w_id = waypoint.waypoint_id
+        temp_dict[w_id] = {'lat': w_latitude, 'lon': w_longitude}
+        w_latlongs.append(temp_dict)
+
+    for i in range(len(route_waypoints)):
+        temp = {}
+        w_id = route_waypoints[i]
+        waypoint = Waypoint.query.filter(Waypoint.waypoint_id == w_id).first()
+        w_latitude = waypoint.latitude
+        w_longitude = waypoint.longitude
+        temp['lat'] = w_latitude
+        temp['long'] = w_longitude
+        w_latlongs.append(temp)
 
     # def distance(lat1, lon1, lat2, lon2):
     #     # haversine formula. calculating distances b/w points on the globe
@@ -232,7 +223,6 @@ def add_user_navigation():
     # def closest(data, v):
     #     #data is a list of dictionaries containing the latitude and longitude
 
-
     #     return min(data, key=lambda p: distance(1.0,1.0,float(p['lat']),float(p['long'])))
     # v = {'lat':u_latitude,'long':u_longitude}
 
@@ -240,32 +230,31 @@ def add_user_navigation():
     #     #tempDataList.append(w_latlongs[w_id])
     # closest = closest(w_latlongs, v)
 
-    # if closest == v:
-    #     step = Step.query.filter(Step.path_id == path_id).all()
-    #     step_id = step[-1]
+
+    # if abs(closest['lat'] - v['lat']) <= 5.0 and abs(closest['long'] - v['long']) <= 5.0:
+    #     # for w_id in w_latlongs:
+    #     #     if w_latlongs[w_id] == closest:
+    #     step = Step.query.filter(Step.path_id == path_id).first()
+    #     setattr(step, 'end_point', w_id)
+    #     session.commit()
+
+    #     step_start = w_id
+    #     path_id = path_id
+    #     step = Step(path_id=path_id,
+    #                 step_start=step_start
+    #                 )
+    #     db.session.add(step)
+    #     db.session.commit()
     # else:
-    #     for w_id in w_latlongs:
-    #         if w_latlongs[w_id] == closest:
-    #             step = Step.query.filter(Step.path_id == path_id).first()
-    #             setattr(step, 'end_point', w_id)
-    #             session.commit()
+    step = Step.query.filter(Step.path_id == path_id).all()
+    step_id = step[-1]
 
-    #             step_start = w_id
-    #             path_id = path_id
-    #             step = Step(path_id=path_id,
-    #                         step_start=step_start
-    #                         )
-    #             db.session.add(new_direction)
-    #             db.session.commit()
+    new_direction = Direction(step_id=step_id,
+                              image_url=image_url,
+                              direction_text=direction_text)
 
-    # new_direction = Direction(step_id=step_id,
-    #                           image_url=image_url,
-    #                           direction_text=direction_text)
-
-    # db.session.add(new_direction)
-    # db.session.commit()
-    return "NOTHING"
-
+    db.session.add(new_direction)
+    db.session.commit()
 
 
 @app.route('/route_info.json', methods=['POST'])
@@ -354,5 +343,7 @@ if __name__ == "__main__":
     # app.debug = True
     # app.jinja_env.auto_reload = app.debug
 
-    # connect_to_db(app)
+    connect_to_db(app)
     app.run()
+
+    # app.run(port=5000, host='0.0.0.0')
