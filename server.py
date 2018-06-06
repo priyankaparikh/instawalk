@@ -345,6 +345,6 @@ if __name__ == "__main__":
     # app.jinja_env.auto_reload = app.debug
 
     connect_to_db(app)
-    app.run()
+    # app.run()
 
-    # app.run(port=5000, host='0.0.0.0')
+    app.run(port=5000, host='0.0.0.0')
