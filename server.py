@@ -7,12 +7,14 @@ from models import connect_to_db, db
 from models import (User, Comp_Routes, User_Routes, Route, Waypoint, Step, Path,
                     Direction)
 from sqlalchemy import func
-import queries
+
 
 app = Flask(__name__)
 app.secret_key = 'ABCD'
 # app.jinja_env.undefined = StrictUndefined
 UPLOAD_FOLDER = 'static/uploaded_images/'
+import queries
+
 
 @app.route('/')
 def landing_page():
@@ -344,6 +346,6 @@ if __name__ == "__main__":
     # app.jinja_env.auto_reload = app.debug
 
     connect_to_db(app)
-    app.run()
+    # app.run()
 
     app.run(port=5000, host='0.0.0.0')
