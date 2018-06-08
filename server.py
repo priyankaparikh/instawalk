@@ -2,6 +2,11 @@ from jinja2 import StrictUndefined
 from flask import Flask, render_template, session, redirect, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 import os
+from OpenSSL import SSL
+context = SSL.Context(SSL.SSLv23_METHOD)
+context.use_privatekey_file('/home/vagrant/src/instawalk/servery.key')
+context.use_certificate_file('/home/vagrant/src/instawalk/certificate.cert')
+
 # import bcrypt
 
 app = Flask(__name__)
@@ -15,7 +20,7 @@ from models import (User, Comp_Routes, User_Routes, Route, Waypoint, Step, Path,
 from sqlalchemy import func
 import queries
 
-@app.route('/', methods=['POST'])
+@app.route('/')
 def landing_page():
     """Render landing page."""
 
