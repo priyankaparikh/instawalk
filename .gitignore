@@ -2,3 +2,7 @@
 env
 .DS_Store
 secrets.sh
+*.key
+*.cert
+*.pem
+*.p12

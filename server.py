@@ -2,23 +2,17 @@ from jinja2 import StrictUndefined
 from flask import Flask, render_template, session, redirect, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 import os
-<<<<<<< HEAD
 import bcrypt
-from models import connect_to_db, db
-from models import (User, Comp_Routes, User_Routes, Route, Waypoint, Step, Path,
-                    Direction)
-from sqlalchemy import func
 
-=======
-# import bcrypt
->>>>>>> 6e95479d8507da1ee84f9395a560f14d9efb48f3
+from OpenSSL import SSL
+# context = SSL.Context(SSL.SSLv23_METHOD)
+# context.use_privatekey_file('/home/vagrant/src/instawalk/server.key')
+# context.use_certificate_file('/home/vagrant/src/instawalk/certificate.cert')
 
 app = Flask(__name__)
 app.secret_key = 'ABCD'
 # app.jinja_env.undefined = StrictUndefined
 UPLOAD_FOLDER = 'static/uploaded_images/'
-import queries
-
 
 from models import connect_to_db, db
 from models import (User, Comp_Routes, User_Routes, Route, Waypoint, Step, Path,
@@ -26,7 +20,7 @@ from models import (User, Comp_Routes, User_Routes, Route, Waypoint, Step, Path,
 from sqlalchemy import func
 import queries
 
-@app.route('/', methods=['POST'])
+@app.route('/')
 def landing_page():
     """Render landing page."""
 
