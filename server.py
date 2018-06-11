@@ -4,11 +4,11 @@ from flask_sqlalchemy import SQLAlchemy
 import os
 import psycopg2
 # from OpenSSL import SSL
+# import bcrypt
+
 # context = SSL.Context(SSL.SSLv23_METHOD)
 # context.use_privatekey_file('/home/vagrant/src/instawalk/server.key')
 # context.use_certificate_file('/home/vagrant/src/instawalk/certificate.cert')
-
-# import bcrypt
 
 app = Flask(__name__)
 app.secret_key = 'ABCD'
