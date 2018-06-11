@@ -13,8 +13,9 @@ app = Flask(__name__)
 app.secret_key = 'ABCD'
 # app.jinja_env.undefined = StrictUndefined
 UPLOAD_FOLDER = 'static/uploaded_images/'
+db = SQLAlchemy(app)
 
-from models import connect_to_db, db
+# from models import connect_to_db, db
 from models import (User, Comp_Routes, User_Routes, Route, Waypoint, Step, Path,
                     Direction)
 from sqlalchemy import func
@@ -349,7 +350,7 @@ if __name__ == "__main__":
     # app.debug = True
     # app.jinja_env.auto_reload = app.debug
 
-    connect_to_db(app)
-    # app.run()
+    # connect_to_db(app)
+    app.run()
 
-    app.run(port=5000, host='0.0.0.0')
+    # app.run(port=5000, host='0.0.0.0')
