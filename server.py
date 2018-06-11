@@ -2,6 +2,7 @@ from jinja2 import StrictUndefined
 from flask import Flask, render_template, session, redirect, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 import os
+import psycopg2
 # from OpenSSL import SSL
 # context = SSL.Context(SSL.SSLv23_METHOD)
 # context.use_privatekey_file('/home/vagrant/src/instawalk/server.key')
