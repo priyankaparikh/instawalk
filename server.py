@@ -12,6 +12,7 @@ import os
 app = Flask(__name__)
 app.secret_key = 'ABCD'
 # app.jinja_env.undefined = StrictUndefined
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://oyzmmmwpdkpfot:1e82487434f19e7bfd96c8730dc775e96a1fb89f907ffaf6130c9d5fdf257c9d@ec2-107-20-133-82.compute-1.amazonaws.com:5432/d1kispj4vq49gj'
 UPLOAD_FOLDER = 'static/uploaded_images/'
 db = SQLAlchemy(app)
 
