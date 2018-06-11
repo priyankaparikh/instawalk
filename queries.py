@@ -3,8 +3,8 @@ Db name: """
 
 # from manage import db, app
 from flask import Flask, session, redirect, request, jsonify
-# from models import connect_to_db, db
-from server import app, db
+from models import connect_to_db, db
+# from server import app, db
 from models import (User, Comp_Routes, User_Routes, Route, Waypoint, Step, Path,
                     Direction)
 from geopy import Nominatim

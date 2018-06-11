@@ -2,8 +2,8 @@
     DB name : """
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from manage import db, app
-# db = SQLAlchemy()
+# from manage import db, app
+db = SQLAlchemy()
 
 
 ################################################################################
@@ -219,21 +219,21 @@ class Path(db.Model):
 
 
 
-# def connect_to_db(app, db_uri='postgresql:///instawalk'):
-#     """Connect the database to our Flask app."""
+def connect_to_db(app, db_uri='postgresql:///instawalk'):
+    """Connect the database to our Flask app."""
 
-#     # Configure to use our PstgreSQL database
-#     app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
-#     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-#     app.config['SQLALCHEMY_ECHO'] = True
-#     db.app = app
-#     db.init_app(app)
+    # Configure to use our PstgreSQL database
+    app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['SQLALCHEMY_ECHO'] = True
+    db.app = app
+    db.init_app(app)
 
 
-#################################################################################
+################################################################################
 
-# if __name__ == "__main__":
-#     from server import app
-#     connect_to_db(app)
-#     db.create_all()
-#     print('Connected to DB.')
+if __name__ == "__main__":
+    from server import app
+    connect_to_db(app)
+    db.create_all()
+    print('Connected to DB.')
