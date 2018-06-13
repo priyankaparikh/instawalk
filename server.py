@@ -188,40 +188,40 @@ def add_user_navigation():
 #     """Add a users navigation directions to the database for their route."""
 #     from math import cos, asin, sqrt
 
-    path_id = request.form.get('pathId')
-    route_id = request.form.get('routeId')
-    u_latitude = request.form.get('latitude')
-    u_longitude = request.form.get('longitude')
-    photo = request.files['imgFile']
-    direction_text = request.form.get('directions')
+    # path_id = request.form.get('pathId')
+    # route_id = request.form.get('routeId')
+    # u_latitude = request.form.get('latitude')
+    # u_longitude = request.form.get('longitude')
+    # photo = request.files['imgFile']
+    # direction_text = request.form.get('directions')
     
-    img_url = UPLOAD_FOLDER + photo.filename
-    photo.save(img_url)
+    # img_url = UPLOAD_FOLDER + photo.filename
+    # photo.save(img_url)
 
-    route = Route.query.filter(Route.route_id == route_id).first()
+    # route = Route.query.filter(Route.route_id == route_id).first()
 
-    #route_waypoints is a list of integers representing the waypoints
-    route_waypoints = route.waypoints
-    w_latlongs = []
+    # #route_waypoints is a list of integers representing the waypoints
+    # route_waypoints = route.waypoints
+    # w_latlongs = []
 
-    for waypoint in route_waypoints:
-        temp_dict = {}
-        waypoint = Waypoint.query.filter(Waypoint.waypoint_id == waypoint).first()
-        w_latitude = waypoint.latitude
-        w_longitude = waypoint.longitude
-        w_id = waypoint.waypoint_id
-        temp_dict[w_id] = {'lat': w_latitude, 'lon': w_longitude}
-        w_latlongs.append(temp_dict)
+    # for waypoint in route_waypoints:
+    #     temp_dict = {}
+    #     waypoint = Waypoint.query.filter(Waypoint.waypoint_id == waypoint).first()
+    #     w_latitude = waypoint.latitude
+    #     w_longitude = waypoint.longitude
+    #     w_id = waypoint.waypoint_id
+    #     temp_dict[w_id] = {'lat': w_latitude, 'lon': w_longitude}
+    #     w_latlongs.append(temp_dict)
 
-    for i in range(len(route_waypoints)):
-        temp = {}
-        w_id = route_waypoints[i]
-        waypoint = Waypoint.query.filter(Waypoint.waypoint_id == w_id).first()
-        w_latitude = waypoint.latitude
-        w_longitude = waypoint.longitude
-        temp['lat'] = w_latitude
-        temp['long'] = w_longitude
-        w_latlongs.append(temp)
+    # for i in range(len(route_waypoints)):
+    #     temp = {}
+    #     w_id = route_waypoints[i]
+    #     waypoint = Waypoint.query.filter(Waypoint.waypoint_id == w_id).first()
+    #     w_latitude = waypoint.latitude
+    #     w_longitude = waypoint.longitude
+    #     temp['lat'] = w_latitude
+    #     temp['long'] = w_longitude
+    #     w_latlongs.append(temp)
 
     # def distance(lat1, lon1, lat2, lon2):
     #     # haversine formula. calculating distances b/w points on the globe
@@ -255,15 +255,16 @@ def add_user_navigation():
     #     db.session.add(step)
     #     db.session.commit()
     # else:
-    step = Step.query.filter(Step.path_id == path_id).all()
-    step_id = step[-1]
+    # step = Step.query.filter(Step.path_id == path_id).all()
+    # step_id = step[-1]
 
-    new_direction = Direction(step_id=step_id,
-                              image_url=image_url,
-                              direction_text=direction_text)
+    # new_direction = Direction(step_id=step_id,
+    #                           image_url=image_url,
+    #                           direction_text=direction_text)
 
-    db.session.add(new_direction)
-    db.session.commit()
+    # db.session.add(new_direction)
+    # db.session.commit()
+    return 'worked'
 
 
 @app.route('/route_info.json', methods=['POST'])
