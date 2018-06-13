@@ -264,7 +264,6 @@ def add_user_navigation():
 
     # db.session.add(new_direction)
     # db.session.commit()
-    return 'worked'
 
 
 @app.route('/route_info.json', methods=['POST'])
