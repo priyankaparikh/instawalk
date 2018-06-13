@@ -122,5 +122,5 @@ def jsonify_paths():
 
 
 
-if __name__ == "__main__":
-    connect_to_db(app)
+# if __name__ == "__main__":
+#     connect_to_db(app)
