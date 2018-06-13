@@ -188,7 +188,7 @@ def add_user_navigation():
 #     """Add a users navigation directions to the database for their route."""
 #     from math import cos, asin, sqrt
 
-    # path_id = request.form.get('pathId')
+    path_id = request.form.get('pathId')
     # route_id = request.form.get('routeId')
     # u_latitude = request.form.get('latitude')
     # u_longitude = request.form.get('longitude')
